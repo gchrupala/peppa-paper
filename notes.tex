@@ -1,0 +1,55 @@
+\appendix
+\section{Modeling video and speech}
+
+
+\paragraph{Separate encoders}
+This is approach taken in \citet{rouditchenko2020avlnet} where the
+video encoder and the audio encoder both separately embed their respective
+modality as a vector. The loss function is contrastive, based on
+max-margin softmax \citep{ilharco-etal-2019-large}, where the softmax
+is applied to pairwise dot products between modality-specific vectors:
+
+\begin{equation}
+  \label{eq:mms}
+  L(\mathbf{x}, \mathbf{y}) = - \mean_i \left(
+    \log \frac{\exp(\mathbf{x}_i\cdot \mathbf{y}_i-\delta)}
+    { \exp(\mathbf{x}_i\cdot \mathbf{y}_i-\delta) + \sum_{j\neq i}
+      \exp(\mathbf{x}_i \cdot \mathbf{y}_j)  }
+  \right)
+\end{equation}
+where $\mathbf{x, y}$ are modality-specific vectors and $delta$ is the
+margin. The second term in the denominator sums over the negative
+examples.
+
+\paragraph{Matchmap}
+The matchmap is a concept introduced in \citet{harwath2018jointly} and
+which specifies the affinity between each region of the two
+dimensional visual feature map and each frame in the associated audio,
+i.e.\ it is a three-dimensional tensor. The similarity between the
+image and the speech can be computed by a number of scoring functions
+which aggregate across these dimensions in different ways: the one
+which tended to work best was defined as:
+\begin{equation}
+  \label{eq:misa}
+  \mathrm{MISA}(M) = \mean_t \left(\max_{r,c}(M_{r,c,t})\right)
+\end{equation}
+
+The extension of this idea to videos associated with speech would
+simply add an extra dimension to the matchmap, corresponding to time
+in the visual domain. This would make the matchmap a four-dimensional
+tensor, specifying the affinity between each region of the each frame
+of the video with a frame of the audio. Overall similarity between
+video and speech would involve a scoring function aggregating over
+the four dimension: the equivalent to MISA would be:
+\begin{equation}
+  \label{eq:misa4}
+  \mathrm{MISA}_4(M) = \mean_t \left(\max_{r,c,\tau}(M_{r,c,\tau,t})\right),
+\end{equation}
+where $t$ is time in the audio modality, and $\tau$ is time in the
+video modality. This function has the effect that for each frame of
+the audio, if finds the best matching frame/region (let us call this
+{\it fragment}) of the video, and averages over the scores of these
+matches. It does this without encouraging any sort if structure to
+this alignment, for example nothing prevents the same fragment of the
+video to be the best match for each frame of the audio.
+
