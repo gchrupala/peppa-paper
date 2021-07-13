@@ -2,7 +2,7 @@
 \section{Modeling video and speech}
 
 
-\paragraph{Separate encoders}
+\subsection{Separate encoders}
 This is approach taken in \citet{rouditchenko2020avlnet} where the
 video encoder and the audio encoder both separately embed their respective
 modality as a vector. The loss function is contrastive, based on
@@ -21,7 +21,11 @@ where $\mathbf{x, y}$ are modality-specific vectors and $delta$ is the
 margin. The second term in the denominator sums over the negative
 examples.
 
-\paragraph{Matchmap}
+The advantage of this type of approach is its simplicity and the fact
+that there is a single vector representation for the whole speech
+fragment.
+
+\subsection{Matchmap}
 The matchmap is a concept introduced in \citet{harwath2018jointly} and
 which specifies the affinity between each region of the two
 dimensional visual feature map and each frame in the associated audio,
@@ -53,3 +57,15 @@ matches. It does this without encouraging any sort if structure to
 this alignment, for example nothing prevents the same fragment of the
 video to be the best match for each frame of the audio.
 
+This approach does not per se produce a single vector representing an
+utterance and thus if audio-audio retrieval or similarity metric is
+desired, something more complex than a simple cosine similarity would
+be needed.
+
+\subsection{Dual modality encoder}
+
+
+\subsection{Audiovisual models}
+\citet{aytar2016soundnet,owens2016visually,owens2016ambient}
+\subsection{Video captioning}
+\citet{krishna2017dense,zhou2018end}
