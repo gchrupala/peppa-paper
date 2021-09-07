@@ -1,4 +1,21 @@
 \appendix
+
+\section{Miech-like baseline}
+
+\begin{itemize}
+\item Split videos into clips of 3.2 seconds at 10 fps at 200x200 resolution.
+\item A positive example is a video clip paired with an audio clip within a window of size 5
+\item Visual encoder:
+
+  \begin{itemize}
+  \item I3D (Two-Stream Inflated 3D ConvNet)
+  \item S3D (Gated Separable 3D network) from \citet{miech2020end}
+\end{itemize}
+
+\item Audio encoder: GRU over MFCC (or GRU over wav2vec)
+\item MIL-NCE objective from \citet{miech2020end}
+  
+\end{itemize}
 \section{Modeling video and speech}
 Here we sketch some ideas for how to model videos with spoken
 narration or dialog, based on related work.
@@ -32,7 +49,7 @@ In the approach introduced in \citet{miech2020end} the objective is
 basically \cref{eq:mms} without the margin, and multiple positive
 examples: instead of a single positive example as in \cref{eq:mms}, a
 set of potentially positive examples is sampled from closely
-co-occuring video-text fragments (see \cref{fig:positive}. This is
+co-occuring video-text fragments (see \cref{fig:positive}). This is
 supposed to address to some extent the issue that the content of the
 video and the corresponding speech are only weakly and noisily
 synchronized. There is a lot of verbiage about this in the paper, but
