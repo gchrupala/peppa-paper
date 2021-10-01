@@ -2,6 +2,16 @@
 
 \appendix
 
+\section{Pilot}
+
+Overfitting a small training sample, with Wav2Letter and Wav2Vec
+(pretrained).
+
+\begin{figure}[htb]
+  \includegraphics[scale=0.3]{overfit.png}
+\caption{Overfitting on a 1-batch sample. Orange: Wav2Letter; Blue:
+  Wav2Vec. Window 0.}
+\end{figure}
 \section{Cross Modal Contrastive Learning}
 
 Yusuf Aytar, Carl Vondrick, and Antonio Torralba. Sound-
@@ -110,6 +120,11 @@ cosine similarity would be needed:
 
 
 \subsection{Transformer-based models}
+\subsubsection{Fast and Slow}
+\citet{peng2021fastslow} have a model which combines separate encoders
+with dual cross-modal attention encoder. They work with images split
+into regions of interest, but we could do something very similar, but
+with video frames instead of ROIs.
 
 \subsubsection{Contrastive bi-modal transformer}
 \label{sec:cbmt}
