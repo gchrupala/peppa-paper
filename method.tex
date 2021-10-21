@@ -1,2 +1,26 @@
 \section{Method}
 \label{sec:method}
+
+\subsection{Dataset}
+The dataset consists of the complete set of video of the
+English-language version of {\it Peppa Pig}. In addition to the raw
+videos we  also use the annotation created by
+\citep{papasarantopoulos2021narration}.
+
+These annotations feature written transcriptions of the audio as well
+as segmentation into {\it dialog} and {\it narration}. Dialog are the
+parts spoken by the characters, while narrations are comments inserted
+by narrator, which are more descriptive in nature. All the narration
+segments are uttered by the same actor. We use the dialogs for
+training the model, and set aside the narrations for evaluation
+purposes only.
+
+\subsection{Preprocessing}
+For training, we do not use word or sentence level segmentation in
+order to make the setting more naturalistic. Instead we split the
+dialog sections into 3.2 second non-overlapping fragments. The video
+is subsampled to 10 frames per second, and to 180x100 resolution. The
+audio is converted to mono by averaging the two channels  and the raw
+waveform is used as input.
+
+%\subsection{Models}
