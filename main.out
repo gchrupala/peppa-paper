@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related work}{}% 2
+\BOOKMARK [1][-]{section.3}{Method}{}% 3
+\BOOKMARK [1][-]{section.4}{Results}{}% 4
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 5
+\BOOKMARK [1][-]{appendix.A}{Pilot}{}% 6
+\BOOKMARK [1][-]{appendix.B}{Cross Modal Contrastive Learning}{}% 7
+\BOOKMARK [1][-]{appendix.C}{Modeling video and speech}{}% 8
+\BOOKMARK [2][-]{subsection.C.1}{Separate encoders}{appendix.C}% 9
+\BOOKMARK [2][-]{subsection.C.2}{Multiple instance learning}{appendix.C}% 10
+\BOOKMARK [2][-]{subsection.C.3}{Matchmap}{appendix.C}% 11
+\BOOKMARK [2][-]{subsection.C.4}{Transformer-based models}{appendix.C}% 12
+\BOOKMARK [3][-]{subsubsection.C.4.1}{Fast and Slow}{subsection.C.4}% 13
+\BOOKMARK [3][-]{subsubsection.C.4.2}{Contrastive bi-modal transformer}{subsection.C.4}% 14
+\BOOKMARK [3][-]{subsubsection.C.4.3}{VilBERT}{subsection.C.4}% 15
+\BOOKMARK [3][-]{subsubsection.C.4.4}{CBT \(contrastive bidirectional transformer\)}{subsection.C.4}% 16

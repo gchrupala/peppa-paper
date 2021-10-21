@@ -1,21 +1,32 @@
+
+
 \appendix
 
-\section{Miech-like baseline}
+\section{Pilot}
 
-\begin{itemize}
-\item Split videos into clips of 3.2 seconds at 10 fps at 200x200 resolution.
-\item A positive example is a video clip paired with an audio clip within a window of size 5
-\item Visual encoder:
+Overfitting a small training sample, with Wav2Letter and Wav2Vec
+(pretrained).
 
-  \begin{itemize}
-  \item I3D (Two-Stream Inflated 3D ConvNet)
-  \item S3D (Gated Separable 3D network) from \citet{miech2020end}
-\end{itemize}
+\begin{figure}[htb]
+  \includegraphics[scale=0.3]{overfit.png}
+\caption{Overfitting on a 1-batch sample. Orange: Wav2Letter; Blue:
+  Wav2Vec. Window 0.}
+\end{figure}
+\section{Cross Modal Contrastive Learning}
 
-\item Audio encoder: GRU over MFCC (or GRU over wav2vec)
-\item MIL-NCE objective from \citet{miech2020end}
-  
-\end{itemize}
+Yusuf Aytar, Carl Vondrick, and Antonio Torralba. Sound-
+net: Learning sound representations from unlabeled video.
+In Adv. Neural Inform. Process. Syst., 2016. 
+
+Andrew Owens, Jiajun Wu, Josh McDermott, William Free-
+man, and Antonio Torralba. Ambient sound provides super-
+vision for visual learning. In Eur. Conf. Comput. Vis., 2016.
+
+Hang Zhao, Chuang Gan, Andrew Rouditchenko, Carl Von-
+drick, Josh McDermott, and Antonio Torralba. The sound of
+pixels. In Eur. Conf. Comput. Vis., September 2018.
+
+>>>>>>> 3f333dcaffce56533a08e229c9843a7ca2a78b4c
 \section{Modeling video and speech}
 Here we sketch some ideas for how to model videos with spoken
 narration or dialog, based on related work.
@@ -110,6 +121,11 @@ cosine similarity would be needed:
 
 
 \subsection{Transformer-based models}
+\subsubsection{Fast and Slow}
+\citet{peng2021fastslow} have a model which combines separate encoders
+with dual cross-modal attention encoder. They work with images split
+into regions of interest, but we could do something very similar, but
+with video frames instead of ROIs.
 
 \subsubsection{Contrastive bi-modal transformer}
 \label{sec:cbmt}
@@ -155,5 +171,6 @@ video-audio data: instead if image regions we'd be using video frames.
 encoders, as well as a separate cross-modal transformer, with a
 contrastive training objective, which unlike \cref{sec:cbmt} uses a
 simple joint representation for both modalities.
+
 
 

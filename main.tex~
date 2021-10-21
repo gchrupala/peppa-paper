@@ -1,0 +1,96 @@
+\documentclass[twoside,11pt]{article}
+\usepackage{etoolbox}
+\newtoggle{jair}
+\togglefalse{jair}
+\iftoggle{jair}{
+\usepackage{jair}
+\usepackage{theapa}
+\usepackage{rawfonts}
+}{
+\usepackage[margin=2cm]{geometry}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Paper-specific additions to the
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% template
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks=true]{hyperref}
+\usepackage{appendix}
+\usepackage{natbib}
+\usepackage[utf8x]{inputenc}
+\usepackage{booktabs}
+\setlength {\marginparwidth }{2cm}
+\usepackage[disable]{todonotes}
+
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{placeins}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{wrapfig}
+\usepackage{tipa}
+%\usepackage{fontspec}
+%\newfontfamily\ipafont{Doulos SIL}
+
+
+%\DeclareTextFontCommand{\textipafont}{\ipafont}
+\DeclareMathOperator*{\mean}{mean}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\iftoggle{jair}{
+  \jairheading{70}{2021}{1-15}{10/2020}{1/2021}
+\ShortHeadings{Visually grounded models of spoken language}{Chrupała}
+\firstpageno{1}
+
+\begin{document}
+
+\title{Visually grounded models of spoken language:\\
+  A survey of datasets, architectures and evaluation
+  techniques}
+
+\author{\name Grzegorz Chrupała \email grzegorz@chrupala.me\\
+  \addr Department of Cognitive Science and Artificial Intelligence\\
+  Tilburg University\\
+  The Netherlands}
+}{
+  \begin{document}
+
+\title{Visually grounded models of spoken language:\\
+  A survey of datasets, architectures and evaluation
+  techniques}
+
+\author{ Grzegorz Chrupała\\ \url{grzegorz@chrupala.me}\\
+  Department of Cognitive Science and Artificial Intelligence\\
+  Tilburg University\\
+  The Netherlands}
+\date{}
+}
+
+\maketitle
+\begin{abstract}
+  \noindent
+  This survey provides an overview of the evolution of visually
+  grounded models of spoken language over the last 20 years.  Such
+  models are inspired by the observation that when children pick up a
+  language, they rely on a wide range of indirect and noisy clues,
+  crucially including signals from the visual modality co-occurring
+  with spoken utterances.  Several fields have made important
+  contributions to this approach to modeling or mimicking the process
+  of learning language: Machine Learning, Natural Language and Speech
+  Processing, Computer Vision and Cognitive Science. The current paper
+  brings together these contributions in order to provide a useful
+  introduction and overview for practitioners in all these areas.  We
+  discuss the central research questions addressed, the timeline of
+  developments, and the datasets which enabled much of this work. We
+  then summarize the main modeling architectures and offer an
+  exhaustive overview of the evaluation metrics and analysis
+  techniques.
+\end{abstract}
+\input{intro}
+\input{survey}
+\input{conclusion}
+
+\bibliography{biblio,anthology}
+%\bibliographystyle{theapa}
+\bibliographystyle{apalike}
+\end{document}
