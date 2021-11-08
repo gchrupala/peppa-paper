@@ -15,6 +15,8 @@ segments are uttered by the same actor. We use the dialogs for
 training the model, and set aside the narrations for evaluation
 purposes only.
 
+
+
 \subsection{Preprocessing}
 For training, we do not use word or sentence level segmentation in
 order to make the setting more naturalistic. Instead we split the
@@ -22,5 +24,27 @@ dialog sections into 3.2 second non-overlapping fragments. The video
 is subsampled to 10 frames per second, and to 180x100 resolution. The
 audio is converted to mono by averaging the two channels  and the raw
 waveform is used as input.
+
+
+\begin{table}
+  \centering
+  \begin{tabular}{lllrrr}
+    \toprule
+    Split      & Type      & Triplet   & Size (h) & Items & Mean
+                                                            length
+                                                            (s)\\\midrule
+    Training   & Dialog    & No        & 9.83     & 11,058 & 3.2 \\
+    Validation & Dialog    & No        & 0.33     & 375    & 3.2 \\
+    Validation & Narration & No        & 0.80     & 897    & 3.2 \\
+    Validation & Dialog    & Yes       & 0.16     & 202    & 2.8 \\
+    Validation & Narration & Yes       & 0.45     & 726    & 2.2 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Dataset statistics. For the triplet condition, videos are
+    split such that each segment corresponds to a line of
+    subtitled. For the non-triplet condition, videos are split into
+    3.2s segments.}
+  \label{tab:ds-stat}
+\end{table}
 
 %\subsection{Models}
