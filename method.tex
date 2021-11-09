@@ -2,19 +2,23 @@
 \label{sec:method}
 
 \subsection{Dataset}
-The dataset consists of the complete set of video of the
+The dataset consists of the complete set of videos of the
 English-language version of {\it Peppa Pig}. In addition to the raw
 videos we  also use the annotation created by
 \citep{papasarantopoulos2021narration}.
 
 These annotations feature written transcriptions of the audio as well
-as segmentation into {\it dialog} and {\it narration}. Dialog are the
+as segmentation into {\it dialog} and {\it narration}. Dialogs are the
 parts spoken by the characters, while narrations are comments inserted
-by narrator, which are more descriptive in nature. All the narration
+by the narrator, which are more descriptive in nature. All the narration
 segments are uttered by the same actor. We use the dialogs for
 training the model, and set aside the narrations for evaluation
 purposes only.
 
+Specifically, we use dialog from episodes 1--196 for training,
+197--202 for validation and 203-209 for testing. We set aside
+narrations from episodes 1--104 for validation and 105--209 for
+testing. 
 
 
 \subsection{Preprocessing}
@@ -25,6 +29,13 @@ is subsampled to 10 frames per second, and to 180x100 resolution. The
 audio is converted to mono by averaging the two channels  and the raw
 waveform is used as input.
 
+
+For evaluation we have a number of different conditions and evaluation
+metrics described in detail in \Cref{sec:eval} and in some of these
+conditions we use the subtitles to guide
+segmentation. \Cref{tab:ds-stat} shows the basic statistics of the
+training and validation splits.
+\todo{Add the test split.}
 
 \begin{table}
   \centering
@@ -42,9 +53,11 @@ waveform is used as input.
   \end{tabular}
   \caption{Dataset statistics. For the triplet condition, videos are
     split such that each segment corresponds to a line of
-    subtitled. For the non-triplet condition, videos are split into
+    subtitles. For the non-triplet condition, videos are split into
     3.2s segments.}
   \label{tab:ds-stat}
 \end{table}
 
-%\subsection{Models}
+
+\subsection{Evaluation}
+\label{sec:eval}
