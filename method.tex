@@ -61,3 +61,130 @@ training and validation splits.
 
 \subsection{Evaluation}
 \label{sec:eval}
+The most common approach to evaluation for visually grounded models
+trained on spoken image captions is caption-to-image retrieval (often
+combined with image-to-caption retrieval): in fact this technique is
+has been carried over from text-based image-caption modeling
+\citet{chrupala-visually-2021}.
+ With the
+standard spoken caption dataset this approach is unproblematic since
+the content of the captions is not correlated with extra-linguistic
+clues in the speech signal, such as speaker identity (since speakers
+are randomly assigned to captions) or non-speech environmental
+noise. Thus in this setting retrieval measures the ability of the
+model to match spoken utterances to images based on their semantic
+content. This not the case for the {\it Peppa Pig} dataset: here we
+can expect that when a video segment depics a particular character
+(e.g. George) then the audio in this segment is more likely to contain
+utterances spoken by the voice actor playing George. George has a
+favorite toy dinosaur: when this toy appears in a video segment we can
+likewise expect higher than random chance of George's voice in the
+audio. Due to these factors, in a naive retrieval setting, a model
+could obtain a high score by mostly capturing these non-linguistic
+correlations.
+
+In order to (partially) alleviate these concerns we leverage the
+narrator speech in the videos. These utterances are always spoken by
+the same actor, so speaker identity cannot be used as a clue for
+matching video and audio. Furthermore, the narration segments are akin
+to video captions in that they tend to describe what is happening in
+the video and are thus their semantic content is more strongly
+correlated with the content of the video than in the case of the
+dialog, which is also a desirable feature for the purposes of system
+evaluation.
+
+\paragraph{Retrieval}
+For the retrieval evaluation we use two conditions: fixed segmentation
+in 3.2s clips, and segmentation aligned with subtitle line. We encode
+each audio clip in the validation (or test) data using the speech
+encoder part of the model; we encode each video clip using the video
+encoder. We then measure cosine similarity between the audio clip and
+all the video clips. If the video clip corresponding to the audio is
+among the $n$ most similar video clips, we count that as a
+success. The proportion of successes across all audio clips gives us
+the retrieval metric known as recall@$n$: specifically in this paper we
+focus on $n=10$.
+
+\paragraph{Triplets}
+Retrieval metrics such as recall@10 have some disadvantages. Firstly
+the absolute value of this metric is hard to interpret as it depends
+crucially on the size of the candidate set (e.g.\ the size of the
+validation/test set). Thus these numbers cannot be directly between
+different datasets. Secondly, if we wanted to compare model
+performance with human performance, we could not feasibly ask human
+participants to provide the quadratic number of audio-video similarity
+judgments needed. For these reasons we evaluate model performance
+using the following simplified, controlled scenario: We match video
+clips by length, and for each pair of same-length video
+clips\footnote{To keep test items independent, the pairing of video
+  clips is done such that a clip only occurs as a member of a single
+  triplet.}, we extract the audio from one of them (selected at
+random) -- this is our {\it anchor}. The video clip from which the
+anchor was taken is the {\it positive} one, which the other video clip
+is the {\it negative} one. This triplet of stimuli for a single test
+item.  We use the model's audio encoder to encode the anchor, and the
+video encoder to encode both video clips. We then check whether anchor
+is more similar to the positive or negative clips in terms of cosine
+similarity.  More precisely, {\it triplet accuracy} is the mean over
+all triplets of the following quantity:
+
+\begin{equation}
+  \frac{\mathrm{signum}(\mathrm{cosine}(A, P) - \mathrm{cosine}(A, N)) + 1}{2}
+  \label{eq:triplet-acc}
+\end{equation}
+with $A$ being the anchor, $P$ positive and $N$ negative. The triplet
+accracy metric is inspired by the ABX score of \citet{schatz2016abx}.
+For triplet accuracy, regardless of the specific set of test items, we
+expect random-guessing performance to be at 0.5, and perfect
+performance to be 1.0.
+
+\subsection{Model}
+
+We adapt the high-level modeling approach from work on spoken
+image-caption data
+\citep{harwath2016unsupervised,chrupala-etal-2017-representations}:
+our objective function is based on a triplet-loss with margin which
+encourages the matching audio and video clip to be project nearby in
+the embedding space, and mis-matching audio and video clips to be far
+away:
+\begin{equation}
+  \ell = \sum_{av}\left[\sum_{a'} \max(0, S_{a'v} - S_{av} +
+    \alpha) + \sum_{v'} \max(0, S_{av'} - S_{av} + \alpha) \right]
+  \label{eq:triplet}
+\end{equation}
+where $\alpha$ is a margin, $S_{av}$ is a similarity score between a
+matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
+similarity scores between mismatched pairs, i.e.\ negative examples
+from the current batch. Our heuristic to generate positive and
+negative examples is very simple: namely we consider the example
+positive if the audio is exactly aligned with a video clip in our
+data. All other pairs of audio-video clips are considered negative.
+
+The audio encoder portion of the model consists of a small wav2vec
+model \citep{wav2vec2} pretrained in an self-supervised fashion, with
+no fine tuning.\footnote{Available from
+  \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
+During training, we keep the feature extractor and the bottom $K$
+transformer layers of this encoder frozen. Its output is pooled across
+time using a attention mechanism with dimensionwise weights \citep{Merkx2019}:
+\begin{equation}
+  \begin{aligned}
+    \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
+    \mathbf{z} = & \sum_t \left( \mathbf{A}_t \odot \mathbf{X}_t \right),
+  \end{aligned}
+  \label{eq:att-pool}
+\end{equation}
+where $\mathbf{X}$ is the tensor with the encoder output vectors for
+each time-step: an one-hidden layer MLP followed by a time-wise
+softmax derives a weight for each time step and for each
+dimension. Each dimension of the pooled embedding vector $\mathbf{z}$
+consists of a weighted sum across time of the output values at this
+dimension.
+The pooling is followed by a linear projection and $L_2$
+normalization.
+
+As a video encoder we use the 18-layer ResNet 3D architecture
+\citep{tran2018closer} (not pretrained) as implemented in
+Pytorch.\footnote{Available at \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The output of this module is
+flattened, linearly projected to the same dimensionality as the audio
+(512) and $L_2$ normalized.
