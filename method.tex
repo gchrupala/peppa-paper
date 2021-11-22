@@ -25,7 +25,7 @@ testing.
 For training, we do not use word or sentence level segmentation in
 order to make the setting more naturalistic. Instead we split the
 dialog sections into 3.2 second non-overlapping fragments. The video
-is subsampled to 10 frames per second, and to 180x100 resolution. The
+is subsampled to 10 frames per second, and to $180\times 100$ resolution. The
 audio is converted to mono by averaging the two channels  and the raw
 waveform is used as input.
 
@@ -166,7 +166,7 @@ no fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
 During training, we keep the feature extractor and the bottom $K$
 transformer layers of this encoder frozen. Its output is pooled across
-time using a attention mechanism with dimensionwise weights \citep{Merkx2019}:
+time using an attention mechanism with dimensionwise weights \citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
