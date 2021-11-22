@@ -1,4 +1,4 @@
-main.pdf: main.tex intro.tex related.tex results.tex conclusion.tex notes.tex biblio.bib
+main.pdf: main.tex intro.tex method.tex related.tex results.tex conclusion.tex notes.tex biblio.bib
 	pdflatex main
 	bibtex main
 	pdflatex main
