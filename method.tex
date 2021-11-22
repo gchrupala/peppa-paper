@@ -170,21 +170,23 @@ time using an attention mechanism with dimensionwise weights \citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
-    \mathbf{z} = & \sum_t \left( \mathbf{A}_t \odot \mathbf{X}_t \right),
+    \mathbf{z} = & \sum_t \left( \mathbf{A}_{t} \odot \mathbf{X}_{t} \right),
   \end{aligned}
   \label{eq:att-pool}
 \end{equation}
 where $\mathbf{X}$ is the tensor with the encoder output vectors for
-each time-step: an one-hidden layer MLP followed by a time-wise
-softmax derives a weight for each time step and for each
-dimension. Each dimension of the pooled embedding vector $\mathbf{z}$
-consists of a weighted sum across time of the output values at this
+each time-step: an MLP followed by a time-wise
+softmax is used to compute an attention weight for each time step and for each
 dimension.
+%Each dimension of the pooled embedding vector $\mathbf{z}$
+%consists of a weighted sum across time of the output values at this
+%dimension.
 The pooling is followed by a linear projection and $L_2$
 normalization.
 
 As a video encoder we use the 18-layer ResNet 3D architecture
 \citep{tran2018closer} (not pretrained) as implemented in
-Pytorch.\footnote{Available at \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The output of this module is
-flattened, linearly projected to the same dimensionality as the audio
-(512) and $L_2$ normalized.
+Pytorch.\footnote{Available at
+  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
+output of this module is flattened, linearly projected to the same
+dimensionality as the audio (512) and $L_2$ normalized.
