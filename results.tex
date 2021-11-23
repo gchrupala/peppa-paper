@@ -37,43 +37,58 @@
 \Cref{tab:dialog-lm} and \Cref{tab:narration-lm} show the coefficients
 of the linear models fit to the dialog and narration pairwise
 similarity data respectively. For both datasets the predictors with
-the largest effects are {\tt durationdiff} and {\tt glovesim}. The
-speaker predictor for the dialog data {\tt samespeaker} is significant
-but rather small in size. These results further indicate that the
-model learns some aspects of word-level semantics as captured by GloVe
-word vectors, and that speaker identity does not appear to be a
-substantial impact on utterance embeddings.
+the largest effects in terms of standardized coefficient magnitude and
+partial $R^2$ are {\tt durationdiff} and {\tt glovesim}. The effect of
+the {\tt samespeaker} predictor for the dialog data is negative and
+small in size.  These results further indicate that the model learns
+some aspects of word-level semantics as captured by GloVe word
+vectors, and that speaker identity does not appear to be a substantial
+impact on utterance embeddings.
 
 \begin{table}
   \centering
-  \begin{tabular}{lrrrr}\toprule
-            &       Estimate & Std. Error  & $t$-value & $Pr(>|t|)$ \\    \midrule
-(Intercept) &  -0.0904846    & 0.0097785   & -9.253  & $<$ 2e-16  \\
-glovesim    &  0.2988523     & 0.0057028   & 52.404  & $<$ 2e-16  \\
-distance    &  0.0023374     & 0.0013607   & 1.718   & 0.0858     \\  
-durationdiff& -0.5893604     & 0.0011985   & -491.729& $<$ 2e-16  \\
-sametype    & -0.0007688     & 0.0091374   & -0.084  & 0.9329   \\
-samespeaker & -0.0134440     & 0.0018766   & -7.164  & 7.85e-13 \\
-sameepisode &  0.0290118     & 0.0015624   & 18.568  & $<$ 2e-16  \\
-\bottomrule
-  \end{tabular}
-  \caption{Association of predictors with model-based pairwise
+
+\begin{tabular}{lrrrrr}
+\toprule
+  & Estimate & Std. Error & t value & Pr(>|t|) & partial\_r2\\
+\midrule
+(Intercept) & -0.090 & 0.010 & -9.253 & 0.000 & 0.000\\
+glovesim & 0.299 & 0.006 & 52.404 & 0.000 & 0.006\\
+distance & 0.002 & 0.001 & 1.718 & 0.086 & 0.000\\
+durationdiff & -0.589 & 0.001 & -491.729 & 0.000 & 0.348\\
+sametype & -0.001 & 0.009 & -0.084 & 0.933 & 0.000\\
+\addlinespace
+samespeaker & -0.013 & 0.002 & -7.164 & 0.000 & 0.000\\
+sameepisode & 0.029 & 0.002 & 18.568 & 0.000 & 0.001\\
+  \bottomrule
+\end{tabular}
+\caption{Association of predictors with model-based pairwise
   similarity scores for single-word utterances in the dialog
   validation data. Indicators are sum-coded ($1$ vs $-1$) while the
   numerical variables are z-scored.}
 \label{tab:dialog-lm}
 \end{table}
 
+%> rawdata.d <- read.csv("pairwise_similarities_dialog.csv")
+%> data <- rawdata.d %>% filter(durationdiff<0.001 & glovesim != 0)
+%> cor(data$similarity, data$glovesim)
+%[1] 0.109515
+
+
 \begin{table}
   \centering
-\begin{tabular}{lrrrr}\toprule
-             &   Estimate    & Std. Error  & $t$-value & $Pr(>|t|)$\\\midrule
-(Intercept)  & -0.3987661    & 0.0013556   & -294.16   & $<$2e-16 \\
-glovesim     & 1.0121928     & 0.0009852   & 1027.44   & $<$2e-16 \\
-distance     & 0.0078558     & 0.0002042   & 38.48     & $<$2e-16 \\
-durationdiff & -0.4665827    & 0.0001662   & -2806.79  & $<$2e-16 \\
-sametype     & -0.1566686    & 0.0010152   & -154.33   & $<$2e-16 \\
-sameepisode  & 0.0726940     & 0.0007647   & 95.06     & $<$2e-16 \\
+\begin{tabular}{lrrrrr}
+\toprule
+  & Estimate & Std. Error & t value & Pr(>|t|) & partial\_r2\\
+\midrule
+(Intercept) & -0.399 & 0.001 & -294.157 & 0 & 0.003\\
+glovesim & 1.012 & 0.001 & 1027.442 & 0 & 0.037\\
+distance & 0.008 & 0.000 & 38.478 & 0 & 0.000\\
+durationdiff & -0.467 & 0.000 & -2806.787 & 0 & 0.224\\
+sametype & -0.157 & 0.001 & -154.327 & 0 & 0.001\\
+\addlinespace
+sameepisode & 0.073 & 0.001 & 95.065 & 0 & 0.000\\
+\bottomrule
 \end{tabular}
 \caption{Association of predictors with model-based pairwise
   similarity scores for single-word utterances in the narration
@@ -81,3 +96,8 @@ sameepisode  & 0.0726940     & 0.0007647   & 95.06     & $<$2e-16 \\
   numerical variables are z-scored.}
 \label{tab:narration-lm}
 \end{table}
+
+%       Correlation for duration-matched pairs:
+% > data <- rawdata.n %>% filter(durationdiff<0.001 & glovesim != 0)
+% > cor(data$similarity, data$glovesim)
+% 0.3665952
