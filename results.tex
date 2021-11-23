@@ -45,6 +45,14 @@ some aspects of word-level semantics as captured by GloVe word
 vectors, and that speaker identity does not appear to be a substantial
 impact on utterance embeddings.
 
+Perhaps unexpectedly, the predictor meant to capture phonemic distance
+{\tt distance} is not strongly associated with utterance similarity,
+although it should be noted that here we are only investigating model
+embeddings after the final attention pooling layer. The strength of
+the association between differences in utterance duration {\tt
+  durationdiff} and pairwise similarities apparent in this data is
+surprising to us and warrants further investigation.
+
 \begin{table}
   \centering
 
@@ -80,12 +88,12 @@ sameepisode & 0.029 & 0.002 & 18.568 & 0.000 & 0.001\\
 \toprule
   & Estimate & Std. Error & t value & Pr(>|t|) & partial\_r2\\
 \midrule
-(Intercept) & -0.399 & 0.001 & -294.157 & 0 & 0.003\\
-glovesim & 1.012 & 0.001 & 1027.442 & 0 & 0.037\\
-distance & 0.008 & 0.000 & 38.478 & 0 & 0.000\\
-durationdiff & -0.467 & 0.000 & -2806.787 & 0 & 0.224\\
-sametype & -0.157 & 0.001 & -154.327 & 0 & 0.001\\
-sameepisode & 0.073 & 0.001 & 95.065 & 0 & 0.000\\
+(Intercept) & -0.399 & 0.001 & -294.157 & $<$2e-16 & 0.003\\
+glovesim & 1.012 & 0.001 & 1027.442 & $<$2e-16 & 0.037\\
+distance & 0.008 & 0.000 & 38.478 &  $<$2e-16 & 0.000\\
+durationdiff & -0.467 & 0.000 & -2806.787 & $<$2e-16 & 0.224\\
+sametype & -0.157 & 0.001 & -154.327 & $<$2e-16 & 0.001\\
+sameepisode & 0.073 & 0.001 & 95.065 & $<$2e-16 & 0.000\\
 \bottomrule
 \end{tabular}
 \caption{Association of predictors with model-based pairwise
