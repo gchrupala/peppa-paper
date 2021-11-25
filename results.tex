@@ -63,25 +63,21 @@ suprising and possibly undesirable, and thus warrants further investigation.
 
 \begin{table}
   \centering
-\begin{tabular}{lrrrrr}
-\toprule
-  & Estimate & Std. Error & t value & Pr(>|t|) & partial\_r2\\
-\midrule
-(Intercept) & 0.008 & 0.009 & 0.814 & 0.415 & 0.000\\
-glovesim & 0.064 & 0.001 & 52.404 & 0.000 & 0.006\\
-distance & 0.002 & 0.001 & 1.718 & 0.086 & 0.000\\
-durationdiff & -0.589 & 0.001 & -491.729 & 0.000 & 0.348\\
-sametype & -0.001 & 0.009 & -0.084 & 0.933 & 0.000\\
-\addlinespace
-samespeaker & -0.013 & 0.002 & -7.164 & 0.000 & 0.000\\
-sameepisode & 0.029 & 0.002 & 18.568 & 0.000 & 0.001\\
-\bottomrule
-\end{tabular}
-\caption{Association of predictors with model-based pairwise
+\input{results/lm_dialog.tex}
+\caption{Association of predictors with trained model-based pairwise
   similarity scores for single-word utterances in the dialog
   validation data. Indicators are sum-coded ($1$ vs $-1$) while the
   numerical variables are z-scored.}
 \label{tab:dialog-lm}
+\end{table}
+\begin{table}
+  \centering
+\input{results/lm_init_dialog.tex}
+\caption{Association of predictors with untrained-model-based pairwise
+  similarity scores for single-word utterances in the dialog
+  validation data. Indicators are sum-coded ($1$ vs $-1$) while the
+  numerical variables are z-scored.}
+\label{tab:dialog-lm_init}
 \end{table}
 
 %> rawdata.d <- read.csv("pairwise_similarities_dialog.csv")
@@ -92,27 +88,24 @@ sameepisode & 0.029 & 0.002 & 18.568 & 0.000 & 0.001\\
 
 \begin{table}
   \centering
-
-\begin{tabular}{lrrrrr}
-\toprule
-  & Estimate & Std. Error & t value & Pr(>|t|) & partial\_r2\\
-\midrule
-(Intercept) & -0.082 & 0.001 & -65.693 & 0 & 0.000\\
-glovesim & 0.186 & 0.000 & 1027.442 & 0 & 0.037\\
-distance & 0.008 & 0.000 & 38.478 & 0 & 0.000\\
-durationdiff & -0.467 & 0.000 & -2806.787 & 0 & 0.224\\
-sametype & -0.157 & 0.001 & -154.327 & 0 & 0.001\\
-\addlinespace
-sameepisode & 0.073 & 0.001 & 95.065 & 0 & 0.000\\
-\bottomrule
-\end{tabular}
-\caption{Association of predictors with model-based pairwise
+\input{results/lm_narration.tex}
+\caption{Association of predictors with trained model-based pairwise
   similarity scores for single-word utterances in the narration
   validation data. Indicators are sum-coded ($1$ vs $-1$) while the
   numerical variables are z-scored.}
 \label{tab:narration-lm}
 \end{table}
+\begin{table}
+  \centering
+\input{results/lm_init_narration.tex}
+\caption{Association of predictors with untrained model-based pairwise
+  similarity scores for single-word utterances in the narration
+  validation data. Indicators are sum-coded ($1$ vs $-1$) while the
+  numerical variables are z-scored.}
+\label{tab:narration-lm_init}
+\end{table}
 
+%       
 %       Correlation for duration-matched pairs:
 % > data <- rawdata.n %>% filter(durationdiff<0.001 & glovesim != 0)
 % > cor(data$similarity, data$glovesim)
