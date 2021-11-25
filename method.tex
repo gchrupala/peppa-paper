@@ -25,7 +25,7 @@ testing.
 For training, we do not use word or sentence level segmentation in
 order to make the setting more naturalistic. Instead we split the
 dialog sections into 3.2 second non-overlapping fragments. The video
-is subsampled to 10 frames per second, and to 180x100 resolution. The
+is subsampled to 10 frames per second, and to $180\times 100$ resolution. The
 audio is converted to mono by averaging the two channels  and the raw
 waveform is used as input.
 
@@ -138,6 +138,51 @@ For triplet accuracy, regardless of the specific set of test items, we
 expect random-guessing performance to be at 0.5, and perfect
 performance to be 1.0.
 
+\paragraph{Analysis of representations}
+In addition to evaluating the model via task performance metrics, we
+analyze the spoken utterance embeddings. There are a variety of
+methods typically applied to this task, such as variants of diagnostic
+probing, and representational similarity analysis (RSA). We focus on
+a generalization of the latter approach.
+The classical RSA was developed to analyze brain imaging data
+\citep{kriegeskorte2008representational} and adapted for probing
+neural network representations
+\citep[e.g.][]{chrupala-alishahi-2019-correlating}. The method
+consists in computing pairwise similarity scores for stimuli (such as
+utterances) in two representation spaces: one being the subject of
+analysis (i.e.\ neural activation space) and the other the benchmark
+representation space (e.g.\ syntax tree space). The strength of
+correlation between the pairwise similarity scores in the two spaces
+quantifies to what extent the benchmark representation is encoded in
+the neural activation patterns. In the current work we generalize this
+idea such that it becomes possible to relate
+neural activation similarity space and several different factors that
+we hypothesize may be associated with it. Namely, we treat the
+similarity scores in the neural activation space as regression targets
+and fit a linear model with a number of predictors which may
+correspond to control variables as well as hypothesized relevant factors.
+
+Specifically, we compute pairwise cosine similarities between
+model-embedded one-word utterances from our validation data: these are
+the regression targets. The predictors are: whether the two word
+tokens correspond to the same word type, whether they are uttered by
+the same speaker, whether they occur in the same episode,
+phoneme-level normalized edit distance between the tokens, difference
+in duration between the two tokens, and the cosine similarity between
+the word-type-embeddings corresponding to the two word-tokens
+(specifically GloVe word-vectors). For this analysis we exclude word
+pairs where either word is out of vocabulary for the GloVe dataset. In
+order to obtain model embeddings for single-word utterances, we use
+forced-alignment of audio with corresponding subtitles, discarding
+tokens where alignment fails. For the dialog condition the number of
+pairwise scores for the remaining tokens is 453,628; for the narration
+condition it is 2,7250,653.
+
+The coefficients of the regression model serve as the estimates of the
+strength of the association of each predictor with the target variable
+(pairwise similarity), while controlling for the other predictors.
+
+
 \subsection{Model}
 
 We adapt the high-level modeling approach from work on spoken
@@ -166,7 +211,7 @@ no fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
 During training, we keep the feature extractor and the bottom $K$
 transformer layers of this encoder frozen. Its output is pooled across
-time using a attention mechanism with dimensionwise weights \citep{Merkx2019}:
+time using an attention mechanism with dimensionwise weights \citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
@@ -185,8 +230,8 @@ The pooling is followed by a linear projection and $L_2$
 normalization.
 
 As a video encoder we use the 18-layer ResNet 3D architecture
-\citep{tran2018closer} (not pretrained) as implemented in
-Pytorch.\footnote{Available at
-  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
+\citep{tran2018closer} pretrained on the action recognition dataset
+Kinetics-400 \citep{DBLP:journals/corr/KayCSZHVVGBNSZ17}. The
+pretrained model is available via Pytorch.\footnote{See \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
 output of this module is flattened, linearly projected to the same
 dimensionality as the audio (512) and $L_2$ normalized.
