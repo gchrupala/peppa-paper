@@ -1,44 +1,55 @@
 \section{Results}
 \label{sec:results}
 \paragraph{Performance metrics}
- \Cref{fig:retrieval} shows performance of the basic model on
- retrieval; \Cref{fig:triplet} shows the scores for the triplet
- task. It can be seen that for both types of validation datasets
- (dialog and narration) the triplet scores are substantially above
- chance. In the case of the narration data this scores is not
- confounded by speaker-based clues, which is a indication that the
- model possibly learned to detect some aspects of utterance
- meaning. We investigate this hypothesis further using multiple
- representational similarity analysis.
+\Cref{tab:retrieval-dialog} and \Cref{tab:retrieval-narration} show
+the performance of several model configurations on the retrieval task
+retrieval on the dialog and narration datasets respectively.
+
+\todo{Add results for models with only A pretraining and only V pretraining}
+
+In the case of the narration data this scores is not confounded by
+speaker-based clues, which is a indication that the model possibly
+learned to detect some aspects of utterance meaning. We investigate
+this hypothesis further using multiple representational similarity
+analysis.
  
 
-\begin{figure}
-  \centering
-  \begin{tabular}{cc}
-    Dialog & Narration \\
-    \includegraphics[scale=0.3]{val_rec10.png} & \includegraphics[scale=0.3]{valnarr_rec10.png}\\
-  \end{tabular}
-  \caption{Validation recall@10 on the retrieval task. The x-axis
-    shows the training steps.}
-  \label{fig:retrieval}
-\end{figure}
+ \begin{table}
+   \centering
+   \begin{tabular}{llllr}
+     \toprule
+     ID & Video model  & Pretraining & Video pooling & Recall@10 \\\midrule
+     38 & r3d\_18      & None       & Mean          & 0.061     \\
+     39 & r2plus1d\_18 & AV         & Mean          & 0.229     \\
+     41 & r3d\_18      & AV         & Attention     & 0.203     \\
+     42 & r2plus1d\_18 & AV         & Attention     & 0.195    \\\bottomrule
+   \end{tabular}
+   \caption{Retrieval scores on dialog validation data.}
+   \label{tab:retrieval-dialog}
+ \end{table}
 
-\begin{figure}
-  \centering
-  \begin{tabular}{cc}
-    Dialog & Narration \\
-    \includegraphics[scale=0.3]{val_acc3.png}  & \includegraphics[scale=0.3]{valnarr_acc3.png}\\
-  \end{tabular}
-  \caption{Validation accuracy on the triplet task. The x-axis shows
-    the training steps.}
-  \label{fig:triplet}
-\end{figure}
-
+\begin{table}
+   \centering
+   \begin{tabular}{llllr}
+     \toprule
+     ID & Video model  & Pretraining & Video pooling &  Recall@10 \\\midrule
+     38 & r3d\_18      & None        & Mean          &  0.060  \\
+     39 & r2plus1d\_18 & AV          & Mean          &  0.211  \\
+     41 & r3d\_18      & AV          & Attention     &  0.203  \\
+     42 & r2plus1d\_18 & AV          & Attention     &  0.210  \\\bottomrule     
+   \end{tabular}
+   \caption{Retrieval scores on narration validation data.}
+   \label{tab:retrieval-narration}
+ \end{table}
+ 
+ 
 \paragraph{Multiple representational similarity analysis}
 
 \Cref{tab:dialog-cor} and \Cref{tab:narration-cor}
 show correlation coefficients for the pairwise numerical variables
 computed for the  dialog and narration dataset. 
+
+\todo{Redo the RSA tables with updated models}
 
 \begin{table}
   \centering
