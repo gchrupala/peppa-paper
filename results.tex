@@ -1,11 +1,9 @@
 \section{Results}
 \label{sec:results}
 \paragraph{Performance metrics}
-\Cref{tab:retrieval-dialog} and \Cref{tab:retrieval-narration} show
-the performance of several model configurations on the retrieval task
-retrieval on the dialog and narration datasets respectively.
-
-\todo{Add results for models with only A pretraining and only V pretraining}
+\Cref{tab:scores-dialog} and \Cref{tab:scores-narration} show
+the performance of several model configurations on the retrieval and
+triplet tasks on the dialog and narration datasets respectively.
 
 In the case of the narration data this scores is not confounded by
 speaker-based clues, which is a indication that the model possibly
@@ -16,64 +14,23 @@ analysis.
 
  \begin{table}
    \centering
-   \begin{tabular}{llllr}
-     \toprule
-     ID & Video model  & Pretraining & Video pooling & Recall@10 \\\midrule
-     38 & r3d\_18      & None       & Mean          & 0.061     \\
-     39 & r2plus1d\_18 & AV         & Mean          & 0.229     \\
-     41 & r3d\_18      & AV         & Attention     & 0.203     \\
-     42 & r2plus1d\_18 & AV         & Attention     & 0.195    \\\bottomrule
-   \end{tabular}
-   \caption{Retrieval scores on dialog validation data.}
-   \label{tab:retrieval-dialog}
+   \input{results/scores_dialog.tex}
+   \caption{Retrieval and triplet scores on dialog validation data.}
+   \label{tab:scores-dialog}
  \end{table}
 
 \begin{table}
    \centering
-   \begin{tabular}{llllr}
-     \toprule
-     ID & Video model  & Pretraining & Video pooling &  Recall@10 \\\midrule
-     38 & r3d\_18      & None        & Mean          &  0.060  \\
-     39 & r2plus1d\_18 & AV          & Mean          &  0.211  \\
-     41 & r3d\_18      & AV          & Attention     &  0.203  \\
-     42 & r2plus1d\_18 & AV          & Attention     &  0.210  \\\bottomrule     
-   \end{tabular}
-   \caption{Retrieval scores on narration validation data.}
-   \label{tab:retrieval-narration}
+   \input{results/scores_narration.tex}
+   \caption{Retrieval and triplet scores on narration validation data.}
+   \label{tab:scores-narration}
  \end{table}
  
  
 \paragraph{Multiple representational similarity analysis}
 
-\Cref{tab:dialog-cor} and \Cref{tab:narration-cor}
-show correlation coefficients for the pairwise numerical variables
-computed for the  dialog and narration dataset. 
-
-\todo{Redo the RSA tables with updated models}
-
-\begin{table}
-  \centering
-\input{results/cor_dialog.tex}
-\caption{Variable correlations for the dialog data.}
-  \label{tab:dialog-cor}
-\end{table}
-\begin{table}
-  \centering
-\input{results/cor_narration.tex}
-\caption{Variable correlations for the narration data.}
-  \label{tab:narration-cor}
-\end{table}
 
 
-\Cref{tab:dialog-lm} and \Cref{tab:narration-lm} show the coefficients
-of the linear models fit to the dialog and narration pairwise
-similarity data respectively. For both datasets the predictors with
-the largest effects in terms of standardized coefficient magnitude and
-partial $R^2$ are {\tt durationdiff} and {\tt glovesim}
-(\Cref{fig:sim-glove-duration} plots the pairwise similarities
-against these two variable to illustrate the details of the
-relationship).
- 
 The effect of
 the {\tt samespeaker} predictor for the dialog data is negative and
 small in size.  These results further indicate that the model learns
@@ -89,64 +46,3 @@ the association between differences in utterance duration {\tt
   durationdiff} and pairwise similarities apparent in this data was
 suprising and possibly undesirable, and thus warrants further investigation.
 
-
-
-\begin{table}
-  \centering
-\input{results/lm_dialog.tex}
-\caption{Association of predictors with trained model-based pairwise
-  similarity scores for single-word utterances in the dialog
-  validation data. Indicators are sum-coded ($1$ vs $-1$) while the
-  numerical variables are z-scored.}
-\label{tab:dialog-lm}
-\end{table}
-\begin{table}
-  \centering
-\input{results/lm_init_dialog.tex}
-\caption{Association of predictors with untrained-model-based pairwise
-  similarity scores for single-word utterances in the dialog
-  validation data. Indicators are sum-coded ($1$ vs $-1$) while the
-  numerical variables are z-scored.}
-\label{tab:dialog-lm_init}
-\end{table}
-
-%> rawdata.d <- read.csv("pairwise_similarities_dialog.csv")
-%> data <- rawdata.d %>% filter(durationdiff<0.001 & glovesim != 0)
-%> cor(data$similarity, data$glovesim)
-%[1] 0.109515
-
-
-\begin{table}
-  \centering
-\input{results/lm_narration.tex}
-\caption{Association of predictors with trained model-based pairwise
-  similarity scores for single-word utterances in the narration
-  validation data. Indicators are sum-coded ($1$ vs $-1$) while the
-  numerical variables are z-scored.}
-\label{tab:narration-lm}
-\end{table}
-\begin{table}
-  \centering
-\input{results/lm_init_narration.tex}
-\caption{Association of predictors with untrained model-based pairwise
-  similarity scores for single-word utterances in the narration
-  validation data. Indicators are sum-coded ($1$ vs $-1$) while the
-  numerical variables are z-scored.}
-\label{tab:narration-lm_init}
-\end{table}
-
-%       
-%       Correlation for duration-matched pairs:
-% > data <- rawdata.n %>% filter(durationdiff<0.001 & glovesim != 0)
-% > cor(data$similarity, data$glovesim)
-% 0.3665952
-
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.6]{sim-glove-duration.png}
-  \caption{The relationship between pairwise {\tt similarity} and the
-    two variables with the strongest association with it, {\tt
-      glovesime} and {\tt durationdiff} (narration data). All
-    variables z-scored.}
-  \label{fig:sim-glove-duration}
-\end{figure}
