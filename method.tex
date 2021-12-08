@@ -2,23 +2,28 @@
 \label{sec:method}
 
 \subsection{Dataset}
-The dataset consists of the complete set of videos of the
+The dataset consists of the set of videos of the
 English-language version of {\it Peppa Pig}. In addition to the raw
 videos we  also use the annotation created by
 \citep{papasarantopoulos2021narration}.
 
-These annotations feature written transcriptions of the audio as well
-as segmentation into {\it dialog} and {\it narration}. Dialogs are the
-parts spoken by the characters, while narrations are comments inserted
-by the narrator, which are more descriptive in nature. All the narration
+These annotations feature written transcriptions aligned with the
+audio as well as segmentation into {\it dialog} and {\it
+  narration}.\footnote{It should be noted that the quality of the
+  alignment and segmentation in the original dataset is variable. In
+  cases where exact alignment is needed, such as for word-level
+  analyses, we re-align the transcriptions using
+  \url{github.com/lowerquality/gentle}.}  Dialogs are the parts spoken
+by the characters, while narrations are comments inserted by the
+narrator, which are more descriptive in nature. All the narration
 segments are uttered by the same actor. We use the dialogs for
 training the model, and set aside the narrations for evaluation
-purposes only.
+purposes only. A small portion of the dialog data is also used for
+evaluation.
 
-Specifically, we use dialog from episodes 1--196 for training,
-197--202 for validation and 203-209 for testing. We set aside
-narrations from episodes 1--104 for validation and 105--209 for
-testing. 
+Specifically, we use dialog from episodes 1--196 for training, and
+197--209 for validation. We set aside narrations from episodes 1--104
+for validation and 105--209 for testing.
 
 
 \subsection{Preprocessing}
@@ -35,22 +40,10 @@ metrics described in detail in \Cref{sec:eval} and in some of these
 conditions we use the subtitles to guide
 segmentation. \Cref{tab:ds-stat} shows the basic statistics of the
 training and validation splits.
-\todo{Add the test split.}
 
 \begin{table}
   \centering
-  \begin{tabular}{lllrrr}
-    \toprule
-    Split      & Type      & Triplet   & Size (h) & Items & Mean
-                                                            length
-                                                            (s)\\\midrule
-    Training   & Dialog    & No        & 9.83     & 11,058 & 3.2 \\
-    Validation & Dialog    & No        & 0.33     & 375    & 3.2 \\
-    Validation & Narration & No        & 0.80     & 897    & 3.2 \\
-    Validation & Dialog    & Yes       & 0.16     & 202    & 2.8 \\
-    Validation & Narration & Yes       & 0.45     & 726    & 2.2 \\
-    \bottomrule
-  \end{tabular}
+  \input{results/data_statistics.tex}
   \caption{Dataset statistics. For the triplet condition, videos are
     split such that each segment corresponds to a line of
     subtitles. For the non-triplet condition, videos are split into
@@ -71,11 +64,11 @@ standard spoken caption dataset this approach is unproblematic since
 the content of the captions is not correlated with extra-linguistic
 clues in the speech signal, such as speaker identity (since speakers
 are randomly assigned to captions) or non-speech environmental
-noise. Thus in this setting retrieval measures the ability of the
+noise. Thus in this setting, a retrieval metric measures the ability of the
 model to match spoken utterances to images based on their semantic
 content. This not the case for the {\it Peppa Pig} dataset: here we
 can expect that when a video segment depics a particular character
-(e.g. George) then the audio in this segment is more likely to contain
+(e.g.\ George) then the audio in this segment is more likely to contain
 utterances spoken by the voice actor playing George. George has a
 favorite toy dinosaur: when this toy appears in a video segment we can
 likewise expect higher than random chance of George's voice in the
@@ -88,22 +81,21 @@ narrator speech in the videos. These utterances are always spoken by
 the same actor, so speaker identity cannot be used as a clue for
 matching video and audio. Furthermore, the narration segments are akin
 to video captions in that they tend to describe what is happening in
-the video and are thus their semantic content is more strongly
+the video and thus their semantic content is more strongly
 correlated with the content of the video than in the case of the
 dialog, which is also a desirable feature for the purposes of system
 evaluation.
 
 \paragraph{Retrieval}
-For the retrieval evaluation we use two conditions: fixed segmentation
-in 3.2s clips, and segmentation aligned with subtitle line. We encode
-each audio clip in the validation (or test) data using the speech
-encoder part of the model; we encode each video clip using the video
-encoder. We then measure cosine similarity between the audio clip and
-all the video clips. If the video clip corresponding to the audio is
-among the $n$ most similar video clips, we count that as a
-success. The proportion of successes across all audio clips gives us
-the retrieval metric known as recall@$n$: specifically in this paper we
-focus on $n=10$.
+For the retrieval evaluation, as for training, we use fixed
+segmentation into 3.2s clips. We encode each audio clip in the
+validation (or test) data using the speech encoder part of the model;
+we encode each video clip using the video encoder. We then measure
+cosine similarity between the audio clip and all the video clips. If
+the video clip corresponding to the audio is among the $n$ most
+similar video clips, we count that as a success. The proportion of
+successes across all audio clips gives us the retrieval metric known
+as recall@$n$: specifically in this paper we focus on $n=10$.
 
 \paragraph{Triplets}
 Retrieval metrics such as recall@10 have some disadvantages. Firstly
@@ -114,20 +106,20 @@ different datasets. Secondly, if we wanted to compare model
 performance with human performance, we could not feasibly ask human
 participants to provide the quadratic number of audio-video similarity
 judgments needed. For these reasons we evaluate model performance
-using the following simplified, controlled scenario: We match video
-clips by length, and for each pair of same-length video
-clips\footnote{To keep test items independent, the pairing of video
-  clips is done such that a clip only occurs as a member of a single
-  triplet.}, we extract the audio from one of them (selected at
-random) -- this is our {\it anchor}. The video clip from which the
-anchor was taken is the {\it positive} one, which the other video clip
-is the {\it negative} one. This triplet of stimuli for a single test
-item.  We use the model's audio encoder to encode the anchor, and the
-video encoder to encode both video clips. We then check whether anchor
-is more similar to the positive or negative clips in terms of cosine
-similarity.  More precisely, {\it triplet accuracy} is the mean over
-all triplets of the following quantity:
-
+using the following simplified, controlled scenario: We extract clips
+aligned to a single subtitle line, group them by length, and for each
+pair of same-length video clips\footnote{To keep test items
+  independent, the pairing of video clips is done such that a clip
+  only occurs as a member of a single triplet.}, we extract the audio
+from one of them (selected at random) -- this is our {\it anchor}. The
+video clip from which the anchor was taken is the {\it positive} one,
+which the other video clip is the {\it negative} one. This triplet of
+stimuli form a single test item.  We use the model's audio encoder to
+encode the anchor, and the video encoder to encode both video
+clips. We then check whether anchor is more similar to the positive or
+negative clips in terms of cosine similarity.  More precisely, {\it
+  triplet accuracy} is the mean over all triplets of the following
+quantity:
 \begin{equation}
   \frac{\mathrm{signum}(\mathrm{cosine}(A, P) - \mathrm{cosine}(A, N)) + 1}{2}
   \label{eq:triplet-acc}
@@ -159,28 +151,40 @@ idea such that it becomes possible to relate
 neural activation similarity space and several different factors that
 we hypothesize may be associated with it. Namely, we treat the
 similarity scores in the neural activation space as regression targets
-and fit a linear model with a number of predictors which may
-correspond to control variables as well as hypothesized relevant factors.
+and fit a linear model with a number of predictors which 
+correspond to control variables or hypothesized relevant factors.
 
 Specifically, we compute pairwise cosine similarities between
 model-embedded one-word utterances from our validation data: these are
-the regression targets. The predictors are: whether the two word
-tokens correspond to the same word type, whether they are uttered by
-the same speaker, whether they occur in the same episode,
-phoneme-level normalized edit distance between the tokens, difference
-in duration between the two tokens, and the cosine similarity between
-the word-type-embeddings corresponding to the two word-tokens
-(specifically GloVe word-vectors). For this analysis we exclude word
-pairs where either word is out of vocabulary for the GloVe dataset. In
-order to obtain model embeddings for single-word utterances, we use
-forced-alignment of audio with corresponding subtitles, discarding
-tokens where alignment fails. For the dialog condition the number of
-pairwise scores for the remaining tokens is 453,628; for the narration
-condition it is 2,7250,653.
+the regression targets. The variables are listed in \Cref{tab:grsa-variables}.
+
+\begin{table}
+  \centering
+  \begin{tabular}{lp{0.7\linewidth}}\toprule
+    Name              & Meaning \\\midrule
+    similarity        & Cosine similarity between representations, from fully trained model,  of two audio clips \\
+    similarity\_init  & Cosine similarity between representations, from pre-trained-only model,  of two audio clips \\
+    glovesim          & Cosine similarity between GloVe word-type-embeddings for word types corresponding to two clips\\
+    sametype          & Two clips correspond to the same word type \\
+    samespeaker       & Two clips uttered by same speaker\\
+    sameepisode       & Two clips are from the same episode\\
+    durationdiff      & Absolute difference in duration between two clips\\
+    distance          & Phoneme-level edit distance between words corresponding to two clips\\\bottomrule
+  \end{tabular}
+  \caption{Variable definitions for the multiple RSA analysis.}
+  \label{tab:grsa-variables}
+\end{table}
+For this analysis, we exclude word pairs where either word is out of
+vocabulary for the GloVe dataset. In order to obtain model embeddings
+for single-word utterances, we use forced-alignment of audio with
+corresponding subtitles, discarding tokens where alignment fails.
+%For
+%the dialog condition the number of pairwise scores for the remaining
+%tokens is X; for the narration condition it is Y.
 
 The coefficients of the regression model serve as the estimates of the
 strength of the association of each predictor with the target variable
-(pairwise similarity), while controlling for the other predictors.
+(pairwise similarity), while controlling for the other predictors. 
 
 
 \subsection{Model}
@@ -189,7 +193,7 @@ We adapt the high-level modeling approach from work on spoken
 image-caption data
 \citep{harwath2016unsupervised,chrupala-etal-2017-representations}:
 our objective function is based on a triplet-loss with margin which
-encourages the matching audio and video clip to be project nearby in
+encourages the matching audio and video clip to be projected nearby in
 the embedding space, and mis-matching audio and video clips to be far
 away:
 \begin{equation}
@@ -205,13 +209,14 @@ negative examples is very simple: namely we consider the example
 positive if the audio is exactly aligned with a video clip in our
 data. All other pairs of audio-video clips are considered negative.
 
-The audio encoder portion of the model consists of a small wav2vec
-model \citep{wav2vec2} pretrained in an self-supervised fashion, with
-no fine tuning.\footnote{Available from
+The audio encoder portion of the model consists of a {\tt small
+  wav2vec2} model \citep{wav2vec2} pretrained in an self-supervised
+fashion, with supervised fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
-During training, we keep the feature extractor and the bottom $K$
+During training, we keep the feature extractor and the bottom $K=3$
 transformer layers of this encoder frozen. Its output is pooled across
-time using an attention mechanism with dimensionwise weights \citep{Merkx2019}:
+time using an attention mechanism with dimensionwise weights
+\citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
@@ -229,9 +234,11 @@ dimension.
 The pooling is followed by a linear projection and $L_2$
 normalization.
 
-As a video encoder we use the 18-layer ResNet 3D architecture
+As a video encoder we use the 18-layer ResNet (2+1)D architecture
 \citep{tran2018closer} pretrained on the action recognition dataset
 Kinetics-400 \citep{DBLP:journals/corr/KayCSZHVVGBNSZ17}. The
-pretrained model is available via Pytorch.\footnote{See \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
-output of this module is flattened, linearly projected to the same
-dimensionality as the audio (512) and $L_2$ normalized.
+pretrained model is available via Pytorch.\footnote{See
+  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
+output of this module is aggregated using the attention mechanism with
+the same architecture as for the audio module, linearly projected to
+the same dimensionality as the audio (512) and $L_2$ normalized.

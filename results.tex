@@ -6,7 +6,7 @@ the performance of several model configurations on the retrieval and
 triplet tasks on the dialog and narration datasets respectively.
 
 In the case of the narration data this scores is not confounded by
-speaker-based clues, which is a indication that the model possibly
+speaker-based clues, which is an indication that the model possibly
 learned to detect some aspects of utterance meaning. We investigate
 this hypothesis further using multiple representational similarity
 analysis.
@@ -29,6 +29,13 @@ analysis.
  
 \paragraph{Multiple representational similarity analysis}
 
+\Cref{tab:dialogvarcor} and \Cref{tab:narrationvarcor} show the raw
+correlations between variables in the multiple RSA analysis, while
+\Cref{fig:coef_dialog} and \Cref{fig:coef_narration} show the
+standardized regression coefficients, where the target variable is
+pairwise representation similarity for the pre-trained-only and the
+fully-trained versions of the target model.
+
 \begin{figure}
   \centering
   \includegraphics[scale=0.66]{results/grsa_dialog_coef.pdf}
@@ -48,19 +55,24 @@ analysis.
 \end{figure}
 
 
-
-The effect of
-the {\tt samespeaker} predictor for the dialog data is negative and
-small in size.  These results further indicate that the model learns
-some aspects of word-level semantics as captured by GloVe word
-vectors, and that speaker identity does not appear to be a substantial
-impact on utterance embeddings.
+For both data subsets (dialog and narration), the highest magnitude
+predictors are {\tt durationdiff} and {\tt glovesim}. The effect of
+the {\tt samespeaker} predictor for the dialog data is close to zero.
+These effect are there already for the pre-trained-only
+representations, but are strengthened for the fully-trained target
+model.  This results indicate that the model learns some aspects of
+word-level semantics as captured by GloVe word vectors, and that
+speaker identity does not appear to be a substantial impact on
+utterance embeddings.
 
 Perhaps unexpectedly, the predictor meant to capture phonemic distance
 {\tt distance} is not strongly associated with utterance similarity,
 although it should be noted that here we are only investigating model
-embeddings after the final attention pooling layer.The strength of
-the association between differences in utterance duration {\tt
-  durationdiff} and pairwise similarities apparent in this data was
-suprising and possibly undesirable, and thus warrants further investigation.
+embeddings after the final attention pooling layer.
+
+The strength of the association between differences in utterance
+duration {\tt durationdiff} and pairwise similarities apparent in this
+data was suprising and possibly undesirable. We conjecture that is
+arises as an effect of the positional encodings in the transformer
+layers.
 
