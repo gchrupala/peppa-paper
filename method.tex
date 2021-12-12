@@ -162,8 +162,14 @@ the regression targets. The variables are listed in \Cref{tab:grsa-variables}.
   \centering
   \begin{tabular}{lp{0.7\linewidth}}\toprule
     Name              & Meaning \\\midrule
-    similarity        & Cosine similarity between representations, from fully trained model,  of two audio clips \\
-    similarity\_init  & Cosine similarity between representations, from pre-trained-only model,  of two audio clips \\
+    sim$_2$           & Cosine similarity between representations,
+                        from fully trained model,
+                        of two audio clips \\
+    sim$_1$           & Cosine similarity between representations,
+                        from pre-trained-only model,  of two audio
+                        clips \\
+    sim$_0$           & Cosine similarity between representations,
+                        from an untrained model, of two audio clips \\
     glovesim          & Cosine similarity between GloVe word-type-embeddings for word types corresponding to two clips\\
     sametype          & Two clips correspond to the same word type \\
     samespeaker       & Two clips uttered by same speaker\\
