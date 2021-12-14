@@ -29,49 +29,70 @@ analysis.
  
 \paragraph{Multiple representational similarity analysis}
 
+For the single-word setting, 
 \Cref{tab:dialogvarcor} and \Cref{tab:narrationvarcor} show the raw
 correlations between variables in the multiple RSA analysis, while
-\Cref{fig:coef_dialog} and \Cref{fig:coef_narration} show the
+\Cref{fig:coef_word_dialog} and \Cref{fig:coef_word_narration} show the
 standardized regression coefficients, where the target variable is
 pairwise representation similarity for the pre-trained-only and the
 fully-trained versions of the target model.
 
+
+
 \begin{figure}
   \centering
-  \includegraphics[scale=0.66]{results/grsa_dialog_coef.pdf}
+  \includegraphics[scale=0.66]{results/grsa_dialog_word_coef.pdf}
   \caption{Association of predictors with trained and untrained
     model-based pairwise similarity scores for single-word utterances
     in the dialog validation data. Coefficients are standardized.}
-  \label{fig:coef_dialog}
+  \label{fig:coef_word_dialog}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.66]{results/grsa_narration_coef.pdf}
-  \caption{Association of predictors with trained and untrained
+  \includegraphics[scale=0.66]{results/grsa_narration_word_coef.pdf}
+  \caption{Association of predictors with 
     model-based pairwise similarity scores for single-word utterances
     in the narration validation data. Coefficients are standardized.}
-  \label{fig:coef_narration}
+  \label{fig:coef_word_narration}
 \end{figure}
 
 
-For both data subsets (dialog and narration), the highest magnitude
-predictors are {\tt durationdiff} and {\tt glovesim}. The effect of
-the {\tt samespeaker} predictor for the dialog data is close to zero.
-These effect are there already for the pre-trained-only
-representations, but are strengthened for the fully-trained target
-model.  This results indicate that the model learns some aspects of
-word-level semantics as captured by GloVe word vectors, and that
-speaker identity does not appear to be a substantial impact on
-utterance embeddings.
+For the multi-word setting, \Cref{fig:coef_multiword_dialog} and
+\Cref{fig:coef_multiword_narration} show the regression coefficients.
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.66]{results/grsa_dialog_multiword_coef.pdf}
+  \caption{Association of predictors with 
+    model-based pairwise similarity scores for multi-word utterances
+    in the dialog validation data. Coefficients are standardized.}
+  \label{fig:coef_multiword_dialog}
+\end{figure}
 
-Perhaps unexpectedly, the predictor meant to capture phonemic distance
-{\tt distance} is not strongly associated with utterance similarity,
-although it should be noted that here we are only investigating model
-embeddings after the final attention pooling layer.
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.66]{results/grsa_narration_multiword_coef.pdf}
+  \caption{Association of predictors with 
+    model-based pairwise similarity scores for multi-word utterances
+    in the narration validation data. Coefficients are standardized.}
+  \label{fig:coef_multiword_narration}
+\end{figure}
 
-The strength of the association between differences in utterance
-duration {\tt durationdiff} and pairwise similarities apparent in this
+
+\todo{Update discussion of results}
+
+%For both data subsets (dialog and narration), the highest magnitude
+%predictors are {\tt durationdiff}, {\tt durationsum} and {\tt semsim}. The effect of
+%the {\tt samespeaker} predictor for the dialog data is close to zero.
+%These effect are there already for the pre-trained-only
+%representations, but are strengthened for the fully-trained target
+%model.  This results indicate that the model learns some aspects of
+%word-level semantics as captured by GloVe word vectors, and that
+%speaker identity does not appear to be a substantial impact on
+%utterance embeddings.
+
+The strength of the association between effects of utterance
+duration {\tt durationdiff}, {\tt durationsum} and pairwise similarities apparent in this
 data was suprising and possibly undesirable. We conjecture that is
 arises as an effect of the positional encodings in the transformer
 layers.

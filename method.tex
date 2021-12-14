@@ -155,7 +155,7 @@ and fit a linear model with a number of predictors which
 correspond to control variables or hypothesized relevant factors.
 
 Specifically, we compute pairwise cosine similarities between
-model-embedded one-word utterances from our validation data: these are
+model-embedded one-word or multi-word utterances from our validation data: these are
 the regression targets. The variables are listed in \Cref{tab:grsa-variables}.
 
 \begin{table}
@@ -168,22 +168,22 @@ the regression targets. The variables are listed in \Cref{tab:grsa-variables}.
     sim$_1$           & Cosine similarity between representations,
                         from pre-trained-only model,  of two audio
                         clips \\
-    sim$_0$           & Cosine similarity between representations,
-                        from an untrained model, of two audio clips \\
-    glovesim          & Cosine similarity between GloVe word-type-embeddings for word types corresponding to two clips\\
-    sametype          & Two clips correspond to the same word type \\
+    semsim            & Cosine similarity between summed GloVe word-type-embeddings for two clips\\
+    sametype          & Two clips correspond with the same transcription \\
     samespeaker       & Two clips uttered by same speaker\\
     sameepisode       & Two clips are from the same episode\\
-    durationdiff      & Absolute difference in duration between two clips\\
-    distance          & Phoneme-level edit distance between words corresponding to two clips\\\bottomrule
+    durationdiff      & Absolute difference in duration between two
+                        clips\\
+    durationsum       & Sum of the duration of the two clips\\
   \end{tabular}
   \caption{Variable definitions for the multiple RSA analysis.}
   \label{tab:grsa-variables}
 \end{table}
-For this analysis, we exclude word pairs where either word is out of
-vocabulary for the GloVe dataset. In order to obtain model embeddings
-for single-word utterances, we use forced-alignment of audio with
-corresponding subtitles, discarding tokens where alignment fails.
+
+\todo{THIS IS NOT QUITE RIGHT: For this analysis, we exclude word pairs where either word is out of
+vocabulary for the GloVe dataset.} In order to obtain model embeddings
+for the utterances, we use forced-alignment of audio with
+corresponding subtitles, discarding cases where alignment fails.
 %For
 %the dialog condition the number of pairwise scores for the remaining
 %tokens is X; for the narration condition it is Y.
