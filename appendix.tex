@@ -19,3 +19,13 @@
   \label{tab:narrationvarcor}
 \end{table}
 
+
+\subsection{Targeted Triplets Evaluation Sets}\label{app:targeted_triplets_eval}
+
+To find commonly occurring nouns and verbs, we lemmatize and POS-tag all words in the transcripts of the validation dataset using NLTK \citep{bird-2006-nltk}. Afterwards, we identify sets of all nouns $\{n_1, ..., n_n\}$ and verbs $\{v_1, ..., v_m\}$ that occur at least 10 times in the validation data. Given these sets, we create sets of tuples $\{(n_1, n_2), (n_1, n_3), ..., (n_1, n_n), ...,  (n_{n-1}, n_n)\}$ for all combinations of nouns and verbs, respectively. For each of these tuples, we search the validation data for pairs of phrases $(p_k=[w_1, ..., w_x], p_l=[w_1, ..., w_y])$ with same length ($x=y$) and minimal difference regarding the tuple. That is, $n_1 \in p_1$, $n_2 \in p_2$, and if we replace $n_1$ with $n_2$ in $p_1$, it is equal to $p_2$.
+
+For example, if $n_1 = \text{"peppa"}$ and $n_2 = \text{"george"}$, the phrases $p_1 = [\text{"peppa", "loves", "jumping"}]$ and $p_2 = [\text{"george", "loves", "jumping"}]$ are phrases with minimal differences.
+
+We set the minimum phrase length to 2. For each phrase $p_1$ we look for the \textit{longest} possible phrase $p_2$.
+
+Based on each minimal pair, we construct two counter-balanced test triplets as described in the main text.
