@@ -29,23 +29,29 @@ analysis.
 \paragraph{Targeted Triplets}
 \todo{add average targeted triplets result to general performance metrics table?}
 
-We report results for the best performing model according to the performance metrics (ID 48, audio and video pretraining). The average targeted triplets accuracy is 0.726 . \Cref{fig:accuracy_targeted_triplets_nouns} and \Cref{fig:accuracy_targeted_triplets_verbs} show per-word accuracy for nouns and verbs, respectively. The vertical bars indicate the standard deviation as estimated using bootstrapping tests.
+We report results for the best performing model according to the performance metrics (ID 48, audio and video pretraining). The average targeted triplets accuracy is 0.679 . \Cref{fig:accuracy_targeted_triplets_nouns},  \Cref{fig:accuracy_targeted_triplets_verbs}, and \Cref{fig:accuracy_targeted_triplets_adjectives} show per-word accuracy for nouns, verbs, and adjectives, respectively. The vertical bars indicate the standard deviation as estimated using bootstrapping tests.
 
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results_NOUN_word.png}
+  \includegraphics[width=\textwidth]{results/targeted_triplets/results_NOUN_word.png}
   \caption{Per-word targeted triplets accuracy for nouns.}
   \label{fig:accuracy_targeted_triplets_nouns}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results_VERB_word.png}
+  \includegraphics[width=\textwidth]{results/targeted_triplets/results_VERB_word.png}
   \caption{Per-word targeted triplets accuracy for verbs.}
   \label{fig:accuracy_targeted_triplets_verbs}
 \end{figure}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{results/targeted_triplets/results_ADJ_word.png}
+  \caption{Per-word targeted triplets accuracy for adjectives.}
+  \label{fig:accuracy_targeted_triplets_adjectives}
+\end{figure}
 
  
 \paragraph{Multiple representational similarity analysis}
