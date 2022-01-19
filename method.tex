@@ -5,7 +5,7 @@
 The dataset consists of the set of videos of the
 English-language version of {\it Peppa Pig}. In addition to the raw
 videos we  also use the annotation created by
-\citep{papasarantopoulos2021narration}.
+\citet{papasarantopoulos2021narration}.
 
 These annotations feature written transcriptions aligned with the
 audio as well as segmentation into {\it dialog} and {\it
@@ -29,7 +29,7 @@ for validation and 105--209 for testing.
 \subsection{Preprocessing}
 For training, we do not use word or sentence level segmentation in
 order to make the setting more naturalistic. Instead we split the
-dialog sections into 3.2 second non-overlapping fragments. The video
+dialog sections into \bf{XXX}  second non-overlapping fragments. The video
 is subsampled to 10 frames per second, and to $180\times 100$ resolution. The
 audio is converted to mono by averaging the two channels  and the raw
 waveform is used as input.
@@ -88,7 +88,7 @@ evaluation.
 
 \paragraph{Retrieval}
 For the retrieval evaluation, as for training, we use fixed
-segmentation into 3.2s clips. We encode each audio clip in the
+segmentation into XXXXXXXs clips. We encode each audio clip in the
 validation (or test) data using the speech encoder part of the model;
 we encode each video clip using the video encoder. We then measure
 cosine similarity between the audio clip and all the video clips. If
@@ -102,24 +102,26 @@ Retrieval metrics such as recall@10 have some disadvantages. Firstly
 the absolute value of this metric is hard to interpret as it depends
 crucially on the size of the candidate set (e.g.\ the size of the
 validation/test set). Thus these numbers cannot be directly between
-different datasets. Secondly, if we wanted to compare model
-performance with human performance, we could not feasibly ask human
-participants to provide the quadratic number of audio-video similarity
-judgments needed. For these reasons we evaluate model performance
-using the following simplified, controlled scenario: We extract clips
-aligned to a single subtitle line, group them by length, and for each
-pair of same-length video clips\footnote{To keep test items
-  independent, the pairing of video clips is done such that a clip
-  only occurs as a member of a single triplet.}, we extract the audio
-from one of them (selected at random) -- this is our {\it anchor}. The
-video clip from which the anchor was taken is the {\it positive} one,
-which the other video clip is the {\it negative} one. This triplet of
-stimuli form a single test item.  We use the model's audio encoder to
-encode the anchor, and the video encoder to encode both video
-clips. We then check whether anchor is more similar to the positive or
-negative clips in terms of cosine similarity.  More precisely, {\it
-  triplet accuracy} is the mean over all triplets of the following
-quantity:
+different datasets. Secondly, it works best with when all segments are
+of equal length: otherwise the metric is gameable as segment length
+becomes a strong clue to which clips should be retrieved. Thirdly, if
+we wanted to compare model performance with human performance, we
+could not feasibly ask human participants to provide the quadratic
+number of audio-video similarity judgments needed. For these reasons
+we evaluate model performance using the following simplified,
+controlled scenario: We extract clips aligned to a single subtitle
+line, group them by length, and for each pair of same-length video
+clips\footnote{To keep test items independent, the pairing of video
+  clips is done such that a clip only occurs as a member of a single
+  triplet.}, we extract the audio from one of them (selected at
+random) -- this is our {\it anchor}. The video clip from which the
+anchor was taken is the {\it positive} one, which the other video clip
+is the {\it negative} one. This triplet of stimuli form a single test
+item.  We use the model's audio encoder to encode the anchor, and the
+video encoder to encode both video clips. We then check whether anchor
+is more similar to the positive or negative clips in terms of cosine
+similarity.  More precisely, {\it triplet accuracy} is the mean over
+all triplets of the following quantity:
 \begin{equation}
   \frac{\mathrm{signum}(\mathrm{cosine}(A, P) - \mathrm{cosine}(A, N)) + 1}{2}
   \label{eq:triplet-acc}
@@ -128,7 +130,10 @@ with $A$ being the anchor, $P$ positive and $N$ negative. The triplet
 accracy metric is inspired by the ABX score of \citet{schatz2016abx}.
 For triplet accuracy, regardless of the specific set of test items, we
 expect random-guessing performance to be at 0.5, and perfect
-performance to be 1.0.
+performance to be 1.0.  To improve the reliability of this metric and
+provide information on its variance, triplets can be resampled $N$
+times from the dataset, and the mean accuracy and spread around the mean
+reported.
 
 \paragraph{Targeted Triplets}
 Inspired by 2-alternative forced choice (2AFC) paradigms in child language acquisition \citep{noble2011comprehension, bergelson20126}, we design test trials that test the model's acquisition of grounded semantics under controlled circumstances.
