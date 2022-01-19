@@ -136,13 +136,42 @@ times from the dataset, and the mean accuracy and spread around the mean
 reported.
 
 \paragraph{Targeted Triplets}
-Inspired by 2-alternative forced choice (2AFC) paradigms in child language acquisition \citep{noble2011comprehension, bergelson20126}, we design test trials that test the model's acquisition of grounded semantics under controlled circumstances.
+Inspired by 2-alternative forced choice (2AFC) paradigms in child
+language acquisition \citep{noble2011comprehension, bergelson20126},
+we design test trials that test the model's acquisition of grounded
+semantics under controlled circumstances.
 
-The test can be seen as a special case of the triplets evaluation as described in the previous paragraph. Here, we aim to assess the model's acquisition of the semantics of commonly occurring words. Therefore, the \textit{targeted} approach considers, in contrast to the general triplets evaluation, always pairs of triplets with \textit{minimal differences} regarding one word in the transcripts of the anchor audios (e.g., ``Peppa loves jumping'' and ``George loves jumping'' can be used to test whether the model can discriminate the target word ``Peppa'' from the distractor word ``George'').
+The test can be seen as a special case of the triplets evaluation as
+described in the previous paragraph. Here, we aim to assess the
+model's acquisition of the semantics of commonly occurring
+words. Therefore, the \textit{targeted} approach considers, in
+contrast to the general triplets evaluation, always pairs of triplets
+with \textit{minimal differences} regarding one word in the
+transcripts of the anchor audios (e.g., ``Peppa loves jumping'' and
+``George loves jumping'' can be used to test whether the model can
+discriminate the target word ``Peppa'' from the distractor word
+``George'').
 
 
-We search the transcripts of the validation data for phrases with minimal differences with respect to the most commonly occurring nouns and verbs.\footnote{There were not enough adjectives in the dataset perform a comprehensive analysis of their acquisition.} Details on this search procedure can be found in Appendix \ref{app:targeted_triplets_eval}. Based on each pair of phrases, we create two counter-balanced test trials, an example and a corresponding counter-example as depicted in \Cref{fig:targeted_triplets}. Here, the anchor $A_x$ of the example triplet is the audio of ``Peppa loves jumping'' ($a_p$), the positive video $P_x$ is the corresponding video ($v_p$) and the negative video $N_x$ is the video corresponding to ``George loves jumping'' ($v_g$): $(A_x, P_x, N_x) = (a_p, v_p, v_g)$.
-In the counter-example triplet, the anchor $A_y$ is the audio of  ``George loves jumping'', and the positive and negative video are flipped: $(A_y, P_y, N_y) = (a_g, v_g, v_p)$. In this way, we control the evaluation for linguistic biases in the dataset and ensure that a single-modality model that only considers the audio performs at chance \citep{nikolaus-fourtassi-2021-evaluating}.
+We search the transcripts of the validation data for phrases with
+minimal differences with respect to the most commonly occurring nouns
+and verbs.\footnote{There were not enough adjectives in the dataset
+  perform a comprehensive analysis of their acquisition.} Details on
+this search procedure can be found in Appendix
+\ref{app:targeted_triplets_eval}. Based on each pair of phrases, we
+create two counter-balanced test trials, an example and a
+corresponding counter-example as depicted in
+\Cref{fig:targeted_triplets}. Here, the anchor $A_x$ of the example
+triplet is the audio of ``Peppa loves jumping'' ($a_p$), the positive
+video $P_x$ is the corresponding video ($v_p$) and the negative video
+$N_x$ is the video corresponding to ``George loves jumping'' ($v_g$):
+$(A_x, P_x, N_x) = (a_p, v_p, v_g)$.  In the counter-example triplet,
+the anchor $A_y$ is the audio of ``George loves jumping'', and the
+positive and negative video are flipped:
+$(A_y, P_y, N_y) = (a_g, v_g, v_p)$. In this way, we control the
+evaluation for linguistic biases in the dataset and ensure that a
+single-modality model that only considers the audio performs at chance
+\citep{nikolaus-fourtassi-2021-evaluating}.
 
 \begin{figure}
   \centering
@@ -151,8 +180,18 @@ In the counter-example triplet, the anchor $A_y$ is the audio of  ``George loves
   \label{fig:targeted_triplets}
 \end{figure}
 
-We measure overall targetet triplet accuracy using \Cref{eq:triplet-acc}. Additionally, we report per-word accuracy by calculating the triplet accuracy for all triplets that contain a given word (e.g. ``Peppa'') either as target or distractor word, i.e. cases in which the model needs to succeed in either choosing a video containing the given word (the example triplet in Figure \ref{fig:targeted_triplets}) or rejecting a video containing the given word (the counter-example triplet in Figure \ref{fig:targeted_triplets}).\footnote{Both the example and the counter-example shown in Figure \ref{fig:targeted_triplets} are also used to assess the acquisition of the word ``George''.}
-We report accuracy for all words for which we found at least 100 triplets.
+We measure overall targetet triplet accuracy using
+\Cref{eq:triplet-acc}. Additionally, we report per-word accuracy by
+calculating the triplet accuracy for all triplets that contain a given
+word (e.g. ``Peppa'') either as target or distractor word, i.e. cases
+in which the model needs to succeed in either choosing a video
+containing the given word (the example triplet in Figure
+\ref{fig:targeted_triplets}) or rejecting a video containing the given
+word (the counter-example triplet in Figure
+\ref{fig:targeted_triplets}).\footnote{Both the example and the
+  counter-example shown in Figure \ref{fig:targeted_triplets} are also
+  used to assess the acquisition of the word ``George''.}  We report
+accuracy for all words for which we found at least 100 triplets.
 
 \paragraph{Analysis of representations}
 In addition to evaluating the model via task performance metrics, we
