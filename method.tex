@@ -29,7 +29,7 @@ for validation and 105--209 for testing.
 \subsection{Preprocessing}
 For training, we do not use word or sentence level segmentation in
 order to make the setting more naturalistic. Instead we split the
-dialog sections into \bf{XXX}  second non-overlapping fragments. The video
+dialog sections into {\bf XXX}  second non-overlapping fragments. The video
 is subsampled to 10 frames per second, and to $180\times 100$ resolution. The
 audio is converted to mono by averaging the two channels  and the raw
 waveform is used as input.
@@ -96,15 +96,13 @@ the video clip corresponding to the audio is among the $n$ most
 similar video clips, we count that as a success. The proportion of
 successes across all audio clips gives us the retrieval metric known
 as recall@$n$: specifically in this paper we focus on $n=10$.
-
+\todo{GC: Add fixed vs jitter condition for retrieval too.} 
 \paragraph{Triplets}
 Retrieval metrics such as recall@10 have some disadvantages. Firstly
 the absolute value of this metric is hard to interpret as it depends
 crucially on the size of the candidate set (e.g.\ the size of the
 validation/test set). Thus these numbers cannot be directly between
-different datasets. Secondly, it works best with when all segments are
-of equal length: otherwise the metric is gameable as segment length
-becomes a strong clue to which clips should be retrieved. Thirdly, if
+different datasets. Secondly, if
 we wanted to compare model performance with human performance, we
 could not feasibly ask human participants to provide the quadratic
 number of audio-video similarity judgments needed. For these reasons
@@ -112,7 +110,7 @@ we evaluate model performance using the following simplified,
 controlled scenario: We extract clips aligned to a single subtitle
 line, group them by length, and for each pair of same-length video
 clips\footnote{To keep test items independent, the pairing of video
-  clips is done such that a clip only occurs as a member of a single
+  clips is done such that each clip only occurs as a member of a single
   triplet.}, we extract the audio from one of them (selected at
 random) -- this is our {\it anchor}. The video clip from which the
 anchor was taken is the {\it positive} one, which the other video clip

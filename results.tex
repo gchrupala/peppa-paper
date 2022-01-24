@@ -29,8 +29,18 @@ analysis.
 \paragraph{Targeted Triplets}
 \todo{add average targeted triplets result to general performance metrics table?}
 
-We report results for the best performing model according to the performance metrics (ID 48, audio and video pretraining). The average targeted triplets accuracy is 0.679 . \Cref{fig:accuracy_targeted_triplets_nouns},  \Cref{fig:accuracy_targeted_triplets_verbs}, and \Cref{fig:accuracy_targeted_triplets_adjectives} show per-word accuracy for nouns, verbs, and adjectives, respectively. The vertical bars indicate the standard deviation as estimated using bootstrapping tests.
-
+We report results for the best performing model according to the
+performance metrics (ID 48, audio and video pretraining). The average
+targeted triplets accuracy is 0.679
+. \Cref{fig:accuracy_targeted_triplets_nouns},
+\Cref{fig:accuracy_targeted_triplets_verbs}, and
+\Cref{fig:accuracy_targeted_triplets_adjectives} show per-word
+accuracy for nouns, verbs, and adjectives, respectively. The vertical
+bars indicate the standard deviation as estimated using bootstrapping
+tests.
+\todo{GC: It seems like we use resampling differently for the triplets
+  (keep datapoints same, resample pairings) and
+  the targeted triplets (resample datapoints) evaluation. Feasible to unify this?}
 
 \begin{figure}
   \centering
