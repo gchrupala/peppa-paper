@@ -191,67 +191,6 @@ word (the counter-example triplet in Figure
   used to assess the acquisition of the word ``George''.}  We report
 accuracy for all words for which we found at least 100 triplets.
 
-\paragraph{Analysis of representations}
-In addition to evaluating the model via task performance metrics, we
-analyze the spoken utterance embeddings. There are a variety of
-methods typically applied to this task, such as variants of diagnostic
-probing, and representational similarity analysis (RSA). We focus on
-a generalization of the latter approach.
-The classical RSA was developed to analyze brain imaging data
-\citep{kriegeskorte2008representational} and adapted for probing
-neural network representations
-\citep[e.g.][]{chrupala-alishahi-2019-correlating}. The method
-consists in computing pairwise similarity scores for stimuli (such as
-utterances) in two representation spaces: one being the subject of
-analysis (i.e.\ neural activation space) and the other the benchmark
-representation space (e.g.\ syntax tree space). The strength of
-correlation between the pairwise similarity scores in the two spaces
-quantifies to what extent the benchmark representation is encoded in
-the neural activation patterns. In the current work we generalize this
-idea such that it becomes possible to relate
-neural activation similarity space and several different factors that
-we hypothesize may be associated with it. Namely, we treat the
-similarity scores in the neural activation space as regression targets
-and fit a linear model with a number of predictors which 
-correspond to control variables or hypothesized relevant factors.
-
-Specifically, we compute pairwise cosine similarities between
-model-embedded one-word or multi-word utterances from our validation data: these are
-the regression targets. The variables are listed in \Cref{tab:grsa-variables}.
-
-\begin{table}
-  \centering
-  \begin{tabular}{lp{0.7\linewidth}}\toprule
-    Name              & Meaning \\\midrule
-    sim$_2$           & Cosine similarity between representations,
-                        from fully trained model,
-                        of two audio clips \\
-    sim$_1$           & Cosine similarity between representations,
-                        from pre-trained-only model,  of two audio
-                        clips \\
-    semsim            & Cosine similarity between summed GloVe word-type-embeddings for two clips\\
-    sametype          & Two clips correspond with the same transcription \\
-    samespeaker       & Two clips uttered by same speaker\\
-    sameepisode       & Two clips are from the same episode\\
-    durationdiff      & Absolute difference in duration between two
-                        clips\\
-    durationsum       & Sum of the duration of the two clips\\
-  \end{tabular}
-  \caption{Variable definitions for the multiple RSA analysis.}
-  \label{tab:grsa-variables}
-\end{table}
-
-\todo{THIS IS NOT QUITE RIGHT: For this analysis, we exclude word pairs where either word is out of
-vocabulary for the GloVe dataset.} In order to obtain model embeddings
-for the utterances, we use forced-alignment of audio with
-corresponding subtitles, discarding cases where alignment fails.
-%For
-%the dialog condition the number of pairwise scores for the remaining
-%tokens is X; for the narration condition it is Y.
-
-The coefficients of the regression model serve as the estimates of the
-strength of the association of each predictor with the target variable
-(pairwise similarity), while controlling for the other predictors. 
 
 
 \subsection{Model}
