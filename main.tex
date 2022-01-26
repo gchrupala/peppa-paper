@@ -31,6 +31,30 @@
 
 \maketitle
 \begin{abstract}
+  Attempts to computationally model or simulate the acquisition of
+  spoken language via grounding in the visual modality have a long
+  tradition but have gained momentum since the around 2015 with the
+  revival of neural networks. Current neural approaches are able to
+  spot associations between the spoken and visual modality, and use
+  these to represent speech and image/video data in a joint vector
+  space. A major limitation of these works are the datasets used to
+  train them. Most consist of static images or videos paired with
+  spoken descriptions of what is depicted, and thus guarantee a strong
+  correlation between speech and the visual world by construction. A
+  child learning a language faces a very different and harder task: in
+  the real world the coupling between the linguistic and the visual is
+  much looser, and often contains confounds in the form of
+  correlations with non-semantic aspects of the speech signal, such as
+  voices of specific people and environmental sounds. The current
+  study is a first step towards simulating such a naturalistic
+  grounding scenario by using a dataset based on the children's
+  cartoon {\it Peppa Pig}. We train a simple bi-modal architecture on
+  the portion of the data consisting of naturalistic dialogs between
+  characters, and evaluate on segments containing descriptive
+  narrations. Evaluation and analysis results indicate that despite
+  the weak and confounded signal in this training data our model
+  succeeds at learning aspects of the visual semantics of spoken
+  language.
 \end{abstract}
 
 \input{intro}
