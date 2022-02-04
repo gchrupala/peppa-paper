@@ -27,19 +27,19 @@ analysis.
  \end{table}
  
 \paragraph{Targeted Triplets}
-\todo{add average targeted triplets result to general performance metrics table?}
+As a first baseline, we evaluate a model that has been pretrained but not fine-tuned on our dataset. The resulting performance is, as expected, close to chance level: 0.538 . Additionally, we evaluate a model that is trained using static (image) data instead of video. The average accuracy is 0.705 . Finally, the best performing model according to the
+performance metrics (ID 68, audio and video pretraining) achieves an average
+targeted triplets accuracy of 0.745 .
 
-The best performing model according to the
-performance metrics (ID 48, audio and video pretraining) achieves an average
-targeted triplets accuracy of 0.719 . \Cref{fig:accuracy_targeted_triplets_nouns} and
+\Cref{fig:accuracy_targeted_triplets_nouns} and
 \Cref{fig:accuracy_targeted_triplets_verbs} show per-word
 accuracy for nouns and verbs, respectively. The vertical
 bars indicate the standard deviation as estimated using bootstrapping
 tests.
 
-We further compute correlations between the per-word accuracy and two possible predictors of age of acquisition: frequency and concreteness. The resulting correlations are presented in Appendix \ref{app:targeted_triplets_eval}. There is a significant positive correlation between word concreteness and the model's accuracy for this word. Regarding input frequency, we find no significant correlation.
+We further compute correlations between the per-word accuracy and two possible predictors of age of acquisition: frequency and concreteness. The resulting correlations are presented in Appendix \ref{app:targeted_triplets_eval}. We do not find any significant correlation between the model's per-word accuracy and word concreteness or input frequency of a word in the training data.
 
-As a baseline, we evaluate the same model (pretrained) without being fine-tuned on our dataset. The resulting performance is as expected close to chance level: 0.538 .
+
 
 
 \begin{figure}
