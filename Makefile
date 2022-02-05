@@ -1,4 +1,4 @@
-main.pdf: main.tex intro.tex method.tex related.tex results.tex conclusion.tex appendix.tex notes.tex biblio.bib val_rec10.png valnarr_rec10.png val_acc3.png valnarr_acc3.png sim-glove-duration.png results
+main.pdf: main.tex intro.tex method.tex related.tex results.tex conclusion.tex appendix.tex notes.tex biblio.bib results/scores_dialog.tex results/scores_narration.tex
 	pdflatex main
 	bibtex main
 	pdflatex main
