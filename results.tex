@@ -1,9 +1,7 @@
 \section{Results}
 \label{sec:results}
 \paragraph{Performance metrics}
-\Cref{tab:scores-dialog} and \Cref{tab:scores-narration} show
-the performance of several model configurations on the retrieval and
-triplet tasks on the dialog and narration datasets respectively.
+
 
 In the case of the narration data this scores is not confounded by
 speaker-based clues, which is an indication that the model possibly
@@ -11,21 +9,34 @@ learned to detect some aspects of utterance meaning. We investigate
 this hypothesis further using multiple representational similarity
 analysis.
  
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{results/slides/pretraining_dialog.pdf}
+  \caption{Effect of pre-training (dialog)}
+  \label{fig:pretraining-dialog}
+\end{figure}
 
- \begin{table}
-   \centering
-   \input{results/scores_dialog.tex}
-   \caption{Retrieval and triplet scores on dialog validation data.}
-   \label{tab:scores-dialog}
- \end{table}
+ \begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{results/slides/pretraining_narration.pdf}
+  \caption{Effect of pre-training (narration)}
+  \label{fig:pretraining-narration}
+\end{figure}
 
-\begin{table}
-   \centering
-   \input{results/scores_narration.tex}
-   \caption{Retrieval and triplet scores on narration validation data.}
-   \label{tab:scores-narration}
- \end{table}
- 
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{results/slides/static_dialog.pdf}
+  \caption{Effect of temporal information (dialog)}
+  \label{fig:static-dialog}
+\end{figure}
+
+ \begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{results/slides/static_narration.pdf}
+  \caption{Effect of temporal (narration)}
+  \label{fig:static-narration}
+\end{figure}
+
 \paragraph{Targeted Triplets}
 As a first baseline, we evaluate a model that has been pretrained but not fine-tuned on our dataset. The resulting performance is, as expected, close to chance level: 0.538 . Additionally, we evaluate a model that is trained using static (image) data instead of video. The average accuracy is 0.705 . Finally, the best performing model according to the
 performance metrics (ID 68, audio and video pretraining) achieves an average
