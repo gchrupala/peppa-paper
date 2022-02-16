@@ -134,13 +134,13 @@ times from the dataset, and the mean accuracy and spread around the mean
 reported.
 
 \paragraph{Targeted Triplets}
-Inspired by 2-alternative forced choice (2AFC) paradigms in child
-language acquisition \citep{noble2011comprehension, bergelson20126},
+Inspired by intermodal 2-alternative forced choice (2AFC) paradigms in child
+language acquisition \citep{hirsh1996intermodal},
 we design test trials that test the model's acquisition of grounded
-semantics under controlled circumstances.
+semantics under more controlled circumstances.
+The paradigm has been used in language acquisition research to evaluate children's early linguistic knowledge \citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing whether they can distinguish a matching (target) visual referent from a foil (distractor) referent when prompted with a word or sentence.
 
-The test can be seen as a special case of the triplets evaluation as
-described in the previous paragraph. Here, we aim to assess the
+In our case, the test can be seen as a special case of the triplets evaluation as described in the previous paragraph. Here, we aim to assess the
 model's acquisition of the semantics of commonly occurring
 words. Therefore, the \textit{targeted} approach considers, in
 contrast to the general triplets evaluation, always pairs of triplets
@@ -152,9 +152,7 @@ discriminate the target word ``Peppa'' from the distractor word
 
 
 We search the transcripts of the validation data for phrases with
-minimal differences with respect to the most commonly occurring nouns
-and verbs.\footnote{There were not enough adjectives in the dataset
-  perform a comprehensive analysis of their acquisition.} Details on
+minimal differences with respect to the most commonly occurring nouns, verbs, and adjectives. Details on
 this search procedure can be found in Appendix
 \ref{app:targeted_triplets_eval}. Based on each pair of phrases, we
 create two counter-balanced test trials, an example and a
@@ -169,11 +167,11 @@ positive and negative video are flipped:
 $(A_y, P_y, N_y) = (a_g, v_g, v_p)$. In this way, we control the
 evaluation for linguistic biases in the dataset and ensure that a
 single-modality model that only considers the audio performs at chance
-\citep{nikolaus-fourtassi-2021-evaluating}.
+\citep[see also][]{nikolaus-fourtassi-2021-evaluating}.
 
 \begin{figure}
   \centering
-  \includegraphics[width=.7\linewidth]{peppa_targeted_triplets.png}
+  \includegraphics[width=.7\linewidth]{peppa_targeted_triplets.pdf}
   \caption{Targeted Triplets Evaluation}
   \label{fig:targeted_triplets}
 \end{figure}
@@ -186,10 +184,9 @@ in which the model needs to succeed in either choosing a video
 containing the given word (the example triplet in Figure
 \ref{fig:targeted_triplets}) or rejecting a video containing the given
 word (the counter-example triplet in Figure
-\ref{fig:targeted_triplets}).\footnote{Both the example and the
-  counter-example shown in Figure \ref{fig:targeted_triplets} are also
-  used to assess the acquisition of the word ``George''.}  We report
-accuracy for all words for which we found at least 100 example-counterexample pairs of triplets. Results are reported both for nouns and verbs, however there were not enough examples for adjectives in the dataset to perform a targeted triplets evaluation on them.
+\ref{fig:targeted_triplets}).
+%\footnote{In this way, both the example and the counter-example shown in Figure \ref{fig:targeted_triplets} are also used to assess the acquisition of the word ``George''.} 
+We report accuracy for all words (nouns and verbs) for which we found at least 100 example-counterexample pairs of triplets. There were not enough examples for adjectives in the dataset to perform a targeted triplets evaluation on them. 
 
 
 
