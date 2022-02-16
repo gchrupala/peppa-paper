@@ -11,31 +11,18 @@ analysis.
  
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results/slides/pretraining_dialog.pdf}
-  \caption{Effect of pre-training (dialog)}
-  \label{fig:pretraining-dialog}
-\end{figure}
-
- \begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{results/slides/pretraining_narration.pdf}
-  \caption{Effect of pre-training (narration)}
-  \label{fig:pretraining-narration}
+  \includegraphics[width=\textwidth]{results/ablations/pretraining.pdf}
+  \caption{Effect of pre-training.}
+  \label{fig:pretraining}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results/slides/static_dialog.pdf}
-  \caption{Effect of temporal information (dialog)}
-  \label{fig:static-dialog}
+  \includegraphics[width=\textwidth]{results/ablations/static.pdf}
+  \caption{Effect of temporal information.}
+  \label{fig:static}
 \end{figure}
 
- \begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{results/slides/static_narration.pdf}
-  \caption{Effect of temporal (narration)}
-  \label{fig:static-narration}
-\end{figure}
 
 \paragraph{Targeted Triplets}
 As a first baseline, we evaluate a model that has been pretrained but not fine-tuned on our dataset. The resulting performance is, as expected, close to chance level: 0.538.\todo{MN: add baselines: model that is completely untrained, and model where only the attention pooling layers are finetuned} Additionally, we evaluate a model that is trained using static (image) data instead of video. The average accuracy is 0.705 . Finally, the best performing model according to the
