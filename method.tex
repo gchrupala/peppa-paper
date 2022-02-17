@@ -113,7 +113,7 @@ correlated with the content of the video than in the case of the
 dialog, which is also a desirable feature for the purposes of system
 evaluation.
 
-\subsubsection{Retrieval}
+\subsubsection{Video Retrieval}
 \label{sec:retrieval}
 For the retrieval evaluation, as for training, we use the
 \textsc{fixed} and \textsc{jitter} segmentation strategies. We encode
@@ -197,7 +197,7 @@ word \textit{George}).
 We search the transcripts of the validation data for phrases with
 minimal differences with respect to the most commonly occurring nouns,
 verbs, and adjectives. Details on this search procedure can be found
-in Appendix \ref{app:targeted_triplets_eval}.\todo{We can't use the
+in Appendix \ref{app:targeted_triplets_eval}.\todo{GC: We can't use the
   appendix for the TACL submission.}
 Based on each pair of
 phrases, we create two counter-balanced test trials, an example and a
@@ -237,12 +237,12 @@ We report accuracy for all words (nouns and verbs) for which we found at least 1
 
 
 
-\subsection{Model}
-
+\subsection{Model Architecture}
+\label{sec:model}
 We adapt the high-level modeling approach from work on spoken
 image-caption data
 \citep{harwath2016unsupervised,chrupala-etal-2017-representations}:
-our objective function is based on a triplet-loss with margin which
+our objective function is based on a triplet-like contrastive loss with margin which
 encourages the matching audio and video clip to be projected nearby in
 the embedding space, and mis-matching audio and video clips to be far
 away:
@@ -256,17 +256,16 @@ matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
 similarity scores between mismatched pairs, i.e.\ negative examples
 from the current batch. Our heuristic to generate positive and
 negative examples is very simple: namely we consider the example
-positive if the audio is exactly aligned with a video clip in our
-data. All other pairs of audio-video clips are considered negative.
+positive if the audio is aligned with a video clip in our
+data. Other pairs of audio-video clips are considered negative.
 
+\subsubsection{Audio Encoder}
 The audio encoder portion of the model consists of a {\tt small
-  wav2vec2} model \citep{wav2vec2} pretrained in an self-supervised
-fashion, with supervised fine tuning.\footnote{Available from
+  wav2vec2} model \citep{wav2vec2} pre-trained in an self-supervised
+fashion, without any supervised fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
-During training, we keep the feature extractor and the bottom $K=3$
-transformer layers of this encoder frozen. Its output is pooled across
-time using an attention mechanism with dimensionwise weights
-\citep{Merkx2019}:
+Its output is pooled across time using an attention mechanism with
+dimensionwise weights \citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
@@ -282,13 +281,31 @@ dimension.
 %consists of a weighted sum across time of the output values at this
 %dimension.
 The pooling is followed by a linear projection and $L_2$
-normalization.
+normalization. For our experiments we also use versions of the encoder
+where the wav2vec weights are frozen, as well a randomly initialized
+rather than pre-trained.
 
+
+
+\subsubsection{Video Encoder}
 As a video encoder we use the 18-layer ResNet (2+1)D architecture
 \citep{tran2018closer} pretrained on the action recognition dataset
 Kinetics-400 \citep{DBLP:journals/corr/KayCSZHVVGBNSZ17}. The
-pretrained model is available via Pytorch.\footnote{See
+pre-trained model is available via Pytorch.\footnote{See
   \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
 output of this module is aggregated using the attention mechanism with
 the same architecture as for the audio module, linearly projected to
 the same dimensionality as the audio (512) and $L_2$ normalized.
+For our experiments we also use a version of the video encoder
+without pre-training.
+
+\paragraph{\textsc{Static} baseline}
+As baseline to investigate the contribution of temporal information to
+video modeling we swap the video ResNet (2+1)D with the D2 ResNet
+pre-trained on ImageNet, which embeds each video frame
+separately. These frame embeddings are then attention-pooled as with
+the standard video encoder. 
+
+
+\section{Experimental Settings}
+\todo{GC: training/optimization etc}
