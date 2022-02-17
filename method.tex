@@ -41,7 +41,7 @@ conditions we use the subtitles to guide
 segmentation. \Cref{tab:ds-stat} shows the basic statistics of the
 training and validation splits.\todo{GC: These numbers seem inconsistent between triplet/no triplet versions.}
 
-\begin{table}
+\begin{table*}[htb]
   \centering
   \input{results/data_statistics.tex}
   \caption{Dataset statistics. For the triplet condition, videos are
@@ -49,7 +49,7 @@ training and validation splits.\todo{GC: These numbers seem inconsistent between
     subtitles. For the non-triplet condition, videos are split into
     3.2s segments.}
   \label{tab:ds-stat}
-\end{table}
+\end{table*}
 
 
 \subsection{Evaluation}
@@ -171,7 +171,7 @@ single-modality model that only considers the audio performs at chance
 
 \begin{figure}
   \centering
-  \includegraphics[width=.7\linewidth]{peppa_targeted_triplets.pdf}
+  \includegraphics[width=\columnwidth]{peppa_targeted_triplets.pdf}
   \caption{Targeted Triplets Evaluation}
   \label{fig:targeted_triplets}
 \end{figure}
@@ -199,11 +199,11 @@ our objective function is based on a triplet-loss with margin which
 encourages the matching audio and video clip to be projected nearby in
 the embedding space, and mis-matching audio and video clips to be far
 away:
-\begin{equation}
+\begin{dmath}
   \ell = \sum_{av}\left[\sum_{a'} \max(0, S_{a'v} - S_{av} +
     \alpha) + \sum_{v'} \max(0, S_{av'} - S_{av} + \alpha) \right]
   \label{eq:triplet}
-\end{equation}
+\end{dmath}
 where $\alpha$ is a margin, $S_{av}$ is a similarity score between a
 matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
 similarity scores between mismatched pairs, i.e.\ negative examples

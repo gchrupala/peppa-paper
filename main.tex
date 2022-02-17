@@ -1,7 +1,9 @@
-\documentclass[a4paper]{article}
-\usepackage{etoolbox}
+\documentclass[11pt,a4paper]{article}
+\usepackage{times,latexsym}
 \usepackage{url}
 \usepackage[T1]{fontenc}
+\usepackage[nohyperref]{tacl2021v1}
+\usepackage{etoolbox}
 \usepackage[hidelinks=true]{hyperref}
 \usepackage{appendix}
 \usepackage{natbib}
@@ -18,6 +20,7 @@
 \usepackage{amsmath}
 \usepackage{cleveref}
 \usepackage{wrapfig}
+\usepackage{breqn}
 \DeclareMathOperator*{\mean}{mean}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -25,7 +28,18 @@
 
 \title{Learning English with Peppa Pig}
 
-\author{}
+\author{Mitja Nikolaus\\
+  Aix-Marseille University\\
+  \texttt{mitja.nikolaus@univ-amu.fr}
+  \And
+  Afra Alishahi\\
+  Tilburg University\\
+  \texttt{a.alishahi@uvt.nl}
+  \And
+  Grzegorz Chrupała\\
+  Tilburg University\\
+  \texttt{grzegorz@chrupala.me}}
+
 \date{}
 
 
@@ -63,6 +77,6 @@
 \input{results}
 \input{conclusion}
 \bibliography{biblio,anthology}
-\bibliographystyle{apalike}
+\bibliographystyle{acl_natbib}
 \input{appendix}
 \end{document}
