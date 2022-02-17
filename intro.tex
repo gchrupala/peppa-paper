@@ -34,27 +34,27 @@ complexity. Crucially, however, most of the speech in the videos
 consists of naturalistic dialogs between the characters. The
 utterances are only loosely and noisily correlated to the scenes and
 actions depicted in the videos.\todo{GC: Can we support this assertion
-  in a quantitative way?} This choice of data thus allows us to
+  in a quantitative way?}
+
+This choice of data thus allows us to
 directly address the ecological limitations of the current
 approaches. In addition, the cartoon videos also contain comments
 interjected by the narrator. We use these for a evaluation a source of
 more descriptive and less noisy data which allows us to measure
 performance while controlling for speaker characteristics.
 Our contributions are the following:
-
 \begin{itemize}
 \item We implement a simple bi-modal architecture which learns
   spoken language embeddings from videos;
 \item We evaluate model performance in terms of video fragment
   retrieval and additionally design controlled evaluation
   protocols inspired by the intermodal preferential looking
-  paradigm\todo{GC: citation?};
+  paradigm \citep{hirsh1996intermodal};
 \item We carry out ablations of model components in order to
   understand the effects of pre-training for the audio and video
   encoders, the role of temporal information, and of segmentation
   strategies while training. 
 \end{itemize}
-
 We show that despite the challenges of our naturalistic training data
 our model succeeds at learning aspects the visual semantics of spoken
 language. Our findings include the fact that temporal information

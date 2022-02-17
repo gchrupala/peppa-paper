@@ -1,6 +1,10 @@
 \section{Method}
 \label{sec:method}
 
+The main focus of this study is on the data and evaluation. We thus
+keep the components of our architecture simple, and follow established
+modeling practice whenever possible.
+
 \subsection{Dataset}
 The dataset consists of the set of videos of the
 English-language version of {\it Peppa Pig}. In addition to the raw
@@ -16,30 +20,55 @@ audio as well as segmentation into {\it dialog} and {\it
   \url{github.com/lowerquality/gentle}.}  Dialogs are the parts spoken
 by the characters, while narrations are comments inserted by the
 narrator, which are more descriptive in nature. All the narration
-segments are uttered by the same actor. We use the dialogs for
+segments are uttered by the same voice actor. We use the dialogs for
 training the model, and set aside the narrations for evaluation
 purposes only. A small portion of the dialog data is also used for
-evaluation.
-
-Specifically, we use dialog from episodes 1--196 for training, and
+validation.  Specifically, we use dialog from episodes 1--196 for training, and
 197--209 for validation. We set aside narrations from episodes 1--104
 for validation and 105--209 for testing.
 
 
 \subsection{Preprocessing}
-For training, we do not use word or sentence level segmentation in
-order to make the setting more naturalistic. Instead we split the
-dialog sections into {\bf XXX}  second non-overlapping fragments. The video
-is subsampled to 10 frames per second, and to $180\times 100$ resolution. The
-audio is converted to mono by averaging the two channels  and the raw
-waveform is used as input.
+Our model is trained to discriminate positive video-audio pairs from
+negative ones.  The positive pairs are those that are temporally
+coincident in the original video file. In order to generate these
+training items we need to split the videos into fragments.  For
+segmenting data for training, we \emph{do not} use word or
+sentence-level subtitle alignment in order to make the setting
+naturalistic. Processing long segments of video and audio is not
+tractable on commodity GPU hardware, and we thus segment the data into
+brief snippets roughly comparable in length to the duration a short
+sentence or a phrase. We use the following two segmentation
+strategies:
 
+\paragraph{Fixed} Using this approach we simply split sections into
+fixed-length non-overlapping fragments of 2.3 second duration. This
+length is close to the mean duration of audio aligned to a single line
+of subtitles.
+
+\paragraph{Jitter} In this approach the mean duration of the segments
+is the same (2.3 seconds) but we randomly vary the length of the
+video, and independently, of the corresponding audio around this
+average duration. This means that (i) the segments can be partially
+overlapping and (ii) the video and the audio it is paired with are
+normally of different length. Specifically we sample the fragment duration $d$
+from the following distribution:
+\begin{dmath}
+  d \sim \min(6, \max(0.05, D + \mathcal{N}(\mu, \sigma^2))),
+\end{dmath}
+with $D=2.3$ $\mu=0$ and $\sigma^2=0.5$.
+\vskip 0.5cm
+
+The video is subsampled to 10 frames per second, and to
+$180\times 100$ resolution. The audio is converted to mono by
+averaging the two channels and the raw waveform is used as input.
 
 For evaluation we have a number of different conditions and evaluation
 metrics described in detail in \Cref{sec:eval} and in some of these
 conditions we use the subtitles to guide
 segmentation. \Cref{tab:ds-stat} shows the basic statistics of the
-training and validation splits.\todo{GC: These numbers seem inconsistent between triplet/no triplet versions.}
+training and validation splits.\todo{GC: These numbers seem
+  inconsistent between triplet/no triplet versions.}
 
 \begin{table*}[htb]
   \centering
@@ -56,18 +85,16 @@ training and validation splits.\todo{GC: These numbers seem inconsistent between
 \label{sec:eval}
 The most common approach to evaluation for visually grounded models
 trained on spoken image captions is caption-to-image retrieval (often
-combined with image-to-caption retrieval): in fact this technique is
-has been carried over from text-based image-caption modeling
-\citet{chrupala-visually-2021}.
- With the
-standard spoken caption dataset this approach is unproblematic since
+combined with image-to-caption retrieval): in fact this technique
+has been carried over from text-based image-caption modeling.
+ With the standard spoken caption dataset this approach is unproblematic since
 the content of the captions is not correlated with extra-linguistic
 clues in the speech signal, such as speaker identity (since speakers
 are randomly assigned to captions) or non-speech environmental
-noise. Thus in this setting, a retrieval metric measures the ability of the
+sounds. In such an artificial setting, a retrieval metric measures the ability of the
 model to match spoken utterances to images based on their semantic
 content. This not the case for the {\it Peppa Pig} dataset: here we
-can expect that when a video segment depics a particular character
+can expect that when a video segment depicts a particular character
 (e.g.\ George) then the audio in this segment is more likely to contain
 utterances spoken by the voice actor playing George. George has a
 favorite toy dinosaur: when this toy appears in a video segment we can
@@ -76,7 +103,7 @@ audio. Due to these factors, in a naive retrieval setting, a model
 could obtain a high score by mostly capturing these non-linguistic
 correlations.
 
-In order to (partially) alleviate these concerns we leverage the
+In order to control for these factors we leverage the
 narrator speech in the videos. These utterances are always spoken by
 the same actor, so speaker identity cannot be used as a clue for
 matching video and audio. Furthermore, the narration segments are akin
@@ -86,23 +113,29 @@ correlated with the content of the video than in the case of the
 dialog, which is also a desirable feature for the purposes of system
 evaluation.
 
-\paragraph{Retrieval}
-For the retrieval evaluation, as for training, we use fixed
-segmentation into XXXXXXXs clips. We encode each audio clip in the
-validation (or test) data using the speech encoder part of the model;
-we encode each video clip using the video encoder. We then measure
-cosine similarity between the audio clip and all the video clips. If
-the video clip corresponding to the audio is among the $n$ most
-similar video clips, we count that as a success. The proportion of
-successes across all audio clips gives us the retrieval metric known
-as recall@$n$: specifically in this paper we focus on $n=10$.
-\todo{GC: Add fixed vs jitter condition for retrieval too.} 
-\paragraph{Triplets}
+\subsubsection{Retrieval}
+\label{sec:retrieval}
+For the retrieval evaluation, as for training, we use the
+\textsc{fixed} and \textsc{jitter} segmentation strategies. We encode
+each audio clip in a candidate set sampled from the validation (or
+test) data using the speech encoder part of the model; we encode each
+video clip using the video encoder. We then measure cosine similarity
+between the audio clip and all the video clips. If the video clip
+corresponding to the audio is among the $n$ most similar video clips,
+we count that as a success. The proportion of successes across all
+audio clips gives us the retrieval metric known as recall@$n$:
+specifically in this paper we focus on $n=10$. We set the candidate
+set size to $100$, and thus the random baseline for the recall@10 is
+$10$\%. In order to quantify uncertainty in this evaluation due to the
+test data we repeat this procedure 500 times with randomly sampled
+candidate sets and visualize the score distribution.  
+
+
+\subsubsection{Triplets}
+\label{sec:triplets}
 Retrieval metrics such as recall@10 have some disadvantages. Firstly
-the absolute value of this metric is hard to interpret as it depends
-crucially on the size of the candidate set (e.g.\ the size of the
-validation/test set). Thus these numbers cannot be directly between
-different datasets. Secondly, if
+the absolute value of this metric may be hard to interpret as it depends
+on the size of the candidate set. Secondly, if
 we wanted to compare model performance with human performance, we
 could not feasibly ask human participants to provide the quadratic
 number of audio-video similarity judgments needed. For these reasons
@@ -128,46 +161,60 @@ with $A$ being the anchor, $P$ positive and $N$ negative. The triplet
 accracy metric is inspired by the ABX score of \citet{schatz2016abx}.
 For triplet accuracy, regardless of the specific set of test items, we
 expect random-guessing performance to be at 0.5, and perfect
-performance to be 1.0.  To improve the reliability of this metric and
-provide information on its variance, triplets can be resampled $N$
-times from the dataset, and the mean accuracy and spread around the mean
-reported.
+performance to be 1.0. For this metric we also quantify uncertainty by
+resampling the triplets $500$ times from the dataset, and display the
+score distribution.
 
-\paragraph{Targeted Triplets}
+\subsubsection{Targeted Triplets}
+\label{sec:targeted}
+\todo{GC: Should we maybe use a more informative name such as {\it
+    minimal pairs} or something?}
+
 Inspired by intermodal 2-alternative forced choice (2AFC) paradigms in child
 language acquisition \citep{hirsh1996intermodal},
 we design test trials that test the model's acquisition of grounded
 semantics under more controlled circumstances.
-The paradigm has been used in language acquisition research to evaluate children's early linguistic knowledge \citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing whether they can distinguish a matching (target) visual referent from a foil (distractor) referent when prompted with a word or sentence.
+The paradigm has been used in language acquisition research to
+evaluate children's early linguistic knowledge
+\citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing
+whether they can distinguish a matching (target) visual referent from
+a foil (distractor) referent when prompted with a word or
+sentence.\todo{GC: Maybe it's better to use this as motivation for
+  both the general triplet and the targeted triplet setups.} 
 
-In our case, the test can be seen as a special case of the triplets evaluation as described in the previous paragraph. Here, we aim to assess the
-model's acquisition of the semantics of commonly occurring
-words. Therefore, the \textit{targeted} approach considers, in
-contrast to the general triplets evaluation, always pairs of triplets
-with \textit{minimal differences} regarding one word in the
-transcripts of the anchor audios (e.g., ``Peppa loves jumping'' and
-``George loves jumping'' can be used to test whether the model can
-discriminate the target word ``Peppa'' from the distractor word
-``George'').
+In our case, the test can be seen as a special case of the triplets
+evaluation as described in the previous paragraph. Here, we aim to
+assess the model's acquisition of the semantics of commonly occurring
+words. Therefore, the \emph{targeted} approach considers, in contrast
+to the general triplets evaluation, always pairs of triplets with
+\emph{minimal differences} regarding one word in the transcripts of
+the anchor audios (e.g., \textit{Peppa loves jumping} and
+\textit{George loves jumping} can be used to test whether the model
+can discriminate the target word \textit{Peppa} from the distractor
+word \textit{George}).
 
 
 We search the transcripts of the validation data for phrases with
-minimal differences with respect to the most commonly occurring nouns, verbs, and adjectives. Details on
-this search procedure can be found in Appendix
-\ref{app:targeted_triplets_eval}. Based on each pair of phrases, we
-create two counter-balanced test trials, an example and a
+minimal differences with respect to the most commonly occurring nouns,
+verbs, and adjectives. Details on this search procedure can be found
+in Appendix \ref{app:targeted_triplets_eval}.\todo{We can't use the
+  appendix for the TACL submission.}
+Based on each pair of
+phrases, we create two counter-balanced test trials, an example and a
 corresponding counter-example as depicted in
 \Cref{fig:targeted_triplets}. Here, the anchor $A_x$ of the example
-triplet is the audio of ``Peppa loves jumping'' ($a_p$), the positive
-video $P_x$ is the corresponding video ($v_p$) and the negative video
-$N_x$ is the video corresponding to ``George loves jumping'' ($v_g$):
-$(A_x, P_x, N_x) = (a_p, v_p, v_g)$.  In the counter-example triplet,
-the anchor $A_y$ is the audio of ``George loves jumping'', and the
-positive and negative video are flipped:
-$(A_y, P_y, N_y) = (a_g, v_g, v_p)$. In this way, we control the
-evaluation for linguistic biases in the dataset and ensure that a
+triplet is the audio of \textit{Peppa loves jumping} ($a_p$), the
+positive video $P_x$ is the corresponding video ($v_p$) and the
+negative video $N_x$ is the video corresponding to \textit{George
+  loves jumping} ($v_g$): $(A_x, P_x, N_x) = (a_p, v_p, v_g)$.  In the
+counter-example triplet, the anchor $A_y$ is the audio of
+\textit{George loves jumping}, and the positive and negative video are
+flipped: $(A_y, P_y, N_y) = (a_g, v_g, v_p)$. In this way, we control
+the evaluation for linguistic biases in the dataset and ensure that a
 single-modality model that only considers the audio performs at chance
-\citep[see also][]{nikolaus-fourtassi-2021-evaluating}.
+\citep[see also][]{nikolaus-fourtassi-2021-evaluating}.\todo{GC: I
+  find the notation here a bit confusing, especially the overloaded
+  one-letter names. Maybe simplify.}
 
 \begin{figure}
   \centering
@@ -176,10 +223,10 @@ single-modality model that only considers the audio performs at chance
   \label{fig:targeted_triplets}
 \end{figure}
 
-We measure overall targetet triplet accuracy using
+We measure overall targeted triplet accuracy using
 \Cref{eq:triplet-acc}. Additionally, we report per-word accuracy by
 calculating the triplet accuracy for all triplets that contain a given
-word (e.g. ``Peppa'') either as target or distractor word, i.e. cases
+word (e.g.\ \textit{Peppa}) either as target or distractor word, i.e.\ cases
 in which the model needs to succeed in either choosing a video
 containing the given word (the example triplet in Figure
 \ref{fig:targeted_triplets}) or rejecting a video containing the given
