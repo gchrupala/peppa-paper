@@ -7,19 +7,19 @@
 the performance of several model configurations on the retrieval and
 triplet tasks on the dialog and narration datasets respectively.
 \todo{GC: Tables out of date}
- \begin{table}
+ \begin{table*}[htb]
    \centering
    \input{results/scores_dialog.tex}
    \caption{Retrieval and triplet scores on dialog validation data.}
    \label{tab:scores-dialog}
- \end{table}
+ \end{table*}
 
-\begin{table}
+\begin{table*}[htb]
    \centering
    \input{results/scores_narration.tex}
    \caption{Retrieval and triplet scores on narration validation data.}
    \label{tab:scores-narration}
- \end{table}
+ \end{table*}
 
 \subsection{Targeted Triplets Evaluation Sets}\label{app:targeted_triplets_eval}
 
@@ -36,25 +36,25 @@ Figures \ref{fig:num_samples_NOUN_word}, and \ref{fig:num_samples_VERB_word} sho
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results/targeted_triplets/num_samples_per_duration.pdf}
+  \includegraphics[width=\columnwidth]{results/targeted_triplets/num_samples_per_duration.pdf}
   \caption{Number of samples per duration}
   \label{fig:num_samples_vs_duration}
 \end{figure}
 
 
-\begin{figure}
+\begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{results/targeted_triplets/num_samples_per_word_NOUN.pdf}
   \caption{Number of samples: nouns}
   \label{fig:num_samples_NOUN_word}
-\end{figure}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{results/targeted_triplets/num_samples_per_word_VERB.pdf}
   \caption{Number of samples: verbs}
   \label{fig:num_samples_VERB_word}
-\end{figure}
+\end{figure*}
 
 \subsection{Targeted Triplets Correlations}\label{app:targeted_triplets_correlations}
 
@@ -64,14 +64,14 @@ Figures \ref{fig:num_samples_NOUN_word}, and \ref{fig:num_samples_VERB_word} sho
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results/targeted_triplets/correlation_concreteness_acc_version_206980.png}
+  \includegraphics[width=\columnwidth]{results/targeted_triplets/correlation_concreteness_acc_version_206980.png}
   \caption{Correlation between accuracy and log frequency.}
   \label{fig:results_correlation_frequency_acc}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{results/targeted_triplets/correlation_frequency_acc_version_206980.png}
+  \includegraphics[width=\columnwidth]{results/targeted_triplets/correlation_frequency_acc_version_206980.png}
   \caption{Correlation between accuracy and concreteness.}
   \label{fig:results_correlation_concreteness_acc}
 \end{figure}
