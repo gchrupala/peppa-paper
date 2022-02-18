@@ -1,4 +1,4 @@
-main.pdf: main.tex intro.tex method.tex related.tex results.tex conclusion.tex appendix.tex notes.tex biblio.bib results/scores_dialog.tex results/scores_narration.tex
+main.pdf: main.tex intro.tex method.tex related.tex results.tex conclusion.tex appendix.tex notes.tex biblio.bib results/scores_dialog.tex results/scores_narration.tex results/data_statistics.tex
 	pdflatex main
 	bibtex main
 	pdflatex main
