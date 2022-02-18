@@ -5,20 +5,32 @@
 
 In the case of the narration data this scores is not confounded by
 speaker-based clues, which is an indication that the model possibly
-learned to detect some aspects of utterance meaning. We investigate
-this hypothesis further using multiple representational similarity
-analysis.
- 
+learned to detect some aspects of utterance meaning. 
+
 \begin{figure*}[htb]
   \centering
-  \includegraphics[width=\textwidth]{results/ablations/pretraining.pdf}
+  \includegraphics[width=0.9\textwidth]{results/ablations/jitter.pdf}
+  \caption{Effect of jitter.}
+  \label{fig:jitter}
+\end{figure*}
+
+\begin{figure*}[htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{results/ablations/freeze_wav2vec.pdf}
+  \caption{Effect of freezing the parameters of the \textsc{wav2vec} module.}
+  \label{fig:freeze_wav2vec}
+\end{figure*}
+
+\begin{figure*}[htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{results/ablations/pretraining.pdf}
   \caption{Effect of pre-training.}
   \label{fig:pretraining}
 \end{figure*}
 
 \begin{figure*}[htb]
   \centering
-  \includegraphics[width=\textwidth]{results/ablations/static.pdf}
+  \includegraphics[width=0.9\textwidth]{results/ablations/static.pdf}
   \caption{Effect of temporal information.}
   \label{fig:static}
 \end{figure*}
