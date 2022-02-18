@@ -268,13 +268,13 @@ where $\alpha$ is a margin, $S_{av}$ is a similarity score between a
 matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
 similarity scores between mismatched pairs, i.e.\ negative examples
 from the current batch. Our heuristic to generate positive and
-negative examples is very simple: namely we consider the example
+negative examples is very simple: we consider the example
 positive if the audio is aligned with a video clip in our
 data. Other pairs of audio-video clips are considered negative.
 
 \subsubsection{Audio Encoder}
 The audio encoder portion of the model consists of a {\tt small
-  wav2vec2} model \citep{wav2vec2} pre-trained in an self-supervised
+  wav2vec2} model \citep{wav2vec2} pre-trained in a self-supervised
 fashion, without any supervised fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
 The \textsc{wav2vec 2.0} architecture learns audio embeddings by
@@ -283,7 +283,12 @@ quantized latent representations of masked frames, loosely inspired by
 the BERT approach to language modeling \citep{devlin-etal-2019-bert}.
 
 We pool the output of this module across time using
-an attention mechanism with dimensionwise weights \citep{Merkx2019}:
+an attention mechanism with dimensionwise \todo{MN: I got a bit stuck here 
+because I was unsure what the dimensions for "dimensionwise weights" are. It's 
+the output dimensions of wav2vec, that are not directly interpretable, right? 
+Maybe we should mention this difference with respect to Merkx et al. 2019? And 
+maybe we can mention the dimensionality (28?)} weights 
+\citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
@@ -320,7 +325,7 @@ experiments we also use a version of the video encoder without
 pre-training.
 
 \paragraph{\textsc{Static} baseline}
-As abaseline to investigate the contribution of temporal information to
+As a baseline to investigate the contribution of temporal information to
 video modeling we swap the video ResNet (2+1)D with the D2 ResNet
 pre-trained on ImageNet, which embeds each video frame
 separately. These frame embeddings are then attention-pooled as with
