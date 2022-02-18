@@ -268,8 +268,13 @@ The audio encoder portion of the model consists of a {\tt small
   wav2vec2} model \citep{wav2vec2} pre-trained in an self-supervised
 fashion, without any supervised fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
-Its output is pooled across time using an attention mechanism with
-dimensionwise weights \citep{Merkx2019}:
+The \textsc{wav2vec 2.0} architecture learns audio embeddings by
+self-supervised learning driven by a contrastive loss applied to 
+quantized latent representations of masked frames, loosely inspired by
+the BERT approach to language modeling \citep{devlin-etal-2019-bert}.
+
+We pool the output of this module across time using
+an attention mechanism with dimensionwise weights \citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
@@ -296,15 +301,17 @@ As a video encoder we use the 18-layer ResNet (2+1)D architecture
 \citep{tran2018closer} pretrained on the action recognition dataset
 Kinetics-400 \citep{DBLP:journals/corr/KayCSZHVVGBNSZ17}. The
 pre-trained model is available via Pytorch.\footnote{See
-  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  The
-output of this module is aggregated using the attention mechanism with
-the same architecture as for the audio module, linearly projected to
-the same dimensionality as the audio (512) and $L_2$ normalized.
-For our experiments we also use a version of the video encoder
-without pre-training.
+  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  This
+architecture implements 3D convolution by decomposing it into a 2D
+spatial convolution followed by 1D temporal convolution.  The output
+of this module is aggregated using the attention mechanism with the
+same architecture as for the audio module, linearly projected to the
+same dimensionality as the audio (512) and $L_2$ normalized.  For our
+experiments we also use a version of the video encoder without
+pre-training.
 
 \paragraph{\textsc{Static} baseline}
-As baseline to investigate the contribution of temporal information to
+As abaseline to investigate the contribution of temporal information to
 video modeling we swap the video ResNet (2+1)D with the D2 ResNet
 pre-trained on ImageNet, which embeds each video frame
 separately. These frame embeddings are then attention-pooled as with
