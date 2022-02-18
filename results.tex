@@ -36,7 +36,7 @@ learned to detect some aspects of utterance meaning.
 \end{figure*}
 
 
-\paragraph{Targeted Triplets}
+\paragraph{Minimal Pairs}
 As a first baseline, we evaluate a model that has been pretrained but not fine-tuned on our dataset. The resulting performance is, as expected, close to chance level: 0.538.\todo{MN: add baselines: model that is completely untrained, and model where only the attention pooling layers are finetuned} Additionally, we evaluate a model that is trained using static (image) data instead of video. The average accuracy is 0.705 . Finally, the best performing model according to the
 performance metrics (ID 68, audio and video pretraining) achieves an average
 targeted triplets accuracy of 0.745.
@@ -45,7 +45,11 @@ targeted triplets accuracy of 0.745.
 \ref{fig:accuracy_targeted_triplets_verbs} show per-word
 accuracy for nouns and verbs, respectively. We perform boostrapping (n\_resampling = 100) to estimate mean and standard deviation for each accuracy score.
 
-We further compute correlations between the per-word accuracy and two possible predictors of age of acquisition: frequency and concreteness. The resulting correlations are presented in Appendix \ref{app:targeted_triplets_eval}. We do not find any significant correlation between the model's per-word accuracy and word concreteness or input frequency of a word in the training data.
+We further compute correlations between the per-word accuracy and two 
+possible predictors of age of acquisition: frequency and concreteness. 
+We do not find any significant correlation between the model's per-word 
+accuracy and word concreteness or input frequency of a word in the 
+training data.\todo{MN: verify correlations for final versions}
 
 
 
