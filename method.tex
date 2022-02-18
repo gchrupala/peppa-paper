@@ -8,7 +8,7 @@ modeling practice whenever possible.
 \subsection{Dataset}
 The dataset consists of the set of videos of the
 English-language version of {\it Peppa Pig}. In addition to the raw
-videos we  also use the annotation created by
+videos we  also use the annotations created by
 \citet{papasarantopoulos2021narration}.
 
 These annotations feature written transcriptions aligned with the
@@ -25,7 +25,8 @@ training the model, and set aside the narrations for evaluation
 purposes only. A small portion of the dialog data is also used for
 validation.  Specifically, we use dialog from episodes 1--196 for training, and
 197--209 for validation. We set aside narrations from episodes 1--104
-for validation and 105--209 for testing.
+for validation and 105--209 for testing. \todo{MN: maybe we should mention the 
+total number of episodes somewhere earlier}
 
 
 \subsection{Preprocessing}
@@ -68,7 +69,9 @@ metrics described in detail in \Cref{sec:eval} and in some of these
 conditions we use the subtitles to guide
 segmentation. \Cref{tab:ds-stat} shows the basic statistics of the
 training and validation splits.\todo{GC: These numbers seem
-  inconsistent between triplet/no triplet versions.}
+  inconsistent between triplet/no triplet versions. MN: for traing and the 
+  recall metrics, 
+  segments should be 2.3s seconds, right?}
 
 \begin{table*}[htb]
   \centering
@@ -138,9 +141,27 @@ the absolute value of this metric may be hard to interpret as it depends
 on the size of the candidate set. Secondly, if
 we wanted to compare model performance with human performance, we
 could not feasibly ask human participants to provide the quadratic
-number of audio-video similarity judgments needed. For these reasons
-we evaluate model performance using the following simplified,
-controlled scenario: We extract clips aligned to a single subtitle
+number of audio-video similarity judgments needed. For these reasons,
+we evaluate model performance using a more simple and controlled scenario, 
+inspired by intermodal 2-alternative forced choice (2AFC) paradigms in child
+language acquisition \citep{hirsh1996intermodal}.
+The paradigm has been used in language acquisition research to
+evaluate children's early linguistic knowledge
+\citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing
+whether they can distinguish a matching (target) visual referent from
+a foil (distractor) referent when prompted with a word or
+sentence.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth]{peppa_triplets_eval_detailed.pdf}
+	\caption{Triplets Evaluation: Given a reference audio sequence (anchor), we 
+	measure the model's performance at choosing the matching video (positive) 
+	over a random distractor video (negative).}
+	\label{fig:triplets_eval}
+\end{figure}
+
+In our case, we extract clips aligned to a single subtitle
 line, group them by length, and for each pair of same-length video
 clips\footnote{To keep test items independent, the pairing of video
   clips is done such that each clip only occurs as a member of a single
@@ -151,7 +172,9 @@ is the {\it negative} one. This triplet of stimuli form a single test
 item.  We use the model's audio encoder to encode the anchor, and the
 video encoder to encode both video clips. We then check whether anchor
 is more similar to the positive or negative clips in terms of cosine
-similarity.  More precisely, {\it triplet accuracy} is the mean over
+similarity (see also \Cref{fig:triplets_eval}\todo{MN: improve figure: text too 
+small}).  More precisely, {\it triplet 
+accuracy} is the mean over
 all triplets of the following quantity:
 \begin{equation}
   \frac{\mathrm{signum}(\mathrm{cosine}(A, P) - \mathrm{cosine}(A, N)) + 1}{2}
@@ -165,34 +188,23 @@ performance to be 1.0. For this metric we also quantify uncertainty by
 resampling the triplets $500$ times from the dataset, and display the
 score distribution.
 
-\subsubsection{Targeted Triplets}
+\subsubsection{Minimal pairs}
 \label{sec:targeted}
-\todo{GC: Should we maybe use a more informative name such as {\it
-    minimal pairs} or something?}
+While the triplet evaluation gives us a general idea about whether the model 
+has learned a mapping between videos and audio, the metric does not provide 
+insight into whether the model has acquired the grounded semantics of specific 
+words.
 
-Inspired by intermodal 2-alternative forced choice (2AFC) paradigms in child
-language acquisition \citep{hirsh1996intermodal},
-we design test trials that test the model's acquisition of grounded
-semantics under more controlled circumstances.
-The paradigm has been used in language acquisition research to
-evaluate children's early linguistic knowledge
-\citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing
-whether they can distinguish a matching (target) visual referent from
-a foil (distractor) referent when prompted with a word or
-sentence.\todo{GC: Maybe it's better to use this as motivation for
-  both the general triplet and the targeted triplet setups.} 
+To address this question, we probe the model's performance in a more targeted 
+setup, where the model is not asked to rank the similarity of a correct video 
+over a random video, but instead over a video with \textit{minimal differences}.
 
-In our case, the test can be seen as a special case of the triplets
-evaluation as described in the previous paragraph. Here, we aim to
-assess the model's acquisition of the semantics of commonly occurring
-words. Therefore, the \emph{targeted} approach considers, in contrast
-to the general triplets evaluation, always pairs of triplets with
-\emph{minimal differences} regarding one word in the transcripts of
+More specifically, the \emph{targeted} approach considers always pairs of 
+triplets with minimal differences regarding one word in the transcripts of
 the anchor audios (e.g., \textit{Peppa loves jumping} and
 \textit{George loves jumping} can be used to test whether the model
 can discriminate the target word \textit{Peppa} from the distractor
 word \textit{George}).
-
 
 We search the transcripts of the validation data for phrases with
 minimal differences with respect to the most commonly occurring nouns,
