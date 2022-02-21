@@ -209,21 +209,18 @@ distractor). A phrase can also be a single word.
 Based on each pair of phrases, we create two counter-balanced test trials, an 
 example and a corresponding counter-example, as depicted in
 \Cref{fig:minimal_pairs}. Here, 
-the anchor $A_{example}$ of the example
+the anchor $A_{\text{example}}$ of the example
 triplet is the audio of \textit{Peppa loves jumping}, the
-positive video $P_{example}$ is the corresponding video and the
-negative video $N_{example}$ is the video corresponding to \textit{George
+positive video $P_{\text{example}}$ is the corresponding video, and the
+negative video $N_{\text{example}}$ is the video corresponding to \textit{George
   loves jumping}. In the
-counter-example triplet, the anchor $A_{counterex}$ is the audio of
+counter-example triplet, the anchor $A_{\text{counterex}}$ is the audio of
 \textit{George loves jumping}, and the positive and negative video are
-flipped: $P_{counterex} = N_{example}; N_{counterex} = P_{example}$. By 
+flipped: $P_{\text{counterex}} = N_{\text{example}}; N_{\text{counterex}} = P_{\text{example}}$. By 
 evaluating the model on the examples as well as their corresponding 
 counterexamples, we control the evaluation for linguistic biases in the dataset 
 and ensure that a single-modality model that only considers the audio performs 
-at chance \citep[see also][]{nikolaus-fourtassi-2021-evaluating}.\todo{GC: I
-  find the notation here a bit confusing, especially the overloaded
-  one-letter names. Maybe simplify. MN: I tried my best, do you think it's more 
-  comprehensive now?}
+at chance \citep[see also][]{nikolaus-fourtassi-2021-evaluating}.
 
 \begin{figure}[ht]
   \centering
@@ -282,13 +279,9 @@ self-supervised learning driven by a contrastive loss applied to
 quantized latent representations of masked frames, loosely inspired by
 the BERT approach to language modeling \citep{devlin-etal-2019-bert}.
 
-We pool the output of this module across time using
-an attention mechanism with dimensionwise \todo{MN: I got a bit stuck here 
-because I was unsure what the dimensions for "dimensionwise weights" are. It's 
-the output dimensions of wav2vec, that are not directly interpretable, right? 
-Maybe we should mention this difference with respect to Merkx et al. 2019? And 
-maybe we can mention the dimensionality (28?)} weights 
-\citep{Merkx2019}:
+The output of this module is a temporal sequence of 28-dimensional vectors. We
+pool this output across time using an attention mechanism with
+dimension-wise weights \citep{Merkx2019}:
 \begin{equation}
   \begin{aligned}
     \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
