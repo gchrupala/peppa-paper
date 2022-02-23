@@ -3,30 +3,32 @@
 
 Attempts to model or simulate the acquisition of spoken language via
 grounding in the visual modality date to the beginning of this century
-\citep{roypentland2002learning} but have gained momentum since 2014
+\citep{roypentland2002learning} but have gained momentum recently
 with the revival of neural networks
 \citep[e.g.][]{synnaeve2014learning,harwath2015deep,
   harwath2016unsupervised,chrupala-etal-2017-representations,alishahi-etal-2017-encoding,harwath2018jointly,Merkx2019,havard2019models,rouditchenko2020avlnet,khorrami_2021,peng2021fastslow}.
-Current approaches work well enough from an applied point of view but
-leave much to be desired as regards ecological validity. Training data
+Current approaches work well enough from an applied point of view, 
+but most are not generalizable to real-life situations that humans or 
+adaptive artificial agents experience.Training data
 typically consist of images or videos paired with spoken descriptions
-of the scene depicted. The type of input that a child faces when
-learning a language is much more challenging.  Firstly, speech is only
+of the scene depicted. The type of input that a language learner receives 
+from its environment is much more challenging.  Firstly, speech is only
 loosely coupled with the visual modality. Secondly in addition to
 correlations between the visual scenes and the {\it meaning} of spoken
 utterances, there are also correlations with non-semantic aspects of
 the speech signal, such as the voice of specific speakers, as well
-as with non-speech ambient sounds. Although it is 
-plausible that such
+as with non-speech ambient sounds. Although it is plausible that such
 non-semantic correlations can sometimes be useful to the learner in
-the general endeavor of making sense of the world, for the specific
+the general endeavour of making sense of the world, for the specific
 task of learning the semantics of linguistic units they are likely more
 often an obstacle, as they make it harder to zoom in on the
 meaning-bearing aspects of the audio signal.
 
 In the current study we make a first step towards simulating the
 acquisition of language via grounding in perception in a more naturalistic
-scenario.  We use the well-known children's cartoon {\it Peppa Pig} as
+scenario.  Our main focus is on learning the meaning of individual words 
+as well as multi-word expressions from spoken utterances grounded in video.  
+We use the well-known children's cartoon {\it Peppa Pig} as
 a case study as a source of training and evaluation data. Compared to
 commonly used video datasets, this data has a number of interesting
 characteristics.  The visual modality is very schematic, and the
@@ -41,12 +43,11 @@ actions depicted in the videos.\todo{GC: Can we support this assertion
   that it performs better there, but we wouldn't have directly comparable 
   evaluation metrics..}
 
-This choice of data thus allows us to
-directly address the ecological limitations of the current
-approaches. In addition, the cartoon videos also contain comments
-interjected by the narrator. We use these for a evaluation a source of
-more descriptive and less noisy data which allows us to measure
-performance while controlling for speaker characteristics.
+This choice of data thus allows us to directly address the ecological limitations 
+of the current approaches. In addition, the cartoon videos also contain 
+comments interjected by the narrator. We use these for a evaluation of the 
+acquisition of meaning as they are more descriptive and less noisy and allow 
+us to measure performance while controlling for speaker characteristics.
 Our contributions are the following:
 \begin{itemize}
 \item We implement a simple bi-modal architecture which learns
@@ -61,8 +62,10 @@ Our contributions are the following:
   strategies while training. 
 \end{itemize}
 We show that despite the challenges of our naturalistic training data
-our model succeeds at learning aspects the visual semantics of spoken
-language. Our findings include the fact that temporal information
+our model succeeds at learning robust associations between spoken 
+forms and their visual semantics.
+%aspects the visual semantics of spoken language. 
+Our findings include the fact that temporal information
 contributes substantially to video modeling, and that unsupervised
 pre-training of the audio encoder is key to the best performance, but that
 even the model trained completely from scratch on about 10 hours of
