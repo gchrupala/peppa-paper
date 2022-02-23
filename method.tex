@@ -59,14 +59,13 @@ is the same (2.3 seconds) but we randomly vary the length of the
 video, and independently, of the corresponding audio around this
 average duration. This means that (i) the segments can be partially
 overlapping and (ii) the video and the audio it is paired with are
-normally of different length. Specifically we sample the fragment duration $d$
+normally of different length. Specifically we sample the fragment
+duration $d$ (in seconds)
 from the following distribution:
-\begin{dmath}
-  d \sim \min(6, \max(0.05, D + \mathcal{N}(\mu, \sigma^2))),
-\end{dmath}
-with $D=2.3$ $\mu=0$ and $\sigma^2=0.5$.
-\vskip 0.5cm
-
+\begin{equation}
+  d \sim \min(6, \max(0.05, \mathcal{N}(2.3, 0.5)))
+  \label{eq:jitter}
+\end{equation}
 The video is subsampled to 10 frames per second, and to
 $180\times 100$ resolution.\footnote{Performance is better with higher
   resolution (we tried $360\times 200$), but it makes GPU memory
