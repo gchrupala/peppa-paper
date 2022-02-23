@@ -68,8 +68,14 @@ with $D=2.3$ $\mu=0$ and $\sigma^2=0.5$.
 \vskip 0.5cm
 
 The video is subsampled to 10 frames per second, and to
-$180\times 100$ resolution. The audio is converted to mono by
-averaging the two channels and the raw waveform is used as input.
+$180\times 100$ resolution.\footnote{Performance is better with higher
+  resolution (we tried $360\times 200$), but it makes GPU memory
+  requirements prohibitive.}  The audio is converted to mono by
+averaging the two channels and the raw waveform is used as input. We
+use the original sample rate of 44.1 kHz (instead of downsampling to
+the 16 kHz sample rate used for pre-training \textsc{wav2vec2}) as we
+found out that this helps with generalization performance on the
+narration validation data.
 
 For evaluation we have a number of different conditions and evaluation
 metrics described in detail in \Cref{sec:eval} and in some of these
@@ -326,4 +332,13 @@ the standard video encoder.
 
 
 \section{Experimental Settings}
-\todo{GC: training/optimization etc}
+We implement the architecture in Pytorch \citep{NEURIPS2019_9015}. We
+use the Adam optimizer \citep{kingma2014adam} with the scheduling
+described in \citep{devlin-etal-2019-bert}. We train every
+configuration on a single GPU and stop training after 48 hours, with
+batch-size 8 and accumulating gradients over 8 batches, in 16 bit
+precision mode. For each model configuration we save model weights
+after each epoch and report results for the checkpoint which gets the
+best triplet accuracy on the narration validation data.
+Our code is publicly available at \url{github.com/gchrupala/peppa},
+and can be consulted for further details of the experimental setup.
