@@ -9,8 +9,8 @@ with the revival of neural networks
   harwath2016unsupervised,chrupala-etal-2017-representations,alishahi-etal-2017-encoding,harwath2018jointly,Merkx2019,havard2019models,rouditchenko2020avlnet,khorrami_2021,peng2021fastslow}.
 Current approaches work well enough from an applied point of view, 
 but most are not generalizable to real-life situations that humans or 
-adaptive artificial agents experience.Training data
-typically consist of images or videos paired with spoken descriptions
+adaptive artificial agents experience. Commonly used training data
+consist of images or videos paired with spoken descriptions
 of the scene depicted. The type of input that a language learner receives 
 from its environment is much more challenging.  Firstly, speech is only
 loosely coupled with the visual modality. Secondly in addition to
@@ -48,6 +48,19 @@ of the current approaches. In addition, the cartoon videos also contain
 comments interjected by the narrator. We use these for a evaluation of the 
 acquisition of meaning as they are more descriptive and less noisy and allow 
 us to measure performance while controlling for speaker characteristics.
+
+One further aspect of learning spoken language via visual grounding is
+the fact that grounding is only part of the story. Human children
+arguably infer substantial amounts of information about language
+structure and meaning from purely linguistic co-occurrence
+statistics. A similar mechanism is what allows written language models
+such as BERT \citep{devlin-etal-2019-bert} or GPT-3 \citep{brown2020language} to capture and exhibit relatively sophisticated
+linguistic knowledge. Loosely similar approaches are starting to also
+make an impact for the spoken modality
+\citep[e.g.][]{wav2vec2,hsu2021hubert}. Here we take a simple
+pre-training based approach to integrating this type of
+self-supervision with learning-via-grounding.
+
 Our contributions are the following:
 \begin{itemize}
 \item We implement a simple bi-modal architecture which learns
@@ -62,14 +75,15 @@ Our contributions are the following:
   strategies while training. 
 \end{itemize}
 We show that despite the challenges of our naturalistic training data
-our model succeeds at learning robust associations between spoken 
-forms and their visual semantics.
-%aspects the visual semantics of spoken language. 
+our model succeeds at learning associations between the form of spoken 
+utterances and their visual semantics.
+
 Our findings include the fact that temporal information
 contributes substantially to video modeling, and that unsupervised
 pre-training of the audio encoder is key to the best performance, but that
 even the model trained completely from scratch on about 10 hours of
-cartoon data performs substantially above chance.
+cartoon data performs substantially above chance.\todo{GC: the last
+  claim is true if the model converges which often doesn't happen.}
 
 
 
