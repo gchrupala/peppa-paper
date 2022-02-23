@@ -3,13 +3,12 @@
 
 The main focus of this study is on the data and evaluation. We thus
 keep the components of our architecture simple, and follow established
-modeling practice whenever possible.
+modeling practices whenever possible.
 
 \subsection{Dataset}
-The dataset consists of the set of 209 episodes of the
+We use the dataset provided by \citet{papasarantopoulos2021narration} containing a set of 209 episodes of the
 English-language version of {\it Peppa Pig}. In addition to the raw
-videos we  also use the annotations created by
-\citet{papasarantopoulos2021narration}.
+videos,  we also use the annotations created by \citet{papasarantopoulos2021narration}.
 
 These annotations feature written transcriptions aligned with the
 audio as well as segmentation into {\it dialog} and {\it
@@ -81,6 +80,86 @@ metrics described in detail in \Cref{sec:eval} and in some of these
 conditions we use the subtitles to guide
 segmentation. 
 
+
+
+\subsection{Model Architecture}
+\label{sec:model}
+We adapt the high-level modeling approach from work on spoken
+image-caption data
+\citep{harwath2016unsupervised,chrupala-etal-2017-representations}:
+our objective function is based on a triplet-like contrastive loss with margin which
+encourages the matching audio and video clip to be projected nearby in
+the embedding space, and mis-matching audio and video clips to be far
+away:
+\begin{dmath}
+  \ell = \sum_{av}\left[\sum_{a'} \max(0, S_{a'v} - S_{av} +
+    \alpha) + \sum_{v'} \max(0, S_{av'} - S_{av} + \alpha) \right]
+  \label{eq:triplet}
+\end{dmath}
+where $\alpha$ is a margin, $S_{av}$ is a similarity score between a
+matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
+similarity scores between mismatched pairs, i.e.\ negative examples
+from the current batch. Our heuristic to generate positive and
+negative examples is very simple: we consider the example
+positive if the audio is aligned with a video clip in our
+data. Other pairs of audio-video clips are considered negative.
+
+\subsubsection{Audio Encoder}
+The audio encoder portion of the model consists of a {\tt small
+  wav2vec2} model \citep{wav2vec2} pre-trained in a self-supervised
+fashion, without any supervised fine tuning.\footnote{Available from
+  \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
+The \textsc{wav2vec 2.0} architecture learns audio embeddings by
+self-supervised learning driven by a contrastive loss applied to 
+quantized latent representations of masked frames, loosely inspired by
+the BERT approach to language modeling \citep{devlin-etal-2019-bert}.
+
+The output of this module is a temporal sequence of 28-dimensional vectors. We
+pool this output across time using an attention mechanism with
+dimension-wise weights \citep{Merkx2019}:
+\begin{equation}
+  \begin{aligned}
+    \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
+    \mathbf{z} = & \sum_t \left( \mathbf{A}_{t} \odot \mathbf{X}_{t} \right),
+  \end{aligned}
+  \label{eq:att-pool}
+\end{equation}
+where $\mathbf{X}$ is the tensor with the encoder output vectors for
+each time-step $t$: an MLP followed by a time-wise
+softmax is used to compute an attention weight for each time step and for each
+dimension.
+%Each dimension of the pooled embedding vector $\mathbf{z}$
+%consists of a weighted sum across time of the output values at this
+%dimension.
+The pooling is followed by a linear projection and $L_2$
+normalization. For our experiments we also use versions of the encoder
+where the wav2vec weights are frozen, as well a randomly initialized
+rather than pre-trained.
+
+
+
+\subsubsection{Video Encoder}
+As a video encoder we use the 18-layer ResNet (2+1)D architecture
+\citep{tran2018closer} pretrained on the action recognition dataset
+Kinetics-400 \citep{DBLP:journals/corr/KayCSZHVVGBNSZ17}. The
+pre-trained model is available via Pytorch.\footnote{See
+  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  This
+architecture implements 3D convolution by decomposing it into a 2D
+spatial convolution followed by 1D temporal convolution.  The output
+of this module is aggregated using the attention mechanism with the
+same architecture as for the audio module, linearly projected to the
+same dimensionality as the audio (512) and $L_2$ normalized.  For our
+experiments we also use a version of the video encoder without
+pre-training.
+
+\paragraph{\textsc{Static} baseline}
+As a baseline to investigate the contribution of temporal information to
+video modeling we swap the video ResNet (2+1)D with the D2 ResNet
+pre-trained on ImageNet, which embeds each video frame
+separately. These frame embeddings are then attention-pooled as with
+the standard video encoder. 
+
+
 \subsection{Evaluation}
 \label{sec:eval}
 The most common approach to evaluation for visually grounded models
@@ -93,13 +172,19 @@ clues in the speech signal, such as speaker identity (since speakers
 are randomly assigned to captions) or non-speech environmental
 sounds. In such an artificial setting, a retrieval metric measures the ability of the
 model to match spoken utterances to images based on their semantic
-content. This not the case for the {\it Peppa Pig} dataset: here we
+content. This is not the case for the {\it Peppa Pig} dataset: here we
 can expect that when a video segment depicts a particular character
 (e.g.\ George) then the audio in this segment is more likely to contain
-utterances spoken by the voice actor playing George. George has a
-favorite toy dinosaur: when this toy appears in a video segment we can
-likewise expect higher than random chance of George's voice in the
-audio. Due to these factors, in a naive retrieval setting, a model
+utterances spoken by the voice actor playing George.  Moreover, some 
+characters might have a tendency to talk about certain topics more often 
+than others, and the model might pick up on these associations instead of 
+paying attention to the actual meaning of the uttered words.
+%
+%George has a
+%favorite toy dinosaur: when this toy appears in a video segment we can
+%likewise expect higher than random chance of George's voice in the
+%audio. 
+Due to these factors, in a naive retrieval setting, a model
 could obtain a high score by mostly capturing these non-linguistic
 correlations.
 
@@ -189,7 +274,7 @@ score distribution.
 While the triplet evaluation gives us a general idea about whether the model 
 has learned a mapping between videos and audio, the metric does not provide 
 insight into whether the model has acquired the grounded semantics of specific 
-words.
+words. \todo{This whole section could be shortened.}
 
 To address this question, we probe the model's performance in a more targeted 
 setup, where the model is not asked to rank the similarity of a correct video 
@@ -252,86 +337,8 @@ for adjectives in the dataset to perform an evaluation on them.
 
 
 
-\subsection{Model Architecture}
-\label{sec:model}
-We adapt the high-level modeling approach from work on spoken
-image-caption data
-\citep{harwath2016unsupervised,chrupala-etal-2017-representations}:
-our objective function is based on a triplet-like contrastive loss with margin which
-encourages the matching audio and video clip to be projected nearby in
-the embedding space, and mis-matching audio and video clips to be far
-away:
-\begin{dmath}
-  \ell = \sum_{av}\left[\sum_{a'} \max(0, S_{a'v} - S_{av} +
-    \alpha) + \sum_{v'} \max(0, S_{av'} - S_{av} + \alpha) \right]
-  \label{eq:triplet}
-\end{dmath}
-where $\alpha$ is a margin, $S_{av}$ is a similarity score between a
-matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
-similarity scores between mismatched pairs, i.e.\ negative examples
-from the current batch. Our heuristic to generate positive and
-negative examples is very simple: we consider the example
-positive if the audio is aligned with a video clip in our
-data. Other pairs of audio-video clips are considered negative.
-
-\subsubsection{Audio Encoder}
-The audio encoder portion of the model consists of a {\tt small
-  wav2vec2} model \citep{wav2vec2} pre-trained in a self-supervised
-fashion, without any supervised fine tuning.\footnote{Available from
-  \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
-The \textsc{wav2vec 2.0} architecture learns audio embeddings by
-self-supervised learning driven by a contrastive loss applied to 
-quantized latent representations of masked frames, loosely inspired by
-the BERT approach to language modeling \citep{devlin-etal-2019-bert}.
-
-The output of this module is a temporal sequence of 28-dimensional vectors. We
-pool this output across time using an attention mechanism with
-dimension-wise weights \citep{Merkx2019}:
-\begin{equation}
-  \begin{aligned}
-    \mathbf{A} = & \mathrm{softmax}_t\left(\mathrm{MLP}(\mathbf{X})\right)\\
-    \mathbf{z} = & \sum_t \left( \mathbf{A}_{t} \odot \mathbf{X}_{t} \right),
-  \end{aligned}
-  \label{eq:att-pool}
-\end{equation}
-where $\mathbf{X}$ is the tensor with the encoder output vectors for
-each time-step: an MLP followed by a time-wise
-softmax is used to compute an attention weight for each time step and for each
-dimension.
-%Each dimension of the pooled embedding vector $\mathbf{z}$
-%consists of a weighted sum across time of the output values at this
-%dimension.
-The pooling is followed by a linear projection and $L_2$
-normalization. For our experiments we also use versions of the encoder
-where the wav2vec weights are frozen, as well a randomly initialized
-rather than pre-trained.
-
-
-
-\subsubsection{Video Encoder}
-As a video encoder we use the 18-layer ResNet (2+1)D architecture
-\citep{tran2018closer} pretrained on the action recognition dataset
-Kinetics-400 \citep{DBLP:journals/corr/KayCSZHVVGBNSZ17}. The
-pre-trained model is available via Pytorch.\footnote{See
-  \url{https://pytorch.org/vision/0.8/models.html\#resnet-3d}.}  This
-architecture implements 3D convolution by decomposing it into a 2D
-spatial convolution followed by 1D temporal convolution.  The output
-of this module is aggregated using the attention mechanism with the
-same architecture as for the audio module, linearly projected to the
-same dimensionality as the audio (512) and $L_2$ normalized.  For our
-experiments we also use a version of the video encoder without
-pre-training.
-
-\paragraph{\textsc{Static} baseline}
-As a baseline to investigate the contribution of temporal information to
-video modeling we swap the video ResNet (2+1)D with the D2 ResNet
-pre-trained on ImageNet, which embeds each video frame
-separately. These frame embeddings are then attention-pooled as with
-the standard video encoder. 
-
-
 \section{Experimental Settings}
-We implement the architecture in Pytorch \citep{NEURIPS2019_9015}. We
+We implement the architecture in PyTorch \citep{NEURIPS2019_9015}. We
 use the Adam optimizer \citep{kingma2014adam} with the scheduling
 described in \citep{devlin-etal-2019-bert}. We train every
 configuration on a single GPU and stop training after 48 hours, with
@@ -341,3 +348,4 @@ after each epoch and report results for the checkpoint which gets the
 best triplet accuracy on the narration validation data.
 Our code is publicly available at \url{github.com/gchrupala/peppa},
 and can be consulted for further details of the experimental setup.
+\todo{Anonymity violation (for the final submission).}
