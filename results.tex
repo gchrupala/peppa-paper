@@ -3,8 +3,8 @@
 In \Cref{sec:ablations} we first focus on understanding the impact of
 the main components of our training setup on performance as measured
 by recall@10 and triplet accuracy. Afterwards in
-\Cref{sec:minimal-pairs} we switch our attention to the targetted
-evaluation via minial pairs.
+\Cref{sec:minimal-pairs} we switch our attention to the targeted
+evaluation via minimal pairs.
 \todo{GC: We really should have at least 3 runs of each configuration with a different random seed.}
 
 
@@ -104,44 +104,77 @@ does not have access to their temporal ordering. \todo{GC: Note that a
 
 \subsection{Minimal Pairs}
 \label{sec:minimal-pairs}
-As a first baseline, we evaluate a model which is pre-trained but not
-fine-tuned on our dataset. The resulting performance is, as expected,
-close to chance level: 0.538.\todo{MN: add baselines: model that is
-  completely untrained, and model where only the attention pooling
-  layers are finetuned}
 
-Additionally, we evaluate a model using static (image)
-data instead of video. The average accuracy is 0.705 . Finally, the
-best performing model according to the performance metrics (ID 68,
-audio and video pretraining) achieves an average targeted triplets
-accuracy of 0.745.
+
+\Cref{tab:minimal_pair_results} presents results for the minimal pair 
+evaluation. We find that a models that are 
+pre-trained and fine-tuned with \textsc{jitter} perform best. Generally, there 
+is not much difference in the scores for verbs and nouns, with the exception of 
+models trained on \textsc{static} data. Here the performance for verbs is 
+worse, confirming that temporal information is more important for the semantics 
+of verbs.
+\todo{Keep table? Add more rows?}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{lllll}
+		\toprule
+		& & & \multicolumn{2}{c}{Accuracy} \\
+		Finetune & Jitter & Static & Nouns & Verbs \\
+		\midrule
+		\checkmark & \checkmark &  & 0.81 & 0.80 \\
+		\checkmark &  &  & 0.73 & 0.73  \\
+		 & \checkmark &  & 0.71 & 0.70 \\
+		\checkmark & \checkmark &  \checkmark & 0.79 & 0.76 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Minimal pair accuracies for different model configurations.}
+	\label{tab:minimal_pair_results}
+\end{table}
+%We report results for our evaluation with minimal pairs for the best 
+%performing 
+%models as identified in the previous section (audio and video pre-training + 
+%\textsc{jitter}).
 
 \Cref{fig:accuracy_targeted_triplets_nouns} and
 \ref{fig:accuracy_targeted_triplets_verbs} show per-word
-accuracy for nouns and verbs, respectively.
-We perform boostrapping (n\_resampling = 100) to estimate mean and standard deviation for each accuracy score.
-
-We further compute correlations between the per-word accuracy and two 
-possible predictors of age of acquisition: frequency and concreteness. 
-We do not find any significant correlation between the model's per-word 
-accuracy and word concreteness or input frequency of a word in the 
-training data.\todo{MN: verify correlations for final versions. GC:
-  maybe skip them unless they are strong.}
+accuracy for nouns and verbs for the best performing model.
+We perform bootstrapping (n\_resampling = 100) to estimate mean and standard 
+deviation for each accuracy score.
 
 
-
-\todo{GC: Can we get rid of the text on top of these per-word plots.}
 \begin{figure*}[htb]
   \centering
-  \includegraphics[width=\textwidth]{results/targeted_triplets/results_per_word_version_206980_NOUN.pdf}
+  \includegraphics[width=\textwidth]{results/targeted_triplets/results_per_word_version_335_NOUN.pdf}
   \caption{Per-word accuracies on the minimal pairs evaluation data for nouns.}
   \label{fig:accuracy_targeted_triplets_nouns}
 \end{figure*}
 
 \begin{figure*}[htb]
   \centering
-  \includegraphics[width=\textwidth]{results/targeted_triplets/results_per_word_version_206980_VERB.pdf}
+  \includegraphics[width=\textwidth]{results/targeted_triplets/results_per_word_version_335_VERB.pdf}
   \caption{Per-word accuracies on the minimal pairs evaluation data
     for verbs.}
   \label{fig:accuracy_targeted_triplets_verbs}
 \end{figure*}
+
+We observe substantial variance in the accuracy scores, suggesting that the 
+difficulty to learn certain words varies. For example, the 
+scores for ``house'' and ``cake'' are very low. This could be because these 
+concepts are not easy to ground, as they do not often refer to a similar visual 
+entity. When looking at our evaluation examples, we find that indeed the word 
+``house'' is used in varying visual contexts (house entrance, view of the whole 
+house, inside the house, rabbit's house) and in displaced speech (talking about 
+going to somebody's house). Regarding ``cake'', it refers to either a whole 
+cake, a slice, dough, or crumbs.
+
+On the other end, the words ``Pedro'' and ``Rebecca'' are learned very well: 
+They refer to ``Pedro pony'' and ``Rebecca rabbit'', easily visually 
+distinguishable from other characters which are mainly pigs. Additionally, it 
+is usually present and central to the video when mentioned.
+
+Further investigations with larger datasets are necessary to reveal the 
+underlying reasons for difficulty, and relating them to predictors of age of 
+acquisition in the child language acquisition literature 
+\cite{roy2015predicting,frank2021variability}. 
+
+
