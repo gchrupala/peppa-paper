@@ -82,14 +82,13 @@ minor and that performance is comparable. \todo{GC: Insert reference
 \subsubsection{Temporal Information}
 Finally, we explore the role of the temporal nature of the visual
 modality.  \Cref{fig:static} compares the model with the regular video
-encoder with one using the \textsc{static} baseline encoder. Across
+encoder with one using the \textsc{static} baseline encoder.  For this
+comparison we did not pre-train the video encoder in order to remove
+the confound of the pre-training data.
+Across
 all metrics, we observe substantial performance drops for the
 \textsc{static} model, which has access to the same video frames, but
-does not leverage their temporal ordering. \todo{GC: Note that a
-  confounding factor here is that the static encoder is pre-trained on
-  ImageNet rather than Kinetics. Maybe we should instead compare
-  models without video pre-training.}
-
+does not leverage their temporal ordering. 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
@@ -124,7 +123,7 @@ models trained on \textsc{static} data. Here the performance for verbs is
 worse, confirming that temporal information is more important for the semantics 
 of verbs.
 \todo{Keep table? Add more rows?}
-\begin{table}[ht]
+\begin{table}[htb]
 	\centering
 	\begin{tabular}{lllll}
 		\toprule
