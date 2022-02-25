@@ -22,15 +22,18 @@ The availability of datasets of images associated with spoken captions
 such as Flickr Audio Captions \citep{harwath2015deep}, Places
 \cite{zhou2014learning} and Spoken COCO \citep{hsu2019transfer} led to
 a rapid development of deep models of grounded language learning; see
-\citet{chrupala-visually-2021} for a comprehensive overview. Most of
+\citet{chrupala-visually-2021} for a comprehensive overview. \todo{MN: maybe 
+highlight here the difference of these models to the early approaches by deb 
+roy (e.g. handling larger + more realistic data, ..)?}
+ Most of
 these models adapt the architecture of \citet{karpathy2014deep} by
 implementing separate pathways for encoding the visual and speech
 modality, and mapping these encodings into a joint representation
-space. Most models extract visual features from a pre-trained
+space. Visual features are extracted from a pre-trained
 image classification model that processes the whole or a specific
-region of an image. The exception is \citet{harwath2018jointly} who train the
+region of an image (however see \citet{harwath2018jointly}, who train the
 model end-to-end on images and their spoken captions on the Places
-dataset. The audio encoder component in most models is 
+dataset). The audio encoder component in most models is 
 either an adaptation of \citet{harwath2016unsupervised} which feeds a
 spectrogram of the speech signal to a convolutional architecture, or a
 hybrid architecture of convolutional followed by recurrent layers using
@@ -46,7 +49,7 @@ and syllables \cite{alishahi-etal-2017-encoding, harwath2019towards,
   khorrami_2021} as well as individual words
 \cite{chrupala-etal-2017-representations,havard2019word}. Moreover, in
 addition to examining form-meaning associations at the utterance
-level, \cite{harwath2017learning} explicitly learn a lexicon by
+level, \citet{harwath2017learning} explicitly learn a lexicon by
 extracting audio and image segments, clustering each modality
 separately, and mapping them together by calculating the pairwise
 similarities of their members in the joint semantic space.
@@ -89,7 +92,7 @@ generalization.  The point remains that these video datasets contain
 descriptive speech, thus ensuring that there is a strong correlation
 between the spoken language and their visual context, a characteristic
 that is not representative of the experience of learning language in
-real world.
+the real world.
 
 \paragraph{Child language learning from video.}
 % \todo[inline]{I'm still cleaning up the section on infant language
@@ -100,16 +103,15 @@ real world.
 % \url{https://www.theguardian.com/tv-and-radio/2021/jul/19/peppa-pig-american-kids-british-accents},
 % \url{https://globalnews.ca/news/4961058/kids-accent-peppa-pig}.},
 There are many studies on young children learning language by watching
-videos; see \cite{vanderplank2010deja} for a survey. The main takeaway
+videos; see \citet{vanderplank2010deja} for a survey. The main takeaway
 of these studies is that language learning is much more effective in a
 social, conversational setting than by passively watching videos
 \cite{kuhl2003foreign,anderson2005television,robb2009just},\footnote{Adding
 social interaction while watching videos improves learning;
 \citet{lytle2018two}.} but learning does happen in such
 contexts. Importantly for our goal, techniques such as the intermodal
-preferential looking paradigm have been developed for this specific
-setting to systematically test young language learners' knowledge of
-words, syntactic structure and semantic roles
+preferential looking paradigm have been developed to systematically test young 
+language learners' knowledge of words, syntactic structure and semantic roles
 \cite{hirsh1996intermodal,bergelson20126,noble2011comprehension}.
 \citet{nikolaus-fourtassi-2021-evaluating}
 employ this evaluation strategy to test semantic knowledge at word and
@@ -117,6 +119,12 @@ sentence level in their computational model of word learning from
 images. We adapt this approach to evaluate how our grounded model
 associates semantic information to spoken words and utterances from
 video.
+%The paradigm has been used in language acquisition research to
+%evaluate children's early linguistic knowledge
+%\citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing
+%whether they can distinguish a matching (target) visual referent from
+%a foil (distractor) referent when prompted with a word or
+%sentence.
  
  
 % \citep[e.g.][]{synnaeve2014learning,harwath2015deep,
@@ -128,7 +136,6 @@ video.
 % \citet{aytar2016soundnet,owens2016visually,owens2016ambient}
 % \paragraph{Video captioning}
 % \citet{krishna2017dense,zhou2018end}
-
 \todo{GC: I think we need a paragraph or so on recent work on
   self-supervised learning from multimodal data. SOme possible works
   to mention:

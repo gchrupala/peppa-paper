@@ -227,14 +227,9 @@ we wanted to compare model performance with human performance, we
 could not feasibly ask human participants to provide the quadratic
 number of audio-video similarity judgments needed. For these reasons,
 we evaluate model performance using a more simple and controlled scenario, 
-inspired by intermodal 2-alternative forced choice (2AFC) paradigms in child
+inspired by intermodal preferential looking paradigms in child
 language acquisition \citep{hirsh1996intermodal}.
-The paradigm has been used in language acquisition research to
-evaluate children's early linguistic knowledge
-\citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing
-whether they can distinguish a matching (target) visual referent from
-a foil (distractor) referent when prompted with a word or
-sentence.
+
 
 \begin{figure}
 	\centering
@@ -245,7 +240,7 @@ sentence.
 	\label{fig:triplets_eval}
 \end{figure}
 
-In our case, we extract clips aligned to a single subtitle
+We extract clips aligned to a single subtitle
 line, group them by length, and for each pair of same-length video
 clips\footnote{To keep test items independent, the pairing of video
   clips is done such that each clip only occurs as a member of a single
@@ -264,7 +259,10 @@ all triplets of the following quantity:
   \label{eq:triplet-acc}
 \end{equation}
 with $A$ being the anchor, $P$ positive and $N$ negative. The triplet
-accracy metric is inspired by the ABX score of \citet{schatz2016abx}.
+accracy metric is inspired by the ABX score of \citet{schatz2016abx}. \todo{MN: 
+that might be confusing for the reader: we first say it's inspired by 
+preferential looking and then by ABX score. Maybe we can only say once that's 
+inspired by the two of them?}
 For triplet accuracy, regardless of the specific set of test items, we
 expect random-guessing performance to be at 0.5, and perfect
 performance to be 1.0. For this metric we also quantify uncertainty by
