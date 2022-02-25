@@ -129,15 +129,18 @@ of verbs.
 	\begin{tabular}{lllll}
 		\toprule
 		& & & \multicolumn{2}{c}{Accuracy} \\
-		Finetune & Jitter & Static & Nouns & Verbs \\
+		Jitter & Freeze & Stat. & Nouns & Verbs \\
 		\midrule
-		\checkmark & \checkmark &  & 0.81 & 0.80 \\
-		\checkmark &  &  & 0.73 & 0.73  \\
-		 & \checkmark &  & 0.71 & 0.70 \\
-		\checkmark & \checkmark &  \checkmark & 0.79 & 0.76 \\
+		\checkmark &  &  & $.81 \pm .002$  & $.80 \pm .005$ \\
+		 &  &  & $.73 \pm .002$ & $.73 \pm .007$  \\
+		\checkmark & \checkmark &  & $.71 \pm .003$ & $.70 \pm .007$ \\
+		\checkmark &  &  \checkmark & $.79 \pm .002$ & $.76 \pm .005$ \\
 		\bottomrule
 	\end{tabular}
-	\caption{Minimal pair accuracies for different model configurations.}
+	\caption{Minimal pair accuracies for different model configurations 
+	(Freeze=Freeze \textsc{wav2vec} module; Stat.=\textsc{static}). Models 
+	have been pretrained on audio and video. Standard deviation calculated 
+	using bootstrapping (n\_resampling = 100).}
 	\label{tab:minimal_pair_results}
 \end{table}
 %We report results for our evaluation with minimal pairs for the best 
@@ -179,8 +182,8 @@ cake, a slice, dough, or crumbs.
 
 On the other end, the words ``Pedro'' and ``Rebecca'' are learned very well: 
 They refer to ``Pedro pony'' and ``Rebecca rabbit'', easily visually 
-distinguishable from other characters which are mainly pigs. Additionally, it 
-is usually present and central to the video when mentioned.
+distinguishable from other characters which are mainly pigs. Additionally, they 
+are usually central to the video scene when mentioned.
 
 Further investigations with larger datasets are necessary to reveal the 
 underlying reasons for difficulty, and relating them to predictors of age of 
