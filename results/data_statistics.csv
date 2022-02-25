@@ -1,0 +1,5 @@
+Split,Type,Size (h)
+train,dialog,10.008833333333333
+val,dialog,0.6555
+val,narration,0.9372500000000001
+test,narration,0.6427222222222223
