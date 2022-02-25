@@ -276,43 +276,35 @@ score distribution.
 While the triplet evaluation gives us a general idea about whether the model 
 has learned a mapping between videos and audio, the metric does not provide 
 insight into whether the model has acquired the grounded semantics of specific 
-words. \todo{This whole section could be shortened.}
+words.
 
 To address this question, we probe the model's performance in a more targeted 
-setup, where the model is not asked to rank the similarity of a correct video 
-over a random video, but instead over a distractor video with \textit{minimal 
-differences}.
+triplet setup, where the model is required to select the correct video from a 
+pair of videos with \textit{minimal differences} regarding a target word in the 
+corresponding transcripts.
+We pair every triplet with a corresponding counter-example to 
+control the evaluation for linguistic biases in the dataset \citep[see 
+also][]{nikolaus-fourtassi-2021-evaluating}.
+%and thereby ensure that a single-modality model that only considers the audio 
+%performs at chance 
 
-More specifically, this approach considers always pairs of 
-triplets with minimal differences regarding one word in the transcripts of
-the anchor audios (e.g., \textit{Peppa loves jumping} and
-\textit{George loves jumping} can be used to test whether the model
-can discriminate the target word \textit{Peppa} from the distractor
-word \textit{George}).
+To construct the evaluation set, we search the transcripts of the validation 
+data for phrases with minimal differences with respect to the most commonly 
+occurring (at least 10 times) nouns, verbs, and adjectives. We set the minimum 
+phrase duration to 0.3 seconds.\footnote{For shorter sequences, we do not 
+expect that the video contains enough semantic information to 
+distinguish target and distractor. A phrase can also be a single word.}
 
-We search the transcripts of the validation data for phrases with
-minimal differences with respect to the most commonly occurring (at least 10 
-times) nouns, verbs, and adjectives. We set the minimum phrase duration to 0.3 
-seconds (for shorter sequences, we do not expect that the video data contains 
-enough semantic information for a model to distinguish between target and 
-distractor). A phrase can also be a single word.
-
-
-Based on each pair of phrases, we create two counter-balanced test trials, an 
-example and a corresponding counter-example, as depicted in
-\Cref{fig:minimal_pairs}. Here, 
-the anchor $A_{\text{example}}$ of the example
-triplet is the audio of \textit{Peppa loves jumping}, the
-positive video $P_{\text{example}}$ is the corresponding video, and the
-negative video $N_{\text{example}}$ is the video corresponding to \textit{George
-  loves jumping}. In the
-counter-example triplet, the anchor $A_{\text{counterex}}$ is the audio of
-\textit{George loves jumping}, and the positive and negative video are
-flipped: $P_{\text{counterex}} = N_{\text{example}}; N_{\text{counterex}} = P_{\text{example}}$. By 
-evaluating the model on the examples as well as their corresponding 
-counterexamples, we control the evaluation for linguistic biases in the dataset 
-and ensure that a single-modality model that only considers the audio performs 
-at chance \citep[see also][]{nikolaus-fourtassi-2021-evaluating}.
+Based on the video and audio of each pair of phrases, we create two 
+counter-balanced test trials (example and counter-example), as depicted in
+\Cref{fig:minimal_pairs}. Here, the anchor $A_{\text{example}}$ of the example
+triplet is the audio of \textit{Peppa loves jumping}, the positive video 
+$P_{\text{example}}$ is the corresponding video, and the negative video 
+$N_{\text{example}}$ is the video corresponding to \textit{George loves 
+jumping}. In the counter-example triplet, the anchor $A_{\text{counterex}}$ is 
+the audio of \textit{George loves jumping}, and the positive and negative video 
+are flipped. % $P_{\text{counterex}} = N_{\text{example}}; N_{\text{counterex}} 
+%= P_{\text{example}}$.
 
 \begin{figure}[ht]
   \centering
@@ -321,11 +313,10 @@ at chance \citep[see also][]{nikolaus-fourtassi-2021-evaluating}.
   \label{fig:minimal_pairs}
 \end{figure}
 
-We measure the model's accuracy for all examples and counter-examples using
-\Cref{eq:triplet-acc} . Additionally, we report per-word accuracy by
-calculating the triplet accuracy for all triplets that contain a given
-word (e.g.\ \textit{Peppa}) either as target or distractor word, i.e.\ cases
-in which the model needs to succeed in either choosing a video
+We measure per-word accuracy by calculating the triplet accuracy (cf. 
+\Cref{eq:triplet-acc}) for all triplets that contain a given word (e.g.\ 
+\textit{Peppa}) either as target or distractor word, i.e.\ cases in which the 
+model needs to succeed in either choosing a video
 containing the given word (the example triplet in Figure
 \ref{fig:minimal_pairs}) or rejecting a video containing the given
 word (the counter-example triplet in Figure
@@ -333,9 +324,9 @@ word (the counter-example triplet in Figure
 %\footnote{In this way, both the example and the counter-example shown in 
 %Figure \ref{fig:minimal_pairs} are also used to assess the acquisition of the 
 %word ``George''.} 
-We report accuracy for all words (nouns and verbs) for which we found at least 
-100 example-counterexample pairs of triplets. There were not enough examples 
-for adjectives in the dataset to perform an evaluation on them. 
+We report accuracy for all words (nouns and verbs) for which we find at least 
+100 pairs of triplets.\footnote{We did not find enough examples for any 
+adjectives in the data to perform an evaluation on them.}
 
 
 
