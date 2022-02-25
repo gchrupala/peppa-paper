@@ -1,6 +1,15 @@
 \section{Results}
 \label{sec:results}
-In \Cref{sec:ablations} we first focus on understanding the impact of
+We firstly present the scores on test narration data obtained with the
+complete model in \Cref{tab:test_scores}.
+\begin{table}[htb]
+  \input{results/scores_test.tex}
+  \caption{Performance of the complete model on narration test
+    data. We show the mean and standard deviation over the
+    bootstrapped scores.}
+  \label{tab:test_scores}
+\end{table}
+In \Cref{sec:ablations} we then focus on understanding the impact of
 the main components of our training setup on performance as measured
 by recall@10 and triplet accuracy. Afterwards in
 \Cref{sec:minimal-pairs} we switch our attention to the targeted
@@ -150,7 +159,7 @@ of verbs.
 \Cref{fig:accuracy_targeted_triplets_nouns} and
 \ref{fig:accuracy_targeted_triplets_verbs} show per-word
 accuracy for nouns and verbs for the best performing model.
-We perform bootstrapping (n\_resampling = 100) to estimate mean and standard 
+We perform bootstrapping (100 re-samples) to estimate mean and standard 
 deviation for each accuracy score.
 
 
