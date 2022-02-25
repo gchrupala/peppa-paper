@@ -85,7 +85,7 @@ modality.  \Cref{fig:static} compares the model with the regular video
 encoder with one using the \textsc{static} baseline encoder. Across
 all metrics, we observe substantial performance drops for the
 \textsc{static} model, which has access to the same video frames, but
-does not have access to their temporal ordering. \todo{GC: Note that a
+does not leverage their temporal ordering. \todo{GC: Note that a
   confounding factor here is that the static encoder is pre-trained on
   ImageNet rather than Kinetics. Maybe we should instead compare
   models without video pre-training.}
@@ -93,12 +93,24 @@ does not have access to their temporal ordering. \todo{GC: Note that a
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
-  \caption{Effect of temporal information on model performance, on the dialog
-          and narration validation data. The top row shows recall@10;
+  \caption{Effect of a \textsc{static} image encoder on model performance, on 
+  the dialog and narration validation data. The top row shows recall@10;
           the bottom row triplet accuracy.}
   \label{fig:static}
 \end{figure}
 
+\Cref{fig:scrambled_video} shows the effect of scrambling the video frames 
+along the temporal dimension at test time. As expected, we observe substantial 
+performance drops when the model does not see the video frames in 
+the correct order.
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\columnwidth]{results/ablations/scrambled_video.pdf}
+	\caption{Effect of scrambling the video frames on model performance, on the 
+	dialog and narration validation data. The top row shows recall@10;
+		the bottom row triplet accuracy.}
+	\label{fig:scrambled_video}
+\end{figure}
 
 \subsection{Minimal Pairs}
 \label{sec:minimal-pairs}
