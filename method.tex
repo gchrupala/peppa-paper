@@ -7,11 +7,11 @@ modeling practices whenever possible.
 
 \subsection{Dataset}
 We use the dataset provided by \citet{papasarantopoulos2021narration}
-containing a metadata for the set of 209 episodes (seasons 1--5) of the
+containing metadata for the set of 209 episodes (seasons 1--5) of the
 English-language version of {\it Peppa Pig}. We purchased the
 corresponding Peppa Pig episodes in the form of DVDs. 
 
-These annotations created by  \citet{papasarantopoulos2021narration}
+The annotations created by  \citet{papasarantopoulos2021narration}
 feature written transcriptions aligned with the
 audio as well as segmentation into {\it dialog} and {\it
   narration}.\footnote{It should be noted that the quality of the
@@ -46,7 +46,7 @@ segmenting data for training, we \emph{do not} use word or
 sentence-level subtitle alignment in order to make the setting
 naturalistic. Processing long segments of video and audio is not
 tractable on commodity GPU hardware, and we thus segment the data into
-brief snippets roughly comparable in length to the duration a short
+brief snippets roughly comparable in length to the duration of a short
 sentence or a phrase. We use the following two segmentation
 strategies:
 
@@ -90,8 +90,8 @@ We adapt the high-level modeling approach from work on spoken
 image-caption data
 \citep{harwath2016unsupervised,chrupala-etal-2017-representations}:
 our objective function is based on a triplet-like contrastive loss with margin which
-encourages the matching audio and video clip to be projected nearby in
-the embedding space, and mis-matching audio and video clips to be far
+encourages the matching audio and video clips to be projected nearby in
+the embedding space, and mismatching audio and video clips to be far
 away:
 \begin{dmath}
   \ell = \sum_{av}\left[\sum_{a'} \max(0, S_{a'v} - S_{av} +
@@ -111,7 +111,7 @@ The audio encoder portion of the model consists of a {\tt small
   wav2vec2} model \citep{wav2vec2} pre-trained in a self-supervised
 fashion, without any supervised fine tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
-The \textsc{wav2vec 2.0} architecture learns audio embeddings by
+The {\tt wav2vec 2.0} architecture learns audio embeddings by
 self-supervised learning driven by a contrastive loss applied to 
 quantized latent representations of masked frames, loosely inspired by
 the BERT approach to language modeling \citep{devlin-etal-2019-bert}.
@@ -135,8 +135,8 @@ dimension.
 %dimension.
 The pooling is followed by a linear projection and $L_2$
 normalization. For our experiments we also use versions of the encoder
-where the wav2vec weights are frozen, as well a randomly initialized
-rather than pre-trained.
+where the wav2vec weights are frozen, as well as a randomly initialized
+rather than pre-trained version.
 
 
 
@@ -156,7 +156,7 @@ pre-training.
 
 \paragraph{\textsc{Static} baseline}
 As a baseline to investigate the contribution of temporal information to
-video modeling we swap the video ResNet (2+1)D with the D2 ResNet
+video modeling we swap the video ResNet (2+1)D with the 2D ResNet
 pre-trained on ImageNet, which embeds each video frame
 separately. These frame embeddings are then attention-pooled as with
 the standard video encoder. 
