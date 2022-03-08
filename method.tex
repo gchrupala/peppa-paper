@@ -171,9 +171,9 @@ time, thereby removing any useful temporal information.
 \label{sec:eval}
 The most common approach to evaluation for visually grounded models
 trained on spoken image captions is caption-to-image retrieval (often
-combined with image-to-caption retrieval): in fact this technique
+combined with image-to-caption retrieval); this technique
 has been carried over from text-based image-caption modeling.
- With the standard spoken caption dataset this approach is unproblematic since
+ With the standard spoken caption datasets this approach is unproblematic since
 the content of the captions is not correlated with extra-linguistic
 clues in the speech signal, such as speaker identity (since speakers
 are randomly assigned to captions) or non-speech environmental
@@ -210,9 +210,9 @@ evaluation.
 For the retrieval evaluation, as for training, we use the
 \textsc{fixed} and \textsc{jitter} segmentation strategies. We encode
 each audio clip in a candidate set sampled from the validation (or
-test) data using the speech encoder part of the model; we encode each
+test) data using the speech encoder part of the model; similarly we encode each
 video clip using the video encoder. We then measure cosine similarity
-between the audio clip and all the video clips. If the video clip
+between the encodings of the audio clip and all the video clips. If the video clip
 corresponding to the audio is among the $n$ most similar video clips,
 we count that as a success. The proportion of successes across all
 audio clips gives us the retrieval metric known as recall@$n$:
@@ -230,7 +230,9 @@ the absolute value of this metric may be hard to interpret as it depends
 on the size of the candidate set. Secondly, if
 we wanted to compare model performance with human performance, we
 could not feasibly ask human participants to provide the quadratic
-number of audio-video similarity judgments needed. For these reasons,
+number of audio-video similarity judgments needed. 
+\todo{We never compare to human performance, I suggest we remove this justification.}
+For these reasons,
 we evaluate model performance using a more simple and controlled scenario, 
 inspired by intermodal preferential looking paradigms in child
 language acquisition \citep{hirsh1996intermodal}.
@@ -251,85 +253,94 @@ clips\footnote{To keep test items independent, the pairing of video
   clips is done such that each clip only occurs as a member of a single
   triplet.}, we extract the audio from one of them (selected at
 random) -- this is our {\it anchor}. The video clip from which the
-anchor was taken is the {\it positive} one, which the other video clip
-is the {\it negative} one. This triplet of stimuli form a single test
-item.  We use the model's audio encoder to encode the anchor, and the
-video encoder to encode both video clips. We then check whether anchor
-is more similar to the positive or negative clips in terms of cosine
-similarity (see also \Cref{fig:triplets_eval}).  More precisely, {\it triplet 
-accuracy} is the mean over
-all triplets of the following quantity:
+anchor was taken is the {\it positive} one, and the other video clip
+is the {\it negative} one. This triplet of stimuli forms a single test
+item.  
+
+We use the model's audio encoder to encode the anchor, and the
+video encoder to encode both video clips. We then check whether 
+the anchor is more similar to the positive or to the negative clip in terms of cosine
+similarity (see \Cref{fig:triplets_eval} for an example).  More precisely, {\it triplet 
+accuracy} is the mean over all triplets of the following quantity:
 \begin{equation}
+\hspace{-.03cm}
   \frac{\mathrm{signum}(\mathrm{cosine}(A, P) - \mathrm{cosine}(A, N)) + 1}{2}
   \label{eq:triplet-acc}
 \end{equation}
-with $A$ being the anchor, $P$ positive and $N$ negative. The triplet
-accracy metric is inspired by the ABX score of \citet{schatz2016abx}. \todo{MN: 
+where $A$ is the anchor, $P$ is the positive and $N$ is the negative video clip. The triplet
+accuracy metric is inspired by the ABX score of \citet{schatz2016abx}. \todo{MN: 
 that might be confusing for the reader: we first say it's inspired by 
 preferential looking and then by ABX score. Maybe we can only say once that's 
 inspired by the two of them?}
 For triplet accuracy, regardless of the specific set of test items, we
 expect random-guessing performance to be at 0.5, and perfect
-performance to be 1.0. For this metric we also quantify uncertainty by
+performance to be at 1.0. For this metric we also quantify uncertainty by
 resampling the triplets $500$ times from the dataset, and display the
 score distribution.
 
 \subsubsection{Minimal Pairs}
 \label{sec:targeted}
 While the triplet evaluation gives us a general idea about whether the model 
-has learned a mapping between videos and audio, the metric does not provide 
-insight into whether the model has acquired the grounded semantics of specific 
-words.
+has learned a mapping between audio and video at the utterance level, it 
+cannot tell us whether the model has acquired the grounded semantics 
+of individual words.
 
 To address this question, we probe the model's performance in a more targeted 
 triplet setup, where the model is required to select the correct video from a 
-pair of videos with \textit{minimal differences} regarding a target word in the 
-corresponding transcripts.
-We pair every triplet with a corresponding counter-example to 
-control the evaluation for linguistic biases in the dataset \citep[see 
-also][]{nikolaus-fourtassi-2021-evaluating}.
+pair of videos whose corresponding transcripts only differ in one target word.
+Following \citet{nikolaus-fourtassi-2021-evaluating},
+we pair every such triplet example with a corresponding counter-example to 
+control the evaluation for linguistic biases in the dataset.
 %and thereby ensure that a single-modality model that only considers the audio 
 %performs at chance 
-
+%
 To construct the evaluation set, we search the transcripts of the validation 
 data for phrases with minimal differences with respect to the most commonly 
-occurring (at least 10 times) nouns, verbs, and adjectives. We set the minimum 
-phrase duration to 0.3 seconds.\footnote{For shorter sequences, we do not 
+occurring nouns, verbs and adjectives. We set the minimum frequency of the 
+target word in our training set to 10, and the minimum phrase duration to 0.3 
+seconds.\footnote{For shorter sequences, we do not 
 expect that the video contains enough semantic information to 
 distinguish target and distractor. A phrase can also be a single word.}
 
-Based on the video and audio of each pair of phrases, we create two 
-counter-balanced test trials (example and counter-example), as depicted in
-\Cref{fig:minimal_pairs}. Here, the anchor $A_{\text{example}}$ of the example
+\Cref{fig:minimal_pairs} shows an example of how two counter-balanced test
+trials are constructed from audio and video clips. 
+%Based on the video and audio of each pair of phrases, we create two 
+%counter-balanced test trials (example and counter-example), as depicted in
+%\Cref{fig:minimal_pairs}. 
+Here, the anchor $A_{\text{example}}$ of the example
 triplet is the audio of \textit{Peppa loves jumping}, the positive video 
 $P_{\text{example}}$ is the corresponding video, and the negative video 
 $N_{\text{example}}$ is the video corresponding to \textit{George loves 
 jumping}. In the counter-example triplet, the anchor $A_{\text{counterex}}$ is 
-the audio of \textit{George loves jumping}, and the positive and negative video 
+the audio of \textit{George loves jumping}, and the positive and negative videos 
 are flipped. % $P_{\text{counterex}} = N_{\text{example}}; N_{\text{counterex}} 
 %= P_{\text{example}}$.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{peppa_targeted_triplets.pdf}
-  \caption{Minimal Pairs Evaluation}
+  \caption{Example and counter-example triplets corresponding to minimal pairs {\it Peppa loves jumping} and {\it George loves jumping}.}
   \label{fig:minimal_pairs}
 \end{figure}
 
-We measure per-word accuracy by calculating the triplet accuracy (cf. 
-\Cref{eq:triplet-acc}) for all triplets that contain a given word (e.g.\ 
-\textit{Peppa}) either as target or distractor word, i.e.\ cases in which the 
-model needs to succeed in either choosing a video
-containing the given word (the example triplet in Figure
-\ref{fig:minimal_pairs}) or rejecting a video containing the given
-word (the counter-example triplet in Figure
-\ref{fig:minimal_pairs}).
+We measure word accuracies by calculating the triplet accuracy 
+%(cf. \Cref{eq:triplet-acc}) 
+for all triplets that contain a given word (e.g.\ 
+\textit{Peppa} in the previous example) either as target or distractor. 
+That is, we take into account all cases where the model needs to use 
+the meaning of the given word for either choosing or rejecting a video. 
+%
+%needs to succeed in either choosing a video
+%containing the given word (the example triplet in Figure
+%\ref{fig:minimal_pairs}) or rejecting a video containing the given
+%word (the counter-example triplet in Figure
+%\ref{fig:minimal_pairs}).
 %\footnote{In this way, both the example and the counter-example shown in 
 %Figure \ref{fig:minimal_pairs} are also used to assess the acquisition of the 
 %word ``George''.} 
-We report accuracy for all words (nouns and verbs) for which we find at least 
-100 pairs of triplets.\footnote{We did not find enough examples for any 
-adjectives in the data to perform an evaluation on them.}
+We report word accuracy for all nouns and verbs for which we find at least 
+100 pairs of triplets in the validation set. We did not find enough examples for any 
+adjectives, and thus did not include them in our evaluation.
 
 
 
