@@ -1,25 +1,26 @@
 \section{Results}
+\Cref{tab:test_scores} presents the recall@10 and triplet accuracy 
+scores on test narration data obtained with the complete model. 
+In \Cref{sec:ablations} we investigate the impact of various components 
+of our training setup on performance as measured by recall@10 and 
+triplet accuracy. 
+In \Cref{sec:minimal-pairs} we focus on the targeted
+evaluation via minimal pairs.
+\todo{GC: We really should have at least 3 runs of each configuration with a different random seed.}
+
 \label{sec:results}
-We firstly present the scores on test narration data obtained with the
-complete model in \Cref{tab:test_scores}.
 \begin{table}[htb]
-  \input{results/scores_test.tex}
   \caption{Performance of the complete model on narration test
     data. We show the mean and standard deviation over the
     bootstrapped scores.}
   \label{tab:test_scores}
+  \input{results/scores_test.tex}
 \end{table}
-In \Cref{sec:ablations} we then focus on understanding the impact of
-the main components of our training setup on performance as measured
-by recall@10 and triplet accuracy. Afterwards in
-\Cref{sec:minimal-pairs} we switch our attention to the targeted
-evaluation via minimal pairs.
-\todo{GC: We really should have at least 3 runs of each configuration with a different random seed.}
 
 
 \subsection{Ablations}
 \label{sec:ablations}
-For completeness, we report results on both the dialog and narration
+For completeness, we report results on both dialog and narration
 data. However, it should be kept in mind that in the case of the
 narration data the scores are not confounded by speaker-based clues
 and thus the scores on narration are those that indicate to what extent to
