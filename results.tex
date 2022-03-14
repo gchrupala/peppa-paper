@@ -127,35 +127,25 @@ the correct order.
 
 \Cref{tab:minimal_pair_results} presents results for the minimal pair 
 evaluation. We find that a models that are 
-pre-trained and fine-tuned with \textsc{jitter} perform best. Generally, there 
-is not much difference in the scores for verbs and nouns, with the exception of 
-models trained on \textsc{static} data. Here the performance for verbs is 
-worse, confirming that temporal information is more important for the semantics 
+pre-trained and fine-tuned with \textsc{jitter} perform best. In the first two 
+configurations, there is not much difference in the scores for verbs and nouns.
+
+If the model is trained without \textsc{jitter}, performance for nouns drops 
+substantially more than for verbs. For a model trained on \textsc{static} data, 
+the performance for verbs is worse, confirming that temporal information is 
+more important for the semantics 
 of verbs.
-\todo{Keep table? Add more rows?}
+\todo{MN: Add more rows regarding pre-training conditions?}
+\todo{MN: Include standard deviation over 3 model runs}
 \begin{table}[htb]
-	\centering
-	\begin{tabular}{lllll}
-		\toprule
-		& & & \multicolumn{2}{c}{Accuracy} \\
-		Jitter & Freeze & Stat. & Nouns & Verbs \\
-		\midrule
-		\checkmark &  &  & $.81 \pm .002$  & $.80 \pm .005$ \\
-		 &  &  & $.73 \pm .002$ & $.73 \pm .007$  \\
-		\checkmark & \checkmark &  & $.71 \pm .003$ & $.70 \pm .007$ \\
-		\checkmark &  &  \checkmark & $.79 \pm .002$ & $.76 \pm .005$ \\
-		\bottomrule
-	\end{tabular}
-	\caption{Minimal pair accuracies for different model configurations 
-	(Freeze=Freeze \textsc{wav2vec} module; Stat.=\textsc{static}). Models 
-	have been pretrained on audio and video. Standard deviation calculated 
-	using bootstrapping (n\_resampling = 100).}
+	\caption{Minimal pair accuracies for nouns and verbs for different model 
+	configurations (Finet=Finetune \textsc{wav2vec} module; 
+	Jitt=\textsc{jitter}; Tmp=Temporal information (not \textsc{static})). 
+	Models have been pretrained on audio and video. Standard deviation 
+	calculated using bootstrapping (100 re-samples).}
 	\label{tab:minimal_pair_results}
+	\input{results/targeted_triplets/minimal_pairs.tex}
 \end{table}
-%We report results for our evaluation with minimal pairs for the best 
-%performing 
-%models as identified in the previous section (audio and video pre-training + 
-%\textsc{jitter}).
 
 \Cref{fig:accuracy_targeted_triplets_nouns} and
 \ref{fig:accuracy_targeted_triplets_verbs} show per-word
@@ -166,14 +156,14 @@ deviation for each accuracy score.
 
 \begin{figure*}[htb]
   \centering
-  \includegraphics[width=\textwidth]{results/targeted_triplets/results_per_word_version_335_NOUN.pdf}
+  \includegraphics[width=\textwidth]{results/targeted_triplets/acc_per_word_NOUN.pdf}
   \caption{Per-word accuracies on the minimal pairs evaluation data for nouns.}
   \label{fig:accuracy_targeted_triplets_nouns}
 \end{figure*}
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=\linewidth]{results/targeted_triplets/results_per_word_version_335_VERB.pdf}
+  \includegraphics[width=\linewidth]{results/targeted_triplets/acc_per_word_VERB.pdf}
   \caption{Per-word accuracies on the minimal pairs evaluation data
     for verbs.}
   \label{fig:accuracy_targeted_triplets_verbs}
