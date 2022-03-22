@@ -26,7 +26,6 @@ narration data the scores are not confounded by speaker-based clues
 and thus the scores on narration are those that indicate to what extent to
 model learns aspects of utterance meaning.
 
-\todo{GC: Generate and insert results on test data}
 \subsubsection{Pre-training and Fine-tuning}
 Results on different pre-training configurations are shown in
 \Cref{fig:pretraining}.
@@ -76,8 +75,9 @@ Next, we evaluate a model that has been trained with varying video and audio
 lengths (\textsc{jitter}). For fair comparison, we report recall@10 for both 
 \textsc{fixed} and \textsc{jitter} validation configurations.
 As seen in \Cref{fig:jitter}, the effect of \textsc{jitter} is only
-minor and that performance is comparable. \todo{GC: Insert reference
-  to results with jitter for minimal pair scenario.}
+minor and that performance is comparable.\footnote{However, we observe 
+substantial performance improvements when using \textsc{jitter} in the more 
+controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}))}
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}

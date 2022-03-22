@@ -225,17 +225,18 @@ candidate sets and visualize the score distribution.
 
 \subsubsection{Triplets}
 \label{sec:triplets}
-Retrieval metrics such as recall@10 have some disadvantages. Firstly
-the absolute value of this metric may be hard to interpret as it depends
-on the size of the candidate set. Secondly, if
+Retrieval metrics such as recall@10 have some disadvantages. The absolute value 
+of this metric may be hard to interpret as it depends
+on the size and content of the candidate set.\footnote{Additionally, if in the 
+future
 we wanted to compare model performance with human performance, we
 could not feasibly ask human participants to provide the quadratic
-number of audio-video similarity judgments needed. 
-\todo{We never compare to human performance, I suggest we remove this justification.}
-For these reasons,
+number of audio-video similarity judgments needed.}
+For this reason,
 we evaluate model performance using a more simple and controlled scenario, 
 inspired by intermodal preferential looking paradigms in child
-language acquisition \citep{hirsh1996intermodal}.
+language acquisition \citep{hirsh1996intermodal}. The proposed metric can be 
+seen as a multimodal version of the ABX score proposed in \citet{schatz2016abx}.
 
 
 \begin{figure}
@@ -255,7 +256,7 @@ clips\footnote{To keep test items independent, the pairing of video
 random) -- this is our {\it anchor}. The video clip from which the
 anchor was taken is the {\it positive} one, and the other video clip
 is the {\it negative} one. This triplet of stimuli forms a single test
-item.  
+item.
 
 We use the model's audio encoder to encode the anchor, and the
 video encoder to encode both video clips. We then check whether 
@@ -267,16 +268,12 @@ accuracy} is the mean over all triplets of the following quantity:
   \frac{\mathrm{signum}(\mathrm{cosine}(A, P) - \mathrm{cosine}(A, N)) + 1}{2}
   \label{eq:triplet-acc}
 \end{equation}
-where $A$ is the anchor, $P$ is the positive and $N$ is the negative video clip. The triplet
-accuracy metric is inspired by the ABX score of \citet{schatz2016abx}. \todo{MN: 
-that might be confusing for the reader: we first say it's inspired by 
-preferential looking and then by ABX score. Maybe we can only say once that's 
-inspired by the two of them?}
-For triplet accuracy, regardless of the specific set of test items, we
-expect random-guessing performance to be at 0.5, and perfect
-performance to be at 1.0. For this metric we also quantify uncertainty by
-resampling the triplets $500$ times from the dataset, and display the
-score distribution.
+where $A$ is the anchor, $P$ is the positive and $N$ is the negative video 
+clip. 
+For this metric, we expect random-guessing performance to be at 0.5, and perfect
+performance to be at 1.0, regardless of the specific set of test items. We also 
+quantify uncertainty by resampling the triplets $500$ times from the dataset, 
+and display the score distribution.
 
 \subsubsection{Minimal Pairs}
 \label{sec:targeted}

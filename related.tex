@@ -21,14 +21,13 @@ The availability of datasets of images associated with spoken captions
 such as Flickr Audio Captions \cite{harwath2015deep}, Places
 \cite{zhou2014learning} and Spoken COCO \cite{hsu2019transfer} led to
 a rapid development of deep models of grounded language learning; see
-\citet{chrupala-visually-2021} for a comprehensive overview. \todo{MN: maybe 
-highlight here the difference of these models to the early approaches by deb 
-roy (e.g. handling larger + more realistic data, ..)?}
- Most of
-these models adapt the architecture of \citet{karpathy2014deep} by
-implementing separate pathways for encoding the visual and speech
-modality, and mapping these encodings into a joint representation
-space. Visual features are extracted from a pre-trained
+\citet{chrupala-visually-2021} for a comprehensive overview. In contrast to 
+earlier approaches, these models are trained end-to-end directly on large-scale 
+raw input data.
+Following the architecture proposed in \citet{karpathy2014deep} the visual and 
+speech modality are usually encoded using separate pathways, and subsequently 
+mapped into a joint representation space.
+Visual features are extracted from a pre-trained
 image classification model that processes the whole or a specific
 region of an image (however see \citet{harwath2018jointly}, who train the
 model end-to-end on images and their spoken captions on the Places
@@ -136,7 +135,9 @@ One further aspect of learning spoken language via visual grounding is
 the fact that grounding is only part of the story. Human children
 arguably infer substantial amounts of information about language
 structure and meaning from purely linguistic co-occurrence
-statistics. A similar mechanism is what allows written language models
+statistics \citep[e.g.,][]{saffran1996statistical}. A similar mechanism is what 
+allows 
+written language models
 such as BERT \citep{devlin-etal-2019-bert} or GPT-3 \citep{brown2020language} 
 to capture and exhibit relatively sophisticated
 linguistic knowledge. Loosely similar approaches are starting to also
@@ -151,7 +152,3 @@ self-supervision with learning-via-grounding.
 % \citet{aytar2016soundnet,owens2016visually,owens2016ambient}
 % \paragraph{Video captioning}
 % \citet{krishna2017dense,zhou2018end}
-\todo{GC: I think we need a paragraph or so on recent work on
-  self-supervised learning from multimodal data. SOme possible works
-  to mention:
-  https://arxiv.org/abs/2104.11178, https://arxiv.org/abs/2103.03206}
