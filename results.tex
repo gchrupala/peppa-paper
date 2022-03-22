@@ -10,11 +10,11 @@ evaluation via minimal pairs.
 
 \label{sec:results}
 \begin{table}[htb]
-  \caption{Performance of the complete model on narration test
-    data. We show the mean and standard deviation over the
-    bootstrapped scores.}
-  \label{tab:test_scores}
   \input{results/scores_test.tex}
+  \caption{Performance of the complete model on narration test
+  	data. We show the mean and standard deviation over the
+  	bootstrapped scores.}
+  \label{tab:test_scores}
 \end{table}
 
 
@@ -138,13 +138,13 @@ of verbs.
 \todo{MN: Add more rows regarding pre-training conditions?}
 \todo{MN: Include standard deviation over 3 model runs}
 \begin{table}[htb]
-	\caption{Minimal pair accuracies for nouns and verbs for different model 
-	configurations (Finet=Finetune \textsc{wav2vec} module; 
-	Jitt=\textsc{jitter}; Tmp=Temporal information (not \textsc{static})). 
-	Models have been pretrained on audio and video. Standard deviation 
-	calculated using bootstrapping (100 re-samples).}
-	\label{tab:minimal_pair_results}
 	\input{results/targeted_triplets/minimal_pairs.tex}
+	\caption{Minimal pair accuracies for nouns and verbs for different model 
+		configurations (Finet=Finetune \textsc{wav2vec} module; 
+		Jitt=\textsc{jitter}; Tmp=Temporal information (not \textsc{static})). 
+		Models have been pretrained on audio and video. Standard deviation 
+		calculated using bootstrapping (100 re-samples).}
+	\label{tab:minimal_pair_results}
 \end{table}
 
 \Cref{fig:accuracy_targeted_triplets_nouns} and
