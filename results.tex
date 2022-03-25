@@ -41,17 +41,14 @@ Results on different pre-training configurations are shown in
 
 The best overall performance on both the dialog and the narration data is 
 achieved with a model where both the video and audio encoder are pre-trained 
-before being fine-tuned on our data. The model with no pre-training in
-either modality failed to converge and thus performs at random.
-
-
-On narration data, for both metrics, we see a clear ranking of
+before being fine-tuned on our data. On narration data, for both metrics,
+we see a clear ranking of
 configurations from best to worst: (AV) audio and video pre-training,
 (A) audio pre-training, (V) video pre-training and (None) no
 trainining. Meanwhile for dialog data, the performance between A and V
 is comparable. In this absence of any pre-training (None) the model failed
 to converge and therefore performs at chance level.\footnote{Some of
-  the runs of this configuration did perform above chance but
+  the runs of this configuration (not shown) did perform above chance but
   training is in general unstable.}
 
 To further understand and disentangle the effects of audio pre-training and 
