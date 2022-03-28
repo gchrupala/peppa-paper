@@ -5,7 +5,7 @@ main.pdf: main.tex intro.tex method.tex related.tex results.tex conclusion.tex a
 	pdflatex main
 
 copyresults:
-	scp -r verdigris:/roaming/gchrupal/verdigris/peppa/results .
+	scp -r aurometalsaurus:/home/gchrupal/peppa/results .
 
 clean:
 	rm main.aux  main.bbl  main.blg  main.log  main.out  main.pdf

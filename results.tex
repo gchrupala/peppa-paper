@@ -1,12 +1,10 @@
 \section{Results}
-\Cref{tab:test_scores} presents the recall@10 and triplet accuracy 
-scores on test narration data obtained with the complete model. 
-In \Cref{sec:ablations} we investigate the impact of various components 
-of our training setup on performance as measured by recall@10 and 
-triplet accuracy. 
-In \Cref{sec:minimal-pairs} we focus on the targeted
-evaluation via minimal pairs.
-\todo{GC: We really should have at least 3 runs of each configuration with a different random seed.}
+\Cref{tab:test_scores} presents the recall@10 and triplet accuracy
+scores on test narration data obtained with the complete model.  In
+\Cref{sec:ablations} we investigate the impact of various components
+of our training setup on performance as measured by recall@10 and
+triplet accuracy.  In \Cref{sec:minimal-pairs} we focus on the
+targeted evaluation via minimal pairs.  
 
 \label{sec:results}
 \begin{table}[htb]
@@ -26,17 +24,25 @@ narration data the scores are not confounded by speaker-based clues
 and thus the scores on narration are those that indicate to what extent to
 model learns aspects of utterance meaning.
 
+All the ablation plots include results from four separate
+independently randomly initialized training runs. For
+\Cref{fig:pretraining} we include each run as a separate boxplot in
+order to illustrate the consistency of the results between runs in
+different training conditions.  For the other ablations we collapse
+the results of the four runs to avoid excessive clutter.
+
 \subsubsection{Pre-training and Fine-tuning}
 Results on different pre-training configurations are shown in
 \Cref{fig:pretraining}.
-\begin{figure}[htb]
+\begin{figure*}[htb]
 	\centering
-	\includegraphics[width=\columnwidth]{results/ablations/pretraining.pdf}
+	\includegraphics[width=\textwidth]{results/ablations/pretraining.pdf}
 	\caption{Effect of pre-training on performance on the dialog
           and narration validation data. The top row shows recall@10;
-          the bottom row triplet accuracy.}
+          the bottom row triplet accuracy. Within each condition, we
+          show four separate randomly initialized runs.}
 	\label{fig:pretraining}
-      \end{figure}
+      \end{figure*}
 
 The best overall performance on both the dialog and the narration data is 
 achieved with a model where both the video and audio encoder are pre-trained 
@@ -45,10 +51,8 @@ we see a clear ranking of
 configurations from best to worst: (AV) audio and video pre-training,
 (A) audio pre-training, (V) video pre-training and (None) no
 trainining. Meanwhile for dialog data, the performance between A and V
-is comparable. In this absence of any pre-training (None) the model failed
-to converge and therefore performs at chance level.\footnote{Some of
-  the runs of this configuration (not shown) did perform above chance but
-  training is in general unstable.}
+is comparable. In this absence of any pre-training (None) the training is unstable,
+and some runs fail to converge, performing at chance level.
 
 To further understand and disentangle the effects of audio pre-training and 
 fine-tuning, we train a model with frozen parameters of the 
