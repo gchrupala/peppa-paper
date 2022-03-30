@@ -57,10 +57,10 @@ us to measure performance while controlling for speaker characteristics.
 %pre-training based approach to integrating this type of
 %self-supervision with learning-via-grounding.
 
+We implement a simple bi-modal architecture which learns spoken
+language embeddings from videos and train it on the Peppa Pig dataset.
 Our contributions are the following:
 \begin{itemize}
-\item We implement a simple bi-modal architecture which learns
-  spoken language embeddings from videos;
 \item We evaluate model performance in terms of video fragment
   retrieval and additionally design controlled evaluation
   protocols inspired by the intermodal preferential looking
@@ -77,7 +77,7 @@ rarely hears words in isolation, it captures aspects of the visual meaning
 of frequent nouns and verbs.
 %
 Our ablation studies suggest that temporal information contributes
-substantially to video modeling, and that unsupervised pre-training
+substantially to video modeling, and that self-supervised pre-training
 followed by fine-tuning of the audio encoder is key to the best
 performance.
 
