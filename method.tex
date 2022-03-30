@@ -349,7 +349,20 @@ configuration on a single GPU and stop training after 48 hours, with
 batch-size 8 and accumulating gradients over 8 batches, in 16 bit
 precision mode. For each model configuration we save model weights
 after each epoch and report results for the checkpoint which gets the
-best triplet accuracy on the narration validation data.
+best triplet accuracy on the narration validation data. 
+
 Our code is publicly available at \url{github.com/gchrupala/peppa},
 and can be consulted for further details of the experimental setup.
 \todo{Anonymity violation (for the final submission).}
+
+
+\subsection{Sources of variability}
+\label{sec:variability}
+We account fow two sources for variance in the results. Firstly, for
+each model configuration we ran four separate training runs in order
+to account for the effect or random initialization. Secondly, we also
+estimate the variance due to  validation/test sample by 
+resampling validation and test items 500 times. In most cases in
+\Cref{sec:results} we pool variance from both sources and report
+overall spread, except when specifically focusing on the contribution
+of each source.

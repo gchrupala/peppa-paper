@@ -1,4 +1,5 @@
 \section{Results}
+
 \Cref{tab:test_scores} presents the recall@10 and triplet accuracy
 scores on test narration data obtained with the complete model.  In
 \Cref{sec:ablations} we investigate the impact of various components
@@ -11,7 +12,7 @@ targeted evaluation via minimal pairs.
   \input{results/scores_test.tex}
   \caption{Performance of the complete model on narration test
   	data. We show the mean and standard deviation over the
-  	bootstrapped scores.}
+  	bootstrapped scores, pooled over four training runs.}
   \label{tab:test_scores}
 \end{table}
 
@@ -19,17 +20,14 @@ targeted evaluation via minimal pairs.
 \subsection{Ablations}
 \label{sec:ablations}
 For completeness, we report results on both dialog and narration
-data. However, it should be kept in mind that in the case of the
-narration data the scores are not confounded by speaker-based clues
-and thus the scores on narration are those that indicate to what extent to
-model learns aspects of utterance meaning.
+data. However, the scores on narration are the main focus as they are
+not confounded by speaker-based clues, and thus indicate to what
+extent to model learns aspects of utterance meaning.
 
-All the ablation plots include results from four separate
-independently randomly initialized training runs. For
-\Cref{fig:pretraining} we include each run as a separate boxplot in
-order to illustrate the consistency of the results between runs in
+For \Cref{fig:pretraining} we include each run as a separate boxplot
+in order to illustrate the consistency of the results between runs in
 different training conditions.  For the other ablations we collapse
-the results of the four runs to avoid excessive clutter.
+the results of the four runs to avoid clutter.
 
 \subsubsection{Pre-training and Fine-tuning}
 Results on different pre-training configurations are shown in
@@ -38,9 +36,11 @@ Results on different pre-training configurations are shown in
 	\centering
 	\includegraphics[width=\textwidth]{results/ablations/pretraining.pdf}
 	\caption{Effect of pre-training on performance on the dialog
-          and narration validation data. The top row shows recall@10;
-          the bottom row triplet accuracy. Within each condition, we
-          show four separate randomly initialized runs.}
+          and narration validation data. The top row shows recall@10
+          (chance = 10\%); the bottom row triplet accuracy (chance =
+          50\%). Within each condition, we show scores for four
+          separate runs. AV: pretrained audio and video; A: pretrained
+          audio; V: pretrained video; None: no pretraining.}
 	\label{fig:pretraining}
       \end{figure*}
 
@@ -62,8 +62,9 @@ fine-tuning, we train a model with frozen parameters of the
   \includegraphics[width=\columnwidth]{results/ablations/freeze_wav2vec.pdf}
   \caption{Effect of freezing the parameters of the \textsc{wav2vec}
     module on model performance, on the dialog and narration
-    validation data. The top row shows recall@10; the bottom row
-    triplet accuracy.}
+    validation data (True: \textsc{wav2vec} frozen; False:
+    \textsc{wav2vec} trained). The top row
+    shows recall@10; the bottom row triplet accuracy.}
   \label{fig:freeze_wav2vec}
 \end{figure}
 We find without fine-tuning of the \textsc{wav2vec} module, performance decreases substantially 
@@ -83,8 +84,9 @@ controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}))}
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}
 	\caption{Effect of jitter on model performance, on the dialog
-          and narration validation data. The top row shows recall@10;
-          the bottom row triplet accuracy.}
+          and narration validation data (True: jitter; False:
+          fixed). The top row shows recall@10; the bottom row triplet
+          accuracy.}
 	\label{fig:jitter}
 \end{figure}
 
@@ -103,9 +105,10 @@ does not leverage their temporal ordering.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
-  \caption{Effect of a \textsc{static} image encoder on model performance, on 
-  the dialog and narration validation data. The top row shows recall@10;
-          the bottom row triplet accuracy.}
+  \caption{Effect of a \textsc{static} image encoder on model
+    performance, on the dialog and narration validation data (True:
+    static video encoder; False: regular video encoder). The top row
+    shows recall@10; the bottom row triplet accuracy.}
   \label{fig:static}
 \end{figure}
 
@@ -117,7 +120,8 @@ the correct order.
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/scrambled_video.pdf}
 	\caption{Effect of scrambling the video frames on model performance, on the 
-	dialog and narration validation data. The top row shows recall@10;
+	dialog and narration validation data (True: video frames scrambled;
+        False: video frames in order). The top row shows recall@10;
 		the bottom row triplet accuracy.}
 	\label{fig:scrambled_video}
 \end{figure}
@@ -141,8 +145,8 @@ of verbs.
 \begin{table}[htb]
 	\input{results/targeted_triplets/minimal_pairs.tex}
 	\caption{Minimal pair accuracies for nouns and verbs for different model 
-		configurations (Finet=Finetune \textsc{wav2vec} module; 
-		Jitt=\textsc{jitter}; Tmp=Temporal information (not \textsc{static})). 
+		configurations (Finet: Finetune \textsc{wav2vec} module; 
+		Jitt: \textsc{jitter}; Tmp: Temporal information (not \textsc{static})). 
 		Models have been pretrained on audio and video. Standard deviation 
 		calculated using bootstrapping (100 re-samples).}
 	\label{tab:minimal_pair_results}
