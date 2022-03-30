@@ -49,7 +49,7 @@ url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-perf
                Paul Natsev and
                Mustafa Suleyman and
                Andrew Zisserman},
-  title     = {The Kinetics Human Action Video Dataset},
+  title     = {The {Kinetics} Human Action Video Dataset},
   journal   = {CoRR},
   volume    = {abs/1705.06950},
   year      = {2017},
@@ -74,7 +74,7 @@ url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-perf
  editor = {H. Larochelle and M. Ranzato and R. Hadsell and M. F. Balcan and H. Lin},
  pages = {12449--12460},
  publisher = {Curran Associates, Inc.},
- title = {wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations},
+ title = {{Wav2vec 2.0}: A Framework for Self-Supervised Learning of Speech Representations},
  url = {https://proceedings.neurips.cc/paper/2020/file/92d1e1eb1cd6f9fba3227870bb6d7f07-Paper.pdf},
  volume = {33},
  year = {2020}
@@ -90,21 +90,23 @@ url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-perf
     note={Preprint: \url{https://arxiv.org/abs/2101.06803}}
 }
 
-@misc{chrupala-visually-2021,
+@article{chrupala-visually-2021,
   title={Visually grounded models of spoken language: A survey of datasets, architectures and evaluation techniques},
-  author={Grzegorz Chrupa{\l}a},
-  note={Preprint: \url{https://arxiv.org/abs/2104.13225}},
-  year={2021}
-  }
-  
-@misc{peng2021fastslow,
-    title={Fast-Slow Transformer for Visually Grounding Speech},
-    author={Puyuan Peng and David Harwath},
-    year={2021},
-    eprint={2109.08186},
-    archivePrefix={arXiv},
-    primaryClass={eess.AS}
+  author={Chrupa{\l}a, Grzegorz},
+  journal={Journal of Artificial Intelligence Research},
+  volume={73},
+  pages={673--707},
+  year={2022}
 }
+
+
+@inproceedings{peng2021fastslow,
+  title={Fast-Slow Transformer for Visually Grounding Speech},
+  author={Peng, Puyuan and Harwath, David},
+  booktitle={Proceedings of the 2022 International Conference on Acoustics, Speech and Signal Processing},
+  year={2022}
+}
+
 @article{lu2019vilbert,
   title={Vilbert: Pretraining task-agnostic visiolinguistic representations for vision-and-language tasks},
   author={Lu, Jiasen and Batra, Dhruv and Parikh, Devi and Lee, Stefan},
@@ -556,7 +558,7 @@ Laurent Besacier},
  publisher = {{IEEE}},
  timestamp = {Sun, 30 Jun 2019 01:00:00 +0200},
  title = {Models of Visually Grounded Speech Signal Pay Attention to Nouns:
-{A} Bilingual Experiment on English and Japanese},
+{A} Bilingual Experiment on {English} and {Japanese}},
  url = {https://doi.org/10.1109/ICASSP.2019.8683069},
  year = {2019}
 }
@@ -731,14 +733,16 @@ Fei{-}Fei Li},
  year = {2015}
 }
 
-@misc{khorrami_2021,
+@article{khorrami_2021,
  author = {Khorrami, Khazar and R\"as\"anen, Okko},
- doi = {10.31234/osf.io/37zna},
- note = {Preprint \url{psyarxiv.com/37zn}},
- publisher = {PsyArXiv},
- title = {Can phones, syllables, and words emerge as side-products of cross-situational audiovisual learning? - A computational investigation},
- url = {psyarxiv.com/37zna},
- year = {2021}
+ doi = {doi.org/10.34842/w3vw-s845},
+  title = {Can phones, syllables, and words emerge as side-products of cross-situational audiovisual learning? - {A} computational investigation},
+  year = {2021},
+  journal={Language Development Research},
+  issue={1},
+  volume={1},
+  pages={123-191}
+  
 }
 
 @inproceedings{kingma2014adam,
@@ -1113,11 +1117,13 @@ Hirschberg, Julia},
  year = {2007}
 }
 
-@misc{rouditchenko2020avlnet,
- author = {Rouditchenko, Andrew and Boggust, Angie and Harwath, David and Joshi, Dhiraj and Thomas, Samuel and Audhkhasi, Kartik and Feris, Rogerio and Kingsbury, Brian and Picheny, Michael and Torralba, Antonio and others},
- eprint = {2006.09199},
- title = {Avlnet: Learning audio-visual language representations from instructional videos},
- year = {2020}
+@inproceedings{rouditchenko2020avlnet,
+author={Andrew Rouditchenko and Angie Boggust and David Harwath and Brian Chen and Dhiraj Joshi and Samuel Thomas and Kartik Audhkhasi and Hilde Kuehne and Rameswar Panda and Rogerio Feris and Brian Kingsbury and Michael Picheny and Antonio Torralba and James Glass},
+  title={{AVLnet: Learning Audio-Visual Language Representations from Instructional Videos}},
+  year=2021,
+  booktitle={Proc. Interspeech 2021},
+  pages={1584--1588},
+  doi={10.21437/Interspeech.2021-1312}
 }
 
 @phdthesis{roy1999learning,
@@ -1164,7 +1170,7 @@ Hirschberg, Julia},
 }
 
 @article{roy2002learning,
- author = {Roy, Deb K},
+ author = {Roy, Deb K.},
  journal = {Computer speech \& language},
  number = {3-4},
  pages = {353--385},
@@ -1224,8 +1230,8 @@ Hirschberg, Julia},
 }
 
 @article{roypentland2002learning,
- author = {Roy, Deb K and Pentland, Alex P},
- journal = {Cognitive science},
+ author = {Roy, Deb K. and Pentland, Alex P.},
+ journal = {Cognitive Science},
  number = {1},
  pages = {113--146},
  publisher = {Wiley Online Library},
@@ -1571,25 +1577,14 @@ Laurent Besacier},
 }
 
 @inproceedings{zhou2014learning,
- author = {Bolei Zhou and
-{\`{A}}gata Lapedriza and
-Jianxiong Xiao and
-Antonio Torralba and
-Aude Oliva},
- bibsource = {dblp computer science bibliography, https://dblp.org},
- biburl = {https://dblp.org/rec/conf/nips/ZhouLXTO14.bib},
- booktitle = {Advances in Neural Information Processing Systems 27: Annual Conference
-on Neural Information Processing Systems 2014, December 8-13 2014,
-Montreal, Quebec, Canada},
- editor = {Zoubin Ghahramani and
-Max Welling and
-Corinna Cortes and
-Neil D. Lawrence and
-Kilian Q. Weinberger},
- pages = {487--495},
- timestamp = {Thu, 21 Jan 2021 00:00:00 +0100},
- title = {Learning Deep Features for Scene Recognition using Places Database},
- url = {https://proceedings.neurips.cc/paper/2014/hash/3fe94a002317b5f9259f82690aeea4cd-Abstract.html},
+ author = {Zhou, Bolei and Lapedriza, Agata and Xiao, Jianxiong and Torralba, Antonio and Oliva, Aude},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {Z. Ghahramani and M. Welling and C. Cortes and N. Lawrence and K. Q. Weinberger},
+ pages = {},
+ publisher = {Curran Associates, Inc.},
+ title = {Learning Deep Features for Scene Recognition using {Places} Database},
+ url = {https://proceedings.neurips.cc/paper/2014/file/3fe94a002317b5f9259f82690aeea4cd-Paper.pdf},
+ volume = {27},
  year = {2014}
 }
 
@@ -1656,9 +1651,9 @@ Yee Whye Teh},
 }
 
 @article{noble2011comprehension,
-  title={Comprehension of argument structure and semantic roles: Evidence from English-learning children and the forced-choice pointing paradigm},
-  author={Noble, Claire H and Rowland, Caroline F and Pine, Julian M},
-  journal={Cognitive science},
+  title={Comprehension of argument structure and semantic roles: Evidence from {English}-learning children and the forced-choice pointing paradigm},
+  author={Noble, Claire H. and Rowland, Caroline F. and Pine, Julian M.},
+  journal={Cognitive Science},
   volume={35},
   number={5},
   pages={963--982},
@@ -1666,9 +1661,11 @@ Yee Whye Teh},
   publisher={Wiley Online Library}
 }
 
-@article{hirsh1996intermodal,
-  title={The intermodal preferential looking paradigm: A window onto emerging language comprehension.},
+@incollection{hirsh1996intermodal,
+  title={The intermodal preferential looking paradigm: A window onto emerging language comprehension},
   author={Hirsh-Pasek, Kathy and Golinkoff, Roberta Michnick},
+  booktitle={Methods for assessing children's syntax},
+  editor={D. McDaniel and C. McKee and H. S. Cairns},
   year={1996},
   publisher={The MIT Press}
 }
@@ -1683,14 +1680,14 @@ Yee Whye Teh},
 
 @inproceedings{plummer2015flickr30k,
   title={Flickr30k entities: Collecting region-to-phrase correspondences for richer image-to-sentence models},
-  author={Plummer, Bryan A and Wang, Liwei and Cervantes, Chris M and Caicedo, Juan C and Hockenmaier, Julia and Lazebnik, Svetlana},
+  author={Plummer, Bryan A and Wang, Liwei and Cervantes, Chris M and Caicedo, Juan C and Hockenmaier, Julia and Laebnik, Svetlana},
   booktitle={Proceedings of the IEEE international conference on computer vision},
   pages={2641--2649},
   year={2015}
 }
 
 @article{vanderplank2010deja,
-  title={D{\'e}j{\`a} vu? A decade of research on language laboratories, television and video in language learning},
+  title={D{\'e}j{\`a} vu? {A} decade of research on language laboratories, television and video in language learning},
   author={Vanderplank, Robert},
   journal={Language teaching},
   volume={43},
@@ -1713,8 +1710,8 @@ Yee Whye Teh},
 
 @article{anderson2005television,
   title={Television and very young children},
-  author={Anderson, Daniel R and Pempek, Tiffany A},
-  journal={American behavioral scientist},
+  author={Anderson, Daniel R. and Pempek, Tiffany A.},
+  journal={American Behavioral Scientist},
   volume={48},
   number={5},
   pages={505--522},
@@ -1734,7 +1731,7 @@ Yee Whye Teh},
 }
 
 @article{robb2009just,
-  title={Just a talking book? Word learning from watching baby videos},
+  title={Just a talking book? {Word} learning from watching baby videos},
   author={Robb, Michael B and Richert, Rebekah A and Wartella, Ellen A},
   journal={British Journal of Developmental Psychology},
   volume={27},
@@ -1744,12 +1741,6 @@ Yee Whye Teh},
   publisher={Wiley Online Library}
 }
 
-@article{harwath2017learning,
-  title={Learning word-like units from joint audio-visual analysis},
-  author={Harwath, David and Glass, James R},
-  journal={arXiv preprint arXiv:1701.07481},
-  year={2017}
-}
 
 @article{roy2015predicting,
 	title={Predicting the birth of a spoken word},
@@ -1784,7 +1775,7 @@ Yee Whye Teh},
 }
 
 @article{scheffler2021peppa,
-  title={The Peppa Pig television series as input in pre-primary EFL instruction: A corpus-based study},
+  title={The {Peppa Pig} television series as input in pre-primary {EFL} instruction: A corpus-based study},
   author={Scheffler, Pawe{\l} and Jones, Christian and Domi{\'n}ska, Anna},
   journal={International Journal of Applied Linguistics},
   volume={31},
@@ -1795,7 +1786,7 @@ Yee Whye Teh},
 }
 
 @article{kokla2021peppa,
-  title={Peppa Pig: An innovative way to promote formulaic language in pre-primary EFL classrooms.},
+  title={{Peppa Pig}: An innovative way to promote formulaic language in pre-primary {EFL} classrooms},
   author={Kokla, Natassa},
   journal={Research Papers in Language Teaching \& Learning},
   volume={11},
@@ -1806,7 +1797,7 @@ Yee Whye Teh},
 
 @article{saffran1996statistical,
 	title={Statistical learning by 8-month-old infants},
-	author={Saffran, Jenny R and Aslin, Richard N and Newport, Elissa L},
+	author={Saffran, Jenny R. and Aslin, Richard N. and Newport, Elissa L.},
 	journal={Science},
 	volume={274},
 	number={5294},
