@@ -28,7 +28,8 @@ validation.  Specifically, out of the total 209 episodes, we use
 dialog from episodes 1--196 for training, and 197--209 for
 validation. We set aside narrations from episodes 1--104 for
 validation and 105--209 for testing. \Cref{tab:ds-stat}
-shows the sizes of the training and validation splits.
+shows the sizes of the training and validation splits. The vocabulary size of 
+the training data is 5580.
 
 \begin{table}[htb]
   \centering \input{results/data_statistics.tex}
@@ -359,11 +360,12 @@ and can be consulted for further details of the experimental setup.
 
 \subsection{Sources of variability}
 \label{sec:variability}
-We account fow two sources for variance in the results. Firstly, for
+We account for two sources of variance in the results. Firstly, for
 each model configuration we ran four separate training runs in order
 to account for the effect or random initialization. Secondly, we also
-estimate the variance due to  validation/test sample by 
-resampling validation and test items 500 times. In most cases in
-\Cref{sec:results} we pool variance from both sources and report
+estimate the variance due to validation/test sample by 
+resampling validation and test items 500 times (in the case of the minimal 
+pairs evaluation, we employ bootstrapping with 100 re-samples). In most
+cases in \Cref{sec:results} we pool variance from both sources and report
 overall spread, except when specifically focusing on the contribution
 of each source.
