@@ -133,30 +133,38 @@ the correct order.
 \Cref{tab:minimal_pair_results} presents results for the minimal pair 
 evaluation. We find that a models that are 
 pre-trained and fine-tuned with \textsc{jitter} perform best. In the first two 
-configurations, there is not much difference in the scores for verbs and nouns.
+configurations, there is not much difference in the scores for verbs and nouns. 
+However, we observe a substantial performance drop for both nouns and verbs if 
+the \textsc{wav2vec} module is not fine-tuned.
 
-If the model is trained without \textsc{jitter}, performance for nouns drops 
-substantially more than for verbs. For a model trained on \textsc{static} data, 
-the performance for verbs is worse, confirming that temporal information is 
-more important for the semantics 
-of verbs.
-\todo{MN: Add more rows regarding pre-training conditions?}
-\todo{MN: Include standard deviation over 3 model runs}
+If the model is trained without \textsc{jitter}, performance drops substantially
+for nouns, but not for verbs. One possible explanation for this could be that 
+the evaluation samples for nouns are on average shorter than those for verbs 
+(nouns: $0.43s$ vs. verbs: $0.49s$), and model trained with \textsc{jitter} 
+performs better on short clips because it has been exposed to clips of varying 
+duration during training. Supporting this hypothesis, we find a positive 
+correlation between clip duration and accuracy (Pearson $r= 0.69$, $p < 0.001$).
+
+For a model trained on \textsc{static} data, the performance is on pair with 
+the first configuration, hinting that for this task temporal information is not 
+crucial. This is probably due to the fact that most evaluation samples are 
+clips of rather short duration, thus not requiring much integration of 
+temporal information.
 \begin{table}[htb]
 	\input{results/targeted_triplets/minimal_pairs.tex}
 	\caption{Minimal pair accuracies for nouns and verbs for different model 
-		configurations (Finet: Finetune \textsc{wav2vec} module; 
+		ablations (Finet: Finetune \textsc{wav2vec} module; 
 		Jitt: \textsc{jitter}; Tmp: Temporal information (not \textsc{static})). 
-		Models have been pretrained on audio and video. Standard deviation 
-		calculated using bootstrapping (100 re-samples).}
+		Models have been pretrained on audio and video. Mean and standard 
+		deviation calculated over bootstrapped scores (100 re-samples), pooled 
+		over 4 training runs.}
 	\label{tab:minimal_pair_results}
 \end{table}
 
 \Cref{fig:accuracy_targeted_triplets_nouns} and
 \ref{fig:accuracy_targeted_triplets_verbs} show per-word
-accuracy for nouns and verbs for the best performing model.
-We perform bootstrapping (100 re-samples) to estimate mean and standard 
-deviation for each accuracy score.
+accuracy for nouns and verbs for the best performing model configuration (first 
+row in \Cref{tab:minimal_pair_results}).
 
 
 \begin{figure*}[htb]
@@ -176,18 +184,22 @@ deviation for each accuracy score.
 
 We observe substantial variance in the accuracy scores, suggesting that the 
 difficulty to learn certain words varies. For example, the 
-scores for ``house'' and ``cake'' are very low. This could be because these 
-concepts are not easy to ground, as they do not often refer to a similar visual 
-entity. When looking at our evaluation examples, we find that indeed the word 
-``house'' is used in varying visual contexts (house entrance, view of the whole 
-house, inside the house, rabbit's house) and in displaced speech (talking about 
-going to somebody's house). Regarding ``cake'', it refers to either a whole 
-cake, a slice, dough, or crumbs.
+scores for ``house'', ``car'', and ``cake'' are the lowest. This could be 
+because these concepts are not easy to ground, either because they are used in 
+displaced speech or because they do not often refer to a similar visual entity. 
+When looking at our evaluation examples, we find that indeed the word ``house'' 
+is used in varying visual contexts (house entrance, whole house, inside the 
+house, rabbit's house) and in displaced speech (talking about going 
+to somebody's house). Cars are only sometimes completely visible, often we see 
+only characters \textit{in} a car. Regarding ``cake'', it refers to either a 
+whole cake, a slice, dough, or crumbs.
 
-On the other end, the words ``Pedro'' and ``Rebecca'' are learned very well: 
-They refer to ``Pedro pony'' and ``Rebecca rabbit'', easily visually 
-distinguishable from other characters which are mainly pigs. Additionally, they 
-are usually central to the video scene when mentioned.
+On the other end, performance for the concrete words such as ``ice'', ``box'', 
+and ``sand'' is the best, and indeed we find that in the evaluation examples 
+these concepts are always present in the corresponding video and visually 
+highly similar. Additionally, the words ``Pedro'', and ``Rebecca'' 
+are learned very well: They refer to ``Pedro pony'' and ``Rebecca rabbit'', 
+easily visually distinguishable from other characters which are mainly pigs.
 
 Further investigations with larger datasets are necessary to reveal the 
 underlying reasons for difficulty, and relating them to predictors of age of 
