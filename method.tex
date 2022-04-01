@@ -286,12 +286,6 @@ of individual words.
 To address this question, we probe the model's performance in a more targeted 
 triplet setup, where the model is required to select the correct video from a 
 pair of videos whose corresponding transcripts only differ in one target word.
-Following \citet{nikolaus-fourtassi-2021-evaluating},
-we pair every such triplet example with a corresponding counter-example to 
-control the evaluation for linguistic biases in the dataset.
-%and thereby ensure that a single-modality model that only considers the audio 
-%performs at chance 
-%
 To construct the evaluation set, we search the transcripts of the validation 
 data for phrases with minimal differences with respect to the most commonly 
 occurring nouns, verbs and adjectives. We set the minimum frequency of the 
@@ -299,6 +293,12 @@ target word in our training set to 10, and the minimum phrase duration to 0.3
 seconds.\footnote{For shorter sequences, we do not 
 expect that the video contains enough semantic information to 
 distinguish target and distractor. A phrase can also be a single word.}
+Following \citet{nikolaus-fourtassi-2021-evaluating},
+we pair every such triplet example with a corresponding counter-example to 
+control the evaluation for linguistic biases in the dataset.
+%and thereby ensure that a single-modality model that only considers the audio 
+%performs at chance 
+%
 
 \Cref{fig:minimal_pairs} shows an example of how two counter-balanced test
 trials are constructed from audio and video clips. 
