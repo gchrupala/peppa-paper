@@ -20,10 +20,11 @@ map them to visual categories.
 The availability of datasets of images associated with spoken captions
 such as Flickr Audio Captions \cite{harwath2015deep}, Places
 \cite{zhou2014learning} and Spoken COCO \cite{hsu2019transfer} led to
-a rapid development of deep models of grounded language learning; see
+a rapid development of neural models of grounded language learning; see
 \citet{chrupala-visually-2021} for a comprehensive overview. In contrast to 
-earlier approaches, these models are trained end-to-end directly on large-scale 
-raw input data.
+earlier approaches, these models are trained end-to-end directly on
+large datasets.
+
 Following the architecture proposed in \citet{karpathy2014deep} the visual and 
 speech modality are usually encoded using separate pathways, and subsequently 
 mapped into a joint representation space.
@@ -38,8 +39,8 @@ hybrid architecture of convolutional followed by recurrent layers using
 Mel-Frequency Cepstral Coefficient (MFCC) features from the audio
 signal as input as introduced by \citet{chrupala-etal-2017-representations}.
 
-Models of speech grounded in images are optimized for and evaluated on
-image retrieval from spoken caption and vice versa. Additionally, a range of
+The majority of models of speech grounded in images are optimized for and evaluated on
+image retrieval via spoken caption and vice versa. Additionally, a range of
 diagnostic analyses have been performed on the hidden
 representations of these models to study whether they encode 
 the identity and boundaries of subword units such as phonemes
@@ -56,32 +57,13 @@ similarities of their members in the joint semantic space.
 \label{sec:video}
 There have also been recent attempts to learn spoken language grounded
 in video instead of static images.  \citet{boggust2019grounding}
-sample audio-visual fragments from cooking videos, however their
+sample audio-visual fragments from cooking videos;  their
 grounded model treats video frames as still images and discards their
 temporal order.
-% The loose synchrony between the two modalities, such that objects
-% may be mentioned in the audio at a different point in time than they
-% occur in the video, remains the main challenge for this approach.
 \citet{rouditchenko2020avlnet} integrate the temporal information when
 encoding videos from the Howto100m dataset \cite{miech2019howto100m},
 and perform better than previous work in language and video clip
 retrieval.
-% Rouditchenko et al. (2021) present an architecture (AVLNet) which
-% does model the time dimension in the video stream: the network
-% consists of an audio encoder (ResNet-based), a video encoder which
-% combines 3D and 2D modeling (also ResNet-based), as well as an
-% optional text encoder.  This architecture is trained with a
-% contrastive loss on randomly sampled audio-video fragments from the
-% Howto100m dataset (Miech et al., 2019) consisting of 136 million
-% video clips sourced from 1.22 million narrated instructional web
-% videos. The model is evaluated on the video clip and language
-% retrieval tasks on smaller video datasets annotated with clip
-% boundaries and text summaries, and is shown to outperform previously
-% proposed models of Arandjelovic and Zisserman (2018) and Boggust et
-% al. (2019). The model also transfers to the image-audio retrieval
-% setting. Qualitative analysis suggests that the model aligns
-% semantically related audio and visual features to particular
-% dimensions of the embedding space
 
 Models trained on instructional video datasets often do not
 generalize well to other domains. \citet{monfort2021spokenmoments}
@@ -95,21 +77,11 @@ that is not representative of the experience of learning language in
  not guarantee a direct description of the visual context. 
 
 \subsection{Child Language Learning from Video}
-% \todo[inline]{I'm still cleaning up the section on infant language
-% learning from video.}  In addition to anecdotes and news pieces on
-% how watching cartoons affects chidlren's accent and
-% vocabulary\footnote{Example of stories on how watching Peppa Pig has
-% changed children's accent and word usage:
-% \url{https://www.theguardian.com/tv-and-radio/2021/jul/19/peppa-pig-american-kids-british-accents},
-% \url{https://globalnews.ca/news/4961058/kids-accent-peppa-pig}.},
 There are many studies on young children learning language by watching
 videos; see \citet{vanderplank2010deja} for a survey. The main takeaway
 of these studies is that language learning is much more effective in a
 social, conversational setting than by passively watching videos
 \cite{kuhl2003foreign,anderson2005television,robb2009just},
-%\footnote{Adding
-%social interaction while watching videos improves learning;
-%\citet{lytle2018two}.} 
 but learning does happen in such
 contexts. Importantly for our goal, techniques such as the intermodal
 preferential looking paradigm have been developed to systematically test young 
@@ -121,36 +93,21 @@ sentence level in their computational model of word learning from
 images. We adapt this approach to evaluate how our grounded model
 associates semantic information to spoken words and utterances from
 video.
-%The paradigm has been used in language acquisition research to
-%evaluate children's early linguistic knowledge
-%\citep[e.g.,][]{noble2011comprehension,bergelson20126}, by testing
-%whether they can distinguish a matching (target) visual referent from
-%a foil (distractor) referent when prompted with a word or
-%sentence.
- 
- 
-% \citep[e.g.][]{synnaeve2014learning,harwath2015deep,
-% harwath2016unsupervised,chrupala-etal-2017-representations,alishahi-etal-2017-encoding,harwath2018jointly,Merkx2019,havard2019models,rouditchenko2020avlnet,khorrami_2021,peng2021fastslow}.
 
-\subsection{Integrating Linguistic Co-occurrence via Self-supervision}
+\subsection{Intra-linguistic Statistics}
 One further aspect of learning spoken language via visual grounding is
 the fact that grounding is only part of the story. Human children
 arguably infer substantial amounts of information about language
-structure and meaning from purely linguistic co-occurrence
+structure and meaning from purely intra-linguistic co-occurrence
 statistics \citep[e.g.,][]{saffran1996statistical}. A similar mechanism is what 
 allows 
 written language models
 such as BERT \citep{devlin-etal-2019-bert} or GPT-3 \citep{brown2020language} 
 to capture and exhibit relatively sophisticated
-linguistic knowledge. Loosely similar approaches are starting to also
+linguistic knowledge. Loosely similar approaches have started to also
 make an impact for the spoken modality
 \citep[e.g.][]{wav2vec2,hsu2021hubert}. Here we take a simple
-pre-training based approach to integrating this type of
+pre-training-based approach to integrating this type of
 self-supervision with learning-via-grounding.
 
 
-
-% \paragraph{Audiovisual models}
-% \citet{aytar2016soundnet,owens2016visually,owens2016ambient}
-% \paragraph{Video captioning}
-% \citet{krishna2017dense,zhou2018end}
