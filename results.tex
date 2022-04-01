@@ -12,7 +12,8 @@ targeted evaluation via minimal pairs.
   \input{results/scores_test.tex}
   \caption{Performance of the complete model on narration test
   	data. We show the mean and standard deviation over the
-  	bootstrapped scores, pooled over four training runs.}
+  	bootstrapped scores, pooled over four training runs
+	(chance recall@10 = 10\%; chance accuracy = 50\%).}
   \label{tab:test_scores}
 \end{table}
 
@@ -148,7 +149,7 @@ performs better on short clips because it has been exposed to clips of varying
 duration during training. Supporting this hypothesis, we find a positive 
 correlation between clip duration and accuracy (Pearson $r= 0.69$, $p < 0.001$).
 
-For a model trained on \textsc{static} data, the performance is on pair with 
+For a model trained on \textsc{static} data, the performance is comparable with 
 the first configuration, hinting that for this task temporal information is not 
 crucial. This is probably due to the fact that most evaluation samples are 
 clips of rather short duration, thus not requiring much integration of 
