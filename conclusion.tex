@@ -13,26 +13,26 @@ dialog to narration.
 
 \subsection{Limitations and future work}
 \label{sec:limitations}
-Our setting models the acquisition of linguistic knowledge both
+Our setting models the acquisition of linguistic knowledge from both
 language-internal correlations as well as from grounding in vision in
 a simplistic way: we fine-tune an audio encoder pre-trained on read
 English speech. In future, it would be interesting to make the setting
 more realistic by using pre-training data which reflect a young
 learner's experience more closely, and to interleave learning via
 self-supervision from speech and via grounding in vision as happens
-with human learners also.
-
+with human learners.
+%
 Regarding the video encoder, ideally we would want to dispense with
 supervised pre-training and rather use a model pre-trained in a
 self-supervised way also for this modality.\todo{GC: suggest some existing
   options here.}
 
-In order to learn into what aspects of spoken language our model
+In order to investigate what aspects of spoken language our model
 acquires, we would like to carry out in-depth probing-type
 analyses of learned representations on sub-word, lexical, and phrasal
 levels. It would also be worthwhile to figure out the details of how
 specifically temporal information in video contributes to acquiring
-linguistic knownledge.
+linguistic knowledge.
 
 % Summary of findings.
 

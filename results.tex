@@ -20,16 +20,18 @@ targeted evaluation via minimal pairs.
 \subsection{Ablations}
 \label{sec:ablations}
 For completeness, we report results on both dialog and narration
-data. However, the scores on narration are the main focus as they are
+data. But the scores on narration are the main focus as they are
 not confounded by speaker-based clues, and thus indicate to what
 extent to model learns aspects of utterance meaning.
 
-For \Cref{fig:pretraining} we include each run as a separate boxplot
-in order to illustrate the consistency of the results between runs in
-different training conditions.  For the other ablations we collapse
+For experiments in Section~\ref{sec:pretraining} we include each run as a separate boxplot
+to show the consistency of the results between runs in
+different training conditions.  For the other experiments we collapse
 the results of the four runs to avoid clutter.
 
 \subsubsection{Pre-training and Fine-tuning}
+\label{sec:pretraining}
+
 Results on different pre-training configurations are shown in
 \Cref{fig:pretraining}.
 \begin{figure*}[htb]
@@ -56,7 +58,7 @@ some runs fail to converge, thus performing at chance level.
 
 To further understand and disentangle the effects of audio pre-training and 
 fine-tuning, we train a model with frozen parameters of the 
-\textsc{wav2vec} module. The effect of this condition is show in \Cref{fig:freeze_wav2vec}.
+\textsc{wav2vec} module. The effect of this condition is shown in \Cref{fig:freeze_wav2vec}.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/freeze_wav2vec.pdf}
@@ -77,9 +79,10 @@ Next, we evaluate a model that has been trained with varying video and audio
 lengths (\textsc{jitter}). For fair comparison, we report recall@10 for both 
 \textsc{fixed} and \textsc{jitter} validation configurations.
 As seen in \Cref{fig:jitter}, the effect of \textsc{jitter} is only
-minor and that performance is comparable.\footnote{However, we observe 
+minor and that performance is comparable.%\footnote{
+However, we observe 
 substantial performance improvements when using \textsc{jitter} in the more 
-controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}))}
+controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}
