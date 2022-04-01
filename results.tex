@@ -70,7 +70,8 @@ fine-tuning, we train a model with frozen parameters of the
     shows recall@10; the bottom row triplet accuracy.}
   \label{fig:freeze_wav2vec}
 \end{figure}
-We find without fine-tuning of the \textsc{wav2vec} module, performance decreases substantially 
+We find without fine-tuning of the \textsc{wav2vec2} module, performance 
+decreases substantially 
 on both metrics. In other words, best performance is only achieved with pre-trained and 
 fine-tuned models.
 
@@ -143,7 +144,7 @@ evaluation. Models which are
 pre-trained and fine-tuned with \textsc{jitter} perform best. In the first two 
 configurations, there is not much difference in the scores for verbs and nouns. 
 However, we observe a substantial performance drop for both nouns and verbs if 
-the \textsc{wav2vec} module is not fine-tuned.
+the \textsc{wav2vec2} module is not fine-tuned.
 
 If the model is trained without \textsc{jitter}, performance drops substantially
 for nouns, but not for verbs. One possible explanation for this could be that 
@@ -163,7 +164,7 @@ the benefit of temporal information.
 \begin{table}[htb]
 	\input{results/targeted_triplets/minimal_pairs.tex}
 	\caption{Minimal pair accuracies for nouns and verbs for different model 
-		ablations. Finet: Finetune \textsc{wav2vec} module; 
+		ablations. Finet: Finetune \textsc{wav2vec2} module; 
 		Jitt: \textsc{jitter}; Tmp: Temporal information (not \textsc{static}). 
 		Models have been pretrained on audio and video. Mean and standard 
 		deviation calculated over bootstrapped scores (100 re-samples), pooled 
