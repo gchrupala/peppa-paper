@@ -12,10 +12,11 @@ but most are not generalizable to real-life situations that humans or
 adaptive artificial agents experience. Commonly used training data
 consist of images or videos paired with spoken descriptions
 of the scene depicted, but the type of input that a language learner receives 
-from its environment is much more challenging.  Firstly, speech is only
-loosely coupled with the visual modality. People often use displaced language 
-(talking about things that are remote in space and/or time), for example when 
-talking about past experiences or future plans.
+from its environment is much more challenging.  
+Firstly, speech is only loosely coupled with the visual modality in naturalistic settings
+ \citep{matusevych2013automatic, beekhuizen2013word}. People often mention 
+ concepts that are not present in the immediate perceptual context, 
+ or talk about events that are remote in space and/or time (for example past experiences or future plans).
 Secondly, in addition to
 correlations between the visual scenes and the {\it meaning} of spoken
 utterances, there are also correlations with non-semantic aspects of
@@ -32,17 +33,17 @@ acquisition of language via grounding in perception in a more naturalistic
 scenario.  Our main focus is on learning the meaning of individual words 
 as well as multi-word expressions from spoken utterances grounded in video.  
 We use the well-known children's cartoon {\it Peppa Pig} as
-a case study as a source of training and evaluation data. Compared to
-commonly used video datasets, this data has a number of interesting
+a case study. Compared to
+commonly used video datasets, this dataset has a number of interesting
 characteristics.  The visual modality is very schematic,  the
 language is simple in terms of vocabulary size and syntactic
 complexity, and analysis of its linguistic features suggests its suitability for beginner learners of English \cite{kokla2021peppa,scheffler2021peppa}.
 Crucially, however, most of the speech in the videos
 consists of naturalistic dialogs between the characters in which they do not 
 only discuss the here and now, but also use displaced language to a large 
-degree.\footnote{For example, when Peppa's dad explains that they will need to 
+degree.\footnote{For example, when Peppa's dad explains that they need to 
 clean up before the mum sees the mess Peppa and George made, or when talking 
-about plans to visit friends in another house.} 
+about plans to visit friends.} 
 Thus, the utterances are only loosely and noisily correlated to the scenes and
 actions depicted in the videos. 
 
@@ -65,7 +66,7 @@ us to measure performance while controlling for speaker characteristics.
 %self-supervision with learning-via-grounding.
 
 We implement a simple bi-modal architecture which learns spoken
-language embeddings from videos and train it on the Peppa Pig dataset.
+language embeddings from videos, and train it on the Peppa Pig dataset.
 Our contributions are the following:
 \begin{itemize}
 \item We evaluate model performance in terms of video fragment
@@ -77,7 +78,7 @@ Our contributions are the following:
   encoders, the role of temporal information, and of segmentation
   strategies while training. 
 \end{itemize}
-We show that despite the challenges of our naturalistic training data
+We show that despite the challenges of our naturalistic training data,
 our model succeeds at learning associations between the form of spoken 
 utterances and their visual semantics. Moreover, even though the model 
 rarely hears words in isolation, it captures aspects of the visual meaning 
