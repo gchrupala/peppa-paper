@@ -111,7 +111,7 @@ The audio encoder portion of the model consists of a {\tt small
   wav2vec2} model \citep{wav2vec2} pre-trained in a self-supervised
 fashion, \emph{without} any supervised fine-tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
-The {\tt wav2vec2} architecture learns audio embeddings by
+The {\sc wav2vec2} architecture learns audio embeddings by
 self-supervised learning driven by a contrastive loss applied to 
 quantized latent representations of masked frames, loosely inspired by
 the BERT approach to language modeling \citep{devlin-etal-2019-bert}.

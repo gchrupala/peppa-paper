@@ -3,7 +3,7 @@
 Our results suggest that despite the challenges inherent to the
 naturalistic aspects of the \emph{Peppa Pig} dataset, a simple bimodal
 architecture trained on it generalizes well on narrative utterances
-featuring an unseen speaker and a descriptive rather than
+featuring a single unseen speaker and a descriptive rather than
 conversational style. We saw that generalization is substantially
 boosted by fine-tuning audio representations pre-trained on unlabeled
 single-modality speech data. Fine-tuning a pre-trained video encoder
@@ -13,39 +13,22 @@ dialog to narration.
 
 \subsection{Limitations and future work}
 \label{sec:limitations}
-Our setting models the acquisition of linguistic knowledge from both
+Our setting models the acquisition of spoken language from both
 language-internal correlations as well as from grounding in vision in
 a simplistic way: we fine-tune an audio encoder pre-trained on read
-English speech. In future, it would be interesting to make the setting
+speech.
+In future, it would be interesting to make the setting
 more realistic by using pre-training data which reflect a young
-learner's experience more closely, and to interleave learning via
-self-supervision from speech and via grounding in vision as happens
-with human learners.
-%
-Regarding the video encoder, ideally we would want to dispense with
-supervised pre-training and rather use a model pre-trained in a
-self-supervised way also for this modality.\todo{GC: suggest some existing
-  options here.}
+learner's experience more closely, and to realistically interleave learning via
+self-supervision from speech and via grounding in vision.
+Ideally we would also want to dispense with
+supervised pre-training of the video encoder and rather use a model pre-trained in a
+self-supervised way also for this modality.
 
 In order to investigate what aspects of spoken language our model
-acquires, we would like to carry out in-depth probing-type
+acquires, we would like to carry out in-depth 
 analyses of learned representations on sub-word, lexical, and phrasal
 levels. It would also be worthwhile to figure out the details of how
 specifically temporal information in video contributes to acquiring
 linguistic knowledge.
-
-% Summary of findings.
-
-% Potentially discuss:
-% \begin{itemize}
-% \item Impact of sampling 
-% \item Dialogue vs. narration
-% \end{itemize}
-
-% Future direction:
-% \begin{itemize}
-% \item Analyses on whether/what the model learns about non-linguistic cues and how it employs them in the retrieval task (e.g. speaker identification, background noise, etc.). 
-% \item In-depth (probing-style) analysis on word and sub-word identification. 
-% \item Compare static and dynamic models in more detail to see where the dynamic model gains on performance. 
-% \end{itemize}
 

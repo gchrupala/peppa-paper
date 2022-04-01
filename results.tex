@@ -13,7 +13,7 @@ targeted evaluation via minimal pairs.
   \caption{Performance of the complete model on narration test
   	data. We show the mean and standard deviation over the
   	bootstrapped scores, pooled over four training runs
-	(chance recall@10 = 10\%; chance accuracy = 50\%).}
+	(chance recall@10 = 10\%; chance triplet accuracy = 50\%).}
   \label{tab:test_scores}
 \end{table}
 
@@ -21,7 +21,7 @@ targeted evaluation via minimal pairs.
 \subsection{Ablations}
 \label{sec:ablations}
 For completeness, we report results on both dialog and narration
-data. But the scores on narration are the main focus as they are
+data. However, the scores on narration are the main focus as they are
 not confounded by speaker-based clues, and thus indicate to what
 extent to model learns aspects of utterance meaning.
 
@@ -59,14 +59,14 @@ some runs fail to converge, thus performing at chance level.
 
 To further understand and disentangle the effects of audio pre-training and 
 fine-tuning, we train a model with frozen parameters of the 
-\textsc{wav2vec} module. The effect of this condition is shown in \Cref{fig:freeze_wav2vec}.
+\textsc{wav2vec2} module. The effect of this condition is shown in \Cref{fig:freeze_wav2vec}.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/freeze_wav2vec.pdf}
-  \caption{Effect of freezing the parameters of the \textsc{wav2vec}
+  \caption{Effect of freezing the parameters of the \textsc{wav2vec2}
     module on model performance, on the dialog and narration
-    validation data (True: \textsc{wav2vec} frozen; False:
-    \textsc{wav2vec} trained). The top row
+    validation data (True: \textsc{wav2vec2} frozen; False:
+    \textsc{wav2vec2} trained). The top row
     shows recall@10; the bottom row triplet accuracy.}
   \label{fig:freeze_wav2vec}
 \end{figure}
@@ -77,7 +77,7 @@ fine-tuned models.
 
 \subsubsection{Jitter}
 Next, we evaluate a model that has been trained with varying video and audio 
-lengths (\textsc{jitter}). For fair comparison, we report recall@10 for both 
+lengths (\textsc{jitter}). For fair comparison, here we report recall@10 for both 
 \textsc{fixed} and \textsc{jitter} validation configurations.
 As seen in \Cref{fig:jitter}, the effect of \textsc{jitter} is only
 minor and that performance is comparable.%\footnote{
@@ -89,8 +89,8 @@ controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}
 	\caption{Effect of jitter on model performance, on the dialog
           and narration validation data (True: jitter; False:
-          fixed). The top row shows recall@10; the bottom row triplet
-          accuracy.}
+          fixed). The top row shows recall@10 on {\sc fixed}
+          evaluation data ; the bottom row on {\sc jitter}-ed data.}
 	\label{fig:jitter}
 \end{figure}
 
@@ -119,7 +119,7 @@ does not leverage their temporal ordering.
 \Cref{fig:scrambled_video} shows the effect of scrambling the video frames 
 along the temporal dimension at test time. As expected, we observe substantial 
 performance drops when the model does not see the video frames in 
-the correct order.
+the correct order. 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/scrambled_video.pdf}
@@ -129,13 +129,17 @@ the correct order.
 		the bottom row triplet accuracy.}
 	\label{fig:scrambled_video}
 \end{figure}
+In both experiments the drop in performance due to lack of temporal
+information is more acute for the dialog data: this may possibly be due to the
+role of the order in which characters speak as a clue in the
+dialog segments.
 
 \subsection{Minimal Pairs}
 \label{sec:minimal-pairs}
 
 
 \Cref{tab:minimal_pair_results} presents results for the minimal pair 
-evaluation. We find that a models that are 
+evaluation. We find that models which are 
 pre-trained and fine-tuned with \textsc{jitter} perform best. In the first two 
 configurations, there is not much difference in the scores for verbs and nouns. 
 However, we observe a substantial performance drop for both nouns and verbs if 
@@ -147,18 +151,18 @@ the evaluation samples for nouns are on average shorter than those for verbs
 (nouns: $0.43s$ vs. verbs: $0.49s$), and model trained with \textsc{jitter} 
 performs better on short clips because it has been exposed to clips of varying 
 duration during training. Supporting this hypothesis, we find a positive 
-correlation between clip duration and accuracy (Pearson $r= 0.69$, $p < 0.001$).
+correlation between log duration of clips and accuracy (Pearson $r= 0.69$, $p < 0.001$).
 
-For a model trained on \textsc{static} data, the performance is comparable with 
-the first configuration, hinting that for this task temporal information is not 
-crucial. This is probably due to the fact that most evaluation samples are 
-clips of rather short duration, thus not requiring much integration of 
-temporal information.
+For a model trained on \textsc{static} data, the performance is
+comparable with the first configuration, hinting that for this task
+temporal information is not crucial. This is possibly due to the fact
+that most evaluation samples are clips of quite short, thus limiting
+the benefit of temporal information.
 \begin{table}[htb]
 	\input{results/targeted_triplets/minimal_pairs.tex}
 	\caption{Minimal pair accuracies for nouns and verbs for different model 
-		ablations (Finet: Finetune \textsc{wav2vec} module; 
-		Jitt: \textsc{jitter}; Tmp: Temporal information (not \textsc{static})). 
+		ablations. Finet: Finetune \textsc{wav2vec2} module; 
+		Jitt: \textsc{jitter}; Tmp: Temporal information (not \textsc{static}). 
 		Models have been pretrained on audio and video. Mean and standard 
 		deviation calculated over bootstrapped scores (100 re-samples), pooled 
 		over 4 training runs.}
@@ -177,22 +181,22 @@ temporal information.
 accuracy for nouns for the best performing model configuration.
 We observe substantial variance in the accuracy scores, suggesting that the 
 difficulty to learn certain words varies. For example, the 
-scores for ``house'', ``car'', and ``cake'' are the lowest. This could be 
+scores for \textit{house}, \textit{car}, and \textit{cake} are the lowest. This could be 
 because these concepts are not easy to ground, either because they are used in 
 displaced speech or because they do not often refer to a similar visual entity. 
-When looking at our evaluation samples, we find that indeed the word ``house'' 
+When looking at our evaluation samples, we find that indeed the word \textit{house} 
 is used in varying visual contexts (house entrance, whole house, inside the
 house, rabbit's house) and in displaced speech (talking about going 
 to somebody's house). Cars are only sometimes completely visible, often we see 
-only pigs \textit{in} a car. Regarding ``cake'', it refers to either a 
+only pigs \textit{in} a car. Regarding \textit{cake}, it refers to either a 
 whole cake, a slice, dough, or crumbs.
 
-On the other end, performance for the concrete words such as ``ice'', ``box'', 
-and ``sand'' is the best, and indeed we find that in the evaluation examples 
+On the other end, performance for the concrete words such as \textit{ice}, \textit{box}, 
+and \textit{sand} is the best, and indeed we find that in the evaluation examples 
 these concepts are always present in the corresponding video and visually 
-highly similar. Additionally, the words ``Pedro'', and ``Rebecca'' 
-are learned very well: They refer to ``Pedro pony'' and ``Rebecca rabbit'', 
-easily visually distinguishable from other characters which are mainly pigs.
+highly similar. Additionally, the words \textit{Pedro}, and \textit{Rebecca} 
+are learned very well: They refer to \textit{Pedro Pony} and \textit{Rebecca Rabbit}, 
+easily visually distinguishable from characters belonging to other species.
 
 Further investigations with larger datasets are necessary to reveal the 
 underlying reasons for difficulty, and relating them to predictors of age of 
