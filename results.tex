@@ -23,7 +23,7 @@ targeted evaluation via minimal pairs.
 For completeness, we report results on both dialog and narration
 data. However, the scores on narration are the main focus as they are
 not confounded by speaker-based clues, and thus indicate to what
-extent to model learns aspects of utterance meaning.
+extent the model learns aspects of utterance meaning.
 
 For experiments in Section~\ref{sec:pretraining} we include each run as a separate boxplot
 to show the consistency of the results between runs in
@@ -139,7 +139,7 @@ dialog segments.
 
 
 \Cref{tab:minimal_pair_results} presents results for the minimal pair 
-evaluation. We find that models which are 
+evaluation. Models which are 
 pre-trained and fine-tuned with \textsc{jitter} perform best. In the first two 
 configurations, there is not much difference in the scores for verbs and nouns. 
 However, we observe a substantial performance drop for both nouns and verbs if 
@@ -151,17 +151,19 @@ the evaluation samples for nouns are on average shorter than those for verbs
 (nouns: $0.43s$ vs. verbs: $0.49s$), and model trained with \textsc{jitter} 
 performs better on short clips because it has been exposed to clips of varying 
 duration during training. Supporting this hypothesis, we find a positive 
-correlation between log duration of clips and accuracy (Pearson $r= 0.69$, $p < 0.001$).
+correlation between log duration of clips and accuracy, which is lower for 
+models trained with \textsc{jitter} (Pearson $r= 0.52$, $p < 0.001$) than for 
+models without \textsc{jitter} (Pearson $r= 0.69$, $p < 0.001$).
 
 For a model trained on \textsc{static} data, the performance is
 comparable with the first configuration, hinting that for this task
 temporal information is not crucial. This is possibly due to the fact
-that most evaluation samples are clips of quite short, thus limiting
+that most evaluation samples are clips of short duration, thus limiting
 the benefit of temporal information.
 \begin{table}[htb]
 	\input{results/targeted_triplets/minimal_pairs.tex}
 	\caption{Minimal pair accuracies for nouns and verbs for different model 
-		ablations. Finet: Finetune \textsc{wav2vec2} module; 
+		ablations. Finet: Finetune \textsc{wav2vec} module; 
 		Jitt: \textsc{jitter}; Tmp: Temporal information (not \textsc{static}). 
 		Models have been pretrained on audio and video. Mean and standard 
 		deviation calculated over bootstrapped scores (100 re-samples), pooled 
@@ -191,7 +193,8 @@ to somebody's house). Cars are only sometimes completely visible, often we see
 only pigs \textit{in} a car. Regarding \textit{cake}, it refers to either a 
 whole cake, a slice, dough, or crumbs.
 
-On the other end, performance for the concrete words such as \textit{ice}, \textit{box}, 
+On the other end, performance for concrete words such as \textit{ice}, 
+\textit{box}, 
 and \textit{sand} is the best, and indeed we find that in the evaluation examples 
 these concepts are always present in the corresponding video and visually 
 highly similar. Additionally, the words \textit{Pedro}, and \textit{Rebecca} 
