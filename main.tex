@@ -12,7 +12,7 @@
 %\setlength {\marginparwidth }{2cm}
 \usepackage[disable]{todonotes}
 \usepackage{adjustbox}
-%\usepackage{microtype}
+\usepackage{microtype}
 \usepackage{multirow}
 \usepackage{placeins}
 \usepackage{longtable}
@@ -47,24 +47,21 @@
 
 \maketitle
 \begin{abstract}
-  Attempts to computationally simulate the acquisition of spoken
-  language via grounding in perception have a long tradition
-  but have gained momentum in the past few years.  Current neural
-  approaches exploit associations between the spoken and
-  visual modality and learn to represent speech and visual data
-  in a joint vector space. A major unresolved issue from the point
-  of ecological validity is the training data, typically consisting of
+  Recent computational models of the acquisition of spoken language
+  via grounding in perception exploit associations between the spoken
+  and visual modalities and learn to represent speech and visual data
+  in a joint vector space. A major unresolved issue from the point of
+  ecological validity is the training data, typically consisting of
   images or videos paired with spoken descriptions of what is
   depicted. Such a setup guarantees an unrealistically strong
-  correlation between speech and the visual world.  In
-  the real world the coupling between the linguistic and the visual modality is
-  loose, and often contains confounds in the form of correlations with
-  non-semantic aspects of the speech signal. The current study is a
-  first step towards simulating a naturalistic grounding scenario by
-  using a dataset based on the children's cartoon {\it Peppa Pig}. We
+  correlation between speech and the visual world.  In the real world
+  the coupling between the linguistic and the visual modality is
+  loose, and often confounded by correlations with non-semantic
+  aspects of the speech signal. Here we address this shortcoming by
+  using a dataset based on the children's cartoon {\it Peppa Pig}.  We
   train a simple bi-modal architecture on the portion of the data
-  consisting of naturalistic dialog between characters, and evaluate
-  on segments containing descriptive narrations. Despite the weak and confounded
+  consisting of dialog between characters, and evaluate on segments
+  containing descriptive narrations. Despite the weak and confounded
   signal in this training data our model succeeds at learning aspects
   of the visual semantics of spoken language.
 \end{abstract}
