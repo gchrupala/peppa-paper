@@ -26,13 +26,17 @@ purposes only. A small portion of the dialog data is also used for
 validation.  Specifically, out of the total 209 episodes, we use
 dialog from episodes 1--196 for training, and 197--209 for
 validation. We set aside narrations from episodes 1--104 for
-validation and 105--209 for testing. \Cref{tab:ds-stat} shows the
+validation and 105--209 for testing. We disregard segments that are 
+annotated as neither dialog nor narration, i.e. 
+parts that do not contain any linguistic information.
+\Cref{tab:ds-stat} shows the
 sizes of the training and validation splits. The vocabulary size of
 transcriptions corresponding to the training data is 5,580.
 
 \begin{table}[htb]
   \centering \input{results/data_statistics.tex}
-  \caption{Duration in hours of the dataset splits.}
+  \caption{Duration in hours and number of clips (\textsc{fixed} condition) for 
+  all dataset splits.}
   \label{tab:ds-stat}
 \end{table}
 
@@ -53,7 +57,8 @@ strategies:
 \paragraph{Fixed} Using this approach we simply split sections into
 fixed-length non-overlapping fragments of 2.3 second duration. This
 length is close to the mean duration of audio aligned to a single line
-of subtitles.
+of subtitles. The number of clips for each dataset split is shown in 
+\Cref{tab:ds-stat}.
 
 \paragraph{Jitter} In this approach the mean duration of the segments
 is the same (2.3 seconds) but we randomly vary the length of the
