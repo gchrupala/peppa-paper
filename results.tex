@@ -1,13 +1,14 @@
 \section{Results}
-
-\Cref{tab:test_scores} presents the recall@10 and triplet accuracy
-scores on test narration data obtained with the complete model.  In
-\Cref{sec:ablations} we investigate the impact of various components
-of our training setup on performance as measured by recall@10 and
-triplet accuracy.  In \Cref{sec:minimal-pairs} we focus on the
-targeted evaluation via minimal pairs.  
-
 \label{sec:results}
+\Cref{tab:test_scores} presents the recall@10 and triplet accuracy
+scores on test narration data obtained with the complete
+model. \Cref{fig:recall_at_1_to_n} shows recall@$N$ for values of $N$
+between 1 and 10.  In \Cref{sec:ablations} we investigate the impact
+of various components of our training setup on performance as measured
+by recall@10 and triplet accuracy.  In \Cref{sec:minimal-pairs} we
+focus on the targeted evaluation via minimal pairs.
+
+
 \begin{table}[htb]
   \input{results/scores_test.tex}
   \caption{Performance of the complete model on narration test
@@ -17,6 +18,15 @@ targeted evaluation via minimal pairs.
   \label{tab:test_scores}
 \end{table}
 
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\columnwidth]{results/recall_at_1_to_n_test.pdf}
+  \caption{Recall@$N$ as a function of $N$, for the narration test
+    data. We show recall for the {\sc fixed} and {\sc jitter}
+    retrieval evaluation settings. }
+  \label{fig:recall_at_1_to_n}
+\end{figure}
 
 \subsection{Ablations}
 \label{sec:ablations}
