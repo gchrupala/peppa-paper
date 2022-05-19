@@ -26,12 +26,15 @@ purposes only. A small portion of the dialog data is also used for
 validation.  Specifically, out of the total 209 episodes, we use
 dialog from episodes 1--196 for training, and 197--209 for
 validation. We set aside narrations from episodes 1--104 for
-validation and 105--209 for testing. We disregard segments that are 
-annotated as neither dialog nor narration, i.e. 
-parts that do not contain any linguistic information.
-\Cref{tab:ds-stat} shows the
-sizes of the training and validation splits. The vocabulary size of
-transcriptions corresponding to the training data is 5,580.
+validation and 105--209 for testing. We disregard portions of the
+video which are annotated as neither dialog nor narration: this means
+our data consists mostly of video clips which contain some
+speech.\footnote{Manual analysis of a random sample of 50 segments
+  split according to the method described in \Cref{sec:preprocessing}
+  showed that approximately 6\% of them contained no discernible words.}
+\Cref{tab:ds-stat} shows the sizes of the training and validation
+splits. The vocabulary size of transcriptions corresponding to the
+training data is 5,580.
 
 \begin{table}[htb]
   \centering \input{results/data_statistics.tex}
@@ -42,12 +45,14 @@ transcriptions corresponding to the training data is 5,580.
 
 
 \subsection{Preprocessing}
+\label{sec:preprocessing}
 Our model is trained to discriminate positive video-audio pairs from
 negative ones.  The positive pairs are those that are temporally
 coincident in the original video file. In order to generate these
-training items we need to split the videos into fragments.  For
-segmenting data for training, we \emph{do not} use alignment with
-transcriptions, in order to make the setting
+training items we need to split the videos into fragments.  When
+preparing training data, we use annotations to separate dialog and
+narration data, but we \emph{do not} use alignment with
+transcriptions for further segmentation, in order to make the setting
 naturalistic. Processing long segments of video and audio is not
 tractable on commodity GPU hardware, and we thus segment the data into
 brief snippets roughly comparable in length to the duration of a short
