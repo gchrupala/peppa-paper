@@ -195,7 +195,12 @@ pretraining (ID 3) only performs marginally above chance.
 For a model trained with a \textsc{static} video encoder (ID 6), we compare 
 performance to a model that was also trained without video pretraining (ID 5) 
 as done for the general results. Surprisingly, we observe a slight performance 
-improvement for nouns (and no significant difference for verbs). We hypothesize 
+improvement for nouns (and no significant difference for verbs).\footnote{One 
+reason for this counterintuitive performance improvement could be other aspects 
+of the architectures of the compared video encoders. For example, the 
+\textsc{static} video encoder leverages only 11,7M parameters, while the 
+normal video encoder has 31,5M parameters. The increased number of parameters 
+could cause the model to overfit more to the training data.} We hypothesize 
 that temporal information is not crucial for the minimal pairs evaluation, 
 because most evaluation samples are clips of short duration (on average: 
 $0.44s$, i.e. 4-5 frames), thus limiting the benefit of temporal information.
