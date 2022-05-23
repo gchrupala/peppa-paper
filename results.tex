@@ -111,12 +111,11 @@ controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 Finally, we explore the role of the temporal nature of the visual
 modality.  \Cref{fig:static} compares the model with the regular video
 encoder with one using the \textsc{static} baseline encoder.  For this
-comparison we did not pre-train the video encoder in order to remove
-the confound of the pre-training data.
-Across
-all metrics, we observe substantial performance drops for the
+comparison we did not pre-train the video encoder in either condition,
+in order to remove the confound of the pre-training data.  Across all
+metrics, we observe substantial performance drops for the
 \textsc{static} model, which has access to the same video frames, but
-does not leverage their temporal ordering. 
+does not leverage their temporal ordering.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
@@ -125,6 +124,26 @@ does not leverage their temporal ordering.
     static video encoder; False: regular video encoder). The top row
     shows recall@10; the bottom row triplet accuracy.}
   \label{fig:static}
+\end{figure}
+Additionally we investigate the effect of clip duration on this same
+comparison, using the triplet evaluation
+data. \Cref{fig:duration_effect} shows that the effect is nonlinear,
+and for the shortest clips the access to temporal information does not
+help and even has a detrimental effect.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\columnwidth]{results/duration_effect.pdf}
+  \caption{The effect of clip duration on the difference in
+    performance between models with and without access to temporal
+    information, on triplet data. Here we use the undiscretized
+    triplet scores (i.e.\ $\mathrm{cosine}(A, P) - \mathrm{cosine}(A,
+    N))$, average them over all triplets with the same duration, and
+    for each duration compute the difference in the average between
+    time-aware and static models. The size of the points corresponds
+    to the number of triplets within each duration. The line of fit is
+    a loess smoother weighted by size.}
+  \label{fig:duration_effect}
 \end{figure}
 
 \Cref{fig:scrambled_video} shows the effect of scrambling the video frames 
