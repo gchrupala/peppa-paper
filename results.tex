@@ -99,9 +99,9 @@ lengths (\textsc{jitter}). For fair comparison, here we report recall@10 for bot
 \textsc{fixed} and \textsc{jitter} validation configurations.
 As seen in \Cref{fig:jitter}, the effect of \textsc{jitter} is only
 minor and that performance is comparable.
-However, we observe 
-substantial performance improvements when using \textsc{jitter} in the more 
-controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
+However, we do observe some 
+performance improvements when using \textsc{jitter} in the
+minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}
@@ -119,24 +119,28 @@ Finally, we explore the role of the temporal nature of the visual
 modality.  \Cref{fig:static} compares the model with the regular video
 encoder with one using the \textsc{static} baseline encoder.  For this
 comparison we did not pretrain the video encoder in either condition,
-in order to remove the confound of the pretraining data.  Across all
+in order to remove the confound of the pretraining data.\footnote{Note
+  that there is one further confound we do not control for: the
+  regular encoder has many more parameters than the {\sc static} one (31.5M vs. 11.7M).}
+Across all
 metrics, we observe substantial performance drops for the
 \textsc{static} model, which has access to the same video frames, but
-does not leverage their temporal ordering.
+does not have access to their temporal ordering.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
   \caption{Effect of a \textsc{static} image encoder on model
     performance, on the dialog and narration validation data (True:
     static video encoder; False: regular video encoder). The top row
-    shows recall@10; the bottom row triplet accuracy.}
+    shows recall@10; the bottom row triplet accuracy. For both conditions only
+    the audio modality is pretrained.}
   \label{fig:static}
 \end{figure}
 Additionally we investigate the effect of clip duration on this same
 comparison, using the triplet evaluation
 data. \Cref{fig:duration_effect} shows that the effect is nonlinear,
-and for the shortest clips the access to temporal information does not
-help and even has a detrimental effect.
+and for the shortest clips temporal information does not
+help and may even have a detrimental effect.
 
 \begin{figure}[htb]
   \centering
@@ -144,7 +148,7 @@ help and even has a detrimental effect.
   \caption{The effect of clip duration on the difference in
     performance between models with and without access to temporal
     information, on triplet data. Here we calculate the 
-    triplet scores (i.e.\ $\mathrm{cosine}(A, P) - \mathrm{cosine}(A,
+    undiscretized triplet scores (i.e.\ $\mathrm{cosine}(A, P) - \mathrm{cosine}(A,
     N))$, average them over all triplets with the same duration, and
     for each duration compute the difference in the average between
     time-aware and static models. The size of the points corresponds
@@ -166,11 +170,10 @@ the correct order.
         False: video frames in order). The top row shows recall@10;
 		the bottom row triplet accuracy.}
 	\label{fig:scrambled_video}
-\end{figure}
-In both experiments the drop in performance due to lack of temporal
-information is more acute for the dialog data: this may possibly be due to the
-role of the order in which characters speak as a clue in the
-dialog segments.
+      \end{figure}
+For this ablation the differential impact of clip duration on
+the two conditions is very similar as in the {\sc static}
+ablation (figure not included).
 
 \subsection{Minimal Pairs}
 \label{sec:minimal-pairs}
@@ -194,26 +197,22 @@ models trained with \textsc{jitter} (Pearson $r= 0.52$, $p < 0.001$) than for
 models without \textsc{jitter} (Pearson $r= 0.69$, $p < 0.001$).
 
 In line with the general results, we find that the benefit of audio pretraining 
-(row 5) is greater that that of video pretraining (row 4). A model without any 
+(row 5) is greater than that of video pretraining (row 4). A model without any 
 pretraining (row 3) only performs marginally above chance.
 
 For a model trained with a \textsc{static} video encoder (row 6), we compare 
 performance to a model that was also trained without video pretraining (row 5) 
-as done for the general results. Surprisingly, we observe a slight performance 
-improvement for nouns (and no significant difference for verbs).\footnote{This 
-counterintuitive performance improvement could be due to architectural differences 
-between the video encoders: the \textsc{static} video encoder leverages only 11,7M 
-parameters, while the normal video encoder has 31,5M parameters. The increased 
-number of parameters could cause the model to overfit more to the training data.} 
-We hypothesize 
-that temporal information is not crucial for the minimal pairs evaluation, 
+as done for the general results. We observe a slight performance 
+improvement for nouns, and no significant difference for
+verbs.
+We suspect that temporal information is not crucial for the minimal pairs evaluation, 
 because most evaluation samples are clips of short duration (on average: 
-$0.44s$, i.e. 4-5 frames), thus limiting the benefit of temporal information.
+$0.44s$, i.e.\ 4-5 frames), thus limiting the benefit of the time dimension.
 As we saw in the analysis of clip duration (\Cref{fig:duration_effect}), 
 temporal information for such short clips does not improve performance, and 
 could even have detrimental effects. In the alternative temporal ablation 
 with scrambled video frames (row 7), we observe no significant performance 
-drop compared to the top condition (row 0).
+drop compared to the base condition (row 0).
 \begin{table*}[htb]
 	\centering
 	\input{results/targeted_triplets/minimal_pairs.tex}
@@ -256,7 +255,7 @@ When looking at our evaluation samples, we find that indeed the word \textit{hou
 is used in varying visual contexts (house entrance, whole house, inside the
 house, rabbit's house) and in displaced speech (talking about going 
 to somebody's house). Cars are only sometimes completely visible, often we see 
-only pigs \textit{in} a car. Regarding \textit{cake}, it refers to either a 
+only cartoon characters \textit{in} a car. Regarding \textit{cake}, it refers to either a 
 whole cake, a slice, dough, or crumbs.
 
 On the other end, performance for concrete words such as \textit{ice}, 
