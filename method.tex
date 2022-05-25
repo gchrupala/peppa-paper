@@ -112,12 +112,12 @@ where $\alpha$ is a margin, $S_{av}$ is a similarity score between a
 matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
 similarity scores between mismatched pairs, i.e.\ negative examples
 from the current batch. Our heuristic to generate positive and
-negative examples is very simple: we consider the example
+negative examples is very simple: we consider the exampler
 positive if the audio is aligned with a video clip in our
 data. Other pairs of audio-video clips are considered negative.
 
 \subsubsection{Audio Encoder}
-The audio encoder portion of the model consists of a {\tt small
+The audio encoder portion of the model consists of a {\sc small
   wav2vec2} model \citep{wav2vec2} pre-trained in a self-supervised
 fashion, \emph{without} any supervised fine-tuning.\footnote{Available from
   \url{https://dl.fbaipublicfiles.com/fairseq/wav2vec/wav2vec_small.pt}.}
@@ -229,8 +229,11 @@ measure cosine similarity between the encodings of the audio clip and
 all the video clips. If the video clip corresponding to the audio is
 among the $n$ most similar video clips, we count that as a
 success. The proportion of successes across all audio clips gives us
-the retrieval metric known as recall@$n$: specifically in this paper
-we focus on $n=10$. We set the candidate set size to $100$, and thus
+the retrieval metric known as recall@$n$. In Section~\ref{sec:results} 
+we report recall@$N$ for the performance of the complete model on 
+the narration test data for values of $N$ between 1 and 10; for the rest
+of the experiments in this paper we focus on $n=10$. 
+We set the candidate set size to $100$, and thus
 the random baseline for the recall@10 is $10$\%. In order to quantify
 uncertainty in this evaluation due to the test data we repeat this
 procedure 500 times with randomly sampled candidate sets and visualize
