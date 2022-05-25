@@ -20,7 +20,7 @@ focus on the targeted evaluation via minimal pairs.
   \centering
   \includegraphics[width=\columnwidth]{results/recall_at_1_to_n_test.pdf}
   \caption{Recall@$N$ as a function of $N$, for the narration test
-    data. We show recall for the {\sc fixed} and {\sc jitter}
+    data. We show recall by the complete model for the {\sc fixed} and {\sc jitter}
     retrieval evaluation settings. }
   \label{fig:recall_at_1_to_n}
 \end{figure}
@@ -48,15 +48,15 @@ to show the consistency of the results between runs in
 different training conditions.  For the other experiments we collapse
 the results of the four runs to avoid clutter.
 
-\subsubsection{Pre-training and Fine-tuning}
+\subsubsection{Pretraining and Fine-tuning}
 \label{sec:pretraining}
 
-Results on different pre-training configurations are shown in
+Results on different pretraining configurations are shown in
 \Cref{fig:pretraining}.
 \begin{figure*}[htb]
 	\centering
 	\includegraphics[width=\textwidth]{results/ablations/pretraining.pdf}
-	\caption{Effect of pre-training on performance on the dialog
+	\caption{Effect of pretraining on performance on the dialog
           and narration validation data. The top row shows recall@10
           (chance = 10\%); the bottom row triplet accuracy (chance =
           50\%). Within each condition, we show scores for four
@@ -69,13 +69,13 @@ The best overall performance on both the dialog and the narration data is
 achieved with a model where both the video and audio encoder are pre-trained 
 before being fine-tuned on our data. On narration data, for both metrics,
 we see a clear ranking of
-configurations from best to worst: (AV) audio and video pre-training,
-(A) audio pre-training, (V) video pre-training and (None) no
-trainining. Meanwhile for dialog data, the performance between A and V
-is comparable. In the absence of any pre-training (None),
+configurations from best to worst: audio and video pretraining (AV), 
+audio pretraining (A), video pretraining (V) and no training (None). 
+Meanwhile for dialog data, the performance between A and V conditions
+is comparable. In the absence of any pretraining (None),
 some runs fail to converge, thus performing at chance level.
 
-To further understand and disentangle the effects of audio pre-training and 
+To further understand and disentangle the effects of audio pretraining and 
 fine-tuning, we train a model with frozen parameters of the 
 \textsc{wav2vec2} module. The effect of this condition is shown in \Cref{fig:freeze_wav2vec}.
 \begin{figure}[htb]
@@ -89,9 +89,8 @@ fine-tuning, we train a model with frozen parameters of the
   \label{fig:freeze_wav2vec}
 \end{figure}
 We find without fine-tuning of the \textsc{wav2vec2} module, performance 
-decreases substantially 
-on both metrics. In other words, best performance is only achieved with pre-trained and 
-fine-tuned models.
+decreases substantially on both metrics. In other words, best 
+performance is only achieved with pre-trained and fine-tuned models.
 
 
 \subsubsection{Jitter}
@@ -109,7 +108,7 @@ controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 	\caption{Effect of jitter on model performance, on the dialog
           and narration validation data (True: jitter; False:
           fixed). The top row shows recall@10 on {\sc fixed}
-          evaluation data ; the bottom row on {\sc jitter}-ed data.}
+          evaluation data; the bottom row on {\sc jitter}-ed data.}
 	\label{fig:jitter}
 \end{figure}
 
@@ -119,8 +118,8 @@ controlled minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 Finally, we explore the role of the temporal nature of the visual
 modality.  \Cref{fig:static} compares the model with the regular video
 encoder with one using the \textsc{static} baseline encoder.  For this
-comparison we did not pre-train the video encoder in either condition,
-in order to remove the confound of the pre-training data.  Across all
+comparison we did not pretrain the video encoder in either condition,
+in order to remove the confound of the pretraining data.  Across all
 metrics, we observe substantial performance drops for the
 \textsc{static} model, which has access to the same video frames, but
 does not leverage their temporal ordering.
@@ -144,18 +143,19 @@ help and even has a detrimental effect.
   \includegraphics[width=\columnwidth]{results/duration_effect.pdf}
   \caption{The effect of clip duration on the difference in
     performance between models with and without access to temporal
-    information, on triplet data. Here we use the undiscretized
+    information, on triplet data. Here we calculate the 
     triplet scores (i.e.\ $\mathrm{cosine}(A, P) - \mathrm{cosine}(A,
     N))$, average them over all triplets with the same duration, and
     for each duration compute the difference in the average between
     time-aware and static models. The size of the points corresponds
     to the number of triplets within each duration. The line of fit is
-    a loess smoother weighted by size.}
+    a {\sc loess} smoother weighted by size.}
   \label{fig:duration_effect}
 \end{figure}
 
 \Cref{fig:scrambled_video} shows the effect of scrambling the video frames 
-along the temporal dimension at test time. As expected, we observe substantial 
+along the temporal dimension at test time (note that here the video encoders 
+are pretrained). As expected, we observe substantial 
 performance drops when the model does not see the video frames in 
 the correct order. 
 \begin{figure}[htb]
@@ -178,18 +178,15 @@ dialog segments.
 
 \Cref{tab:minimal_pair_results} presents results for the minimal pair 
 evaluation along with several ablations. Models which are 
-pre-trained and fine-tuned with \textsc{jitter} (ID 0) perform best. In the 
-first two 
-configurations (ID~0 and ID~1), there is not much difference in the scores for 
-verbs and nouns. 
-However, we observe a substantial performance drop for both nouns and verbs if 
+pretrained and fine-tuned with \textsc{jitter} (row 0) perform best. In the 
+first two configurations (rows 0 and 1), there is not much difference in the scores for 
+verbs and nouns. However, we observe a substantial performance drop for both nouns and verbs if 
 the \textsc{wav2vec2} module is not fine-tuned.
 
-If the model is trained without \textsc{jitter} (ID 2), performance drops 
-substantially
+If the model is trained without \textsc{jitter} (row 2), performance drops substantially
 for nouns, but not for verbs. One possible explanation for this could be that 
 the evaluation samples for nouns are on average shorter than those for verbs 
-(nouns: $0.43s$ vs. verbs: $0.49s$), and model trained with \textsc{jitter} 
+(nouns: $0.43s$ vs. verbs: $0.49s$), and a model trained with \textsc{jitter} 
 performs better on short clips because it has been exposed to clips of varying 
 duration during training. Supporting this hypothesis, we find a positive 
 correlation between log duration of clips and accuracy, which is lower for 
@@ -197,27 +194,26 @@ models trained with \textsc{jitter} (Pearson $r= 0.52$, $p < 0.001$) than for
 models without \textsc{jitter} (Pearson $r= 0.69$, $p < 0.001$).
 
 In line with the general results, we find that the benefit of audio pretraining 
-(ID 5) is greater that that of video pretraining (ID 4). A model without any 
-pretraining (ID 3) only performs marginally above chance.
+(row 5) is greater that that of video pretraining (row 4). A model without any 
+pretraining (row 3) only performs marginally above chance.
 
-For a model trained with a \textsc{static} video encoder (ID 6), we compare 
-performance to a model that was also trained without video pretraining (ID 5) 
+For a model trained with a \textsc{static} video encoder (row 6), we compare 
+performance to a model that was also trained without video pretraining (row 5) 
 as done for the general results. Surprisingly, we observe a slight performance 
-improvement for nouns (and no significant difference for verbs).\footnote{One 
-reason for this counterintuitive performance improvement could be other aspects 
-of the architectures of the compared video encoders. For example, the 
-\textsc{static} video encoder leverages only 11,7M parameters, while the 
-normal video encoder has 31,5M parameters. The increased number of parameters 
-could cause the model to overfit more to the training data.} We hypothesize 
+improvement for nouns (and no significant difference for verbs).\footnote{This 
+counterintuitive performance improvement could be due to architectural differences 
+between the video encoders: the \textsc{static} video encoder leverages only 11,7M 
+parameters, while the normal video encoder has 31,5M parameters. The increased 
+number of parameters could cause the model to overfit more to the training data.} 
+We hypothesize 
 that temporal information is not crucial for the minimal pairs evaluation, 
 because most evaluation samples are clips of short duration (on average: 
 $0.44s$, i.e. 4-5 frames), thus limiting the benefit of temporal information.
-As we could observe in the analysis of clip duration 
-(\Cref{fig:duration_effect}), temporal information for such short clips does 
-not improve performance, and could even have detrimental effects.
-In the alternative temporal ablation with scrambled video frames (ID 7), we 
-observe no significant performance drop compared to the top condition (ID 
-0).
+As we saw in the analysis of clip duration (\Cref{fig:duration_effect}), 
+temporal information for such short clips does not improve performance, and 
+could even have detrimental effects. In the alternative temporal ablation 
+with scrambled video frames (row 7), we observe no significant performance 
+drop compared to the top condition (row 0).
 \begin{table*}[htb]
 	\centering
 	\input{results/targeted_triplets/minimal_pairs.tex}
