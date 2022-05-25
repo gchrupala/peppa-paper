@@ -11,8 +11,8 @@ Current approaches work well enough from an applied point of view,
 but most are not generalizable to real-life situations that humans or 
 adaptive artificial agents experience. Commonly used training data
 consist of images or videos paired with spoken descriptions
-of the scene depicted, but the type of input that a language learner receives 
-from its environment is much more challenging.  
+of the scene depicted: however, the type of input that a language learner receives 
+from the environment is much more challenging.  
 Firstly, speech is only loosely coupled with the visual modality in naturalistic settings
  \citep{matusevych2013automatic, beekhuizen2013word}. Speakers often mention 
  concepts that are not present in the immediate perceptual context, 
@@ -74,7 +74,7 @@ utterances and their visual semantics. Moreover, even though the model
 rarely hears words in isolation, it captures aspects of the visual meaning 
 of frequent nouns and verbs.
 Our ablation studies suggest that temporal information contributes
-substantially to video modeling, and that self-supervised pre-training
+to video modeling (especially for longer segments), and that self-supervised pre-training
 followed by fine-tuning of the audio encoder is key to the best
 performance.
 
