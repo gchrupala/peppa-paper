@@ -113,7 +113,7 @@ matching audio-video clip pair, and $S_{a'v}$ and $S_{av'}$ denote
 similarity scores between mismatched pairs, i.e.\ negative examples
 from the current batch. Our heuristic to generate positive and
 negative examples is very simple: we consider an example
-positive if the audio is aligned with a video clip in our
+positive if the audio is temporally aligned with a video clip in our
 data. Other pairs of audio-video clips are considered negative.
 
 \subsubsection{Audio Encoder}
@@ -242,7 +242,7 @@ the score distribution.
 
 \subsubsection{Triplets}
 \label{sec:triplets}
-The absolute value the recall@10 metric of this metric may be hard to
+The absolute value the recall@10 of this metric may be hard to
 interpret as it depends on the size and content of the candidate set.
 For this reason, we evaluate model performance using a simpler,
 controlled scenario, inspired by intermodal preferential looking
@@ -262,9 +262,9 @@ multimodal version of the ABX score proposed in \citet{schatz2016abx}.
 
 We extract clips aligned to a single subtitle
 line, group them by length, and for each pair of same-length video
-clips\footnote{To keep test items independent, the pairing of video
+clips,\footnote{To keep test items independent, the pairing of video
   clips is done such that each clip only occurs as a member of a single
-  triplet.}, we extract the audio from one of them (selected at
+  triplet.} we extract the audio from one of them (selected at
 random) -- this is our {\it anchor}. The video clip from which the
 anchor was taken is the {\it positive} one, and the other video clip
 is the {\it negative} one. This triplet of stimuli forms a single test
@@ -357,7 +357,7 @@ and can be consulted for further details of the experimental setup.
 \label{sec:variability}
 We account for two sources of variance in the results. Firstly, for
 each model configuration we ran four separate training runs in order
-to account for the effect or random initialization. Secondly, we
+to account for the effect of random initialization. Secondly, we
 estimate the variance due to validation/test sample by 
 resampling validation and test items 500 times. In the case of the minimal 
 pairs evaluation, we employ bootstrapping with 100 re-samples. In most
