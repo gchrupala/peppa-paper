@@ -1,17 +1,5 @@
 \section{Conclusion}
 \label{sec:conclusion}
-In the real world
-the coupling between the linguistic and the visual modality is
-loose, and often confounded by correlations with non-semantic
-aspects of the speech signal. Here we take a first step in modeling language 
-acquisition under such challenging circumstances by
-using a dataset based on the children's cartoon {\it Peppa Pig}.  We
-train a simple bi-modal architecture on the portion of the data
-consisting of dialog between characters, and evaluate on segments
-containing descriptive narrations. Despite the weak and confounded
-signal in this training data our model succeeds at learning aspects
-of the visual semantics of spoken language.
-  
 We simulate grounded language learning in a naturalistic setting, where 
 connection between the linguistic and visual modality is not always strong 
 and is potentially confounded by correlations with non-semantic aspects of 
@@ -25,22 +13,18 @@ boosted by fine-tuning audio representations pretrained on unlabeled
 single-modality speech data. Fine-tuning a pretrained video encoder
 also makes a contribution, but is less crucial to generalization from
 dialog to narration.
-
+%
 We also investigate the role of temporal information in learning form-meaning 
 mappings. Our various experimental conditions show that having access to 
-temporal information facilitates learning, except for very short video segments.
+temporal information facilitates learning, except for very short video segments. 
 
-\subsection{Limitations and Future Work}
-\label{sec:limitations}
-
-In order to investigate what aspects of spoken language our model
-acquires, we would like to carry out in-depth analyses of learned
-representations on sub-word, lexical, and phrasal levels. It would
-also be worthwhile to figure out the details of how specifically
-temporal information in video contributes to acquiring linguistic
-knowledge.  Some analyses in this direction are currently constrained
-by the size of the evaluation dataset, and more large-scale datasets
-are needed in the future.
+To better understand what aspects of language learning are affected by 
+the dynamic nature of video data, we need to to carry out in-depth analyses of learned 
+representations on sub-word, lexical, and phrasal levels. It would also be 
+worthwhile to figure out the details of how specifically temporal information 
+in video contributes to acquiring linguistic knowledge.  Some analyses in 
+this direction are currently constrained by the size of the evaluation 
+dataset, and more large-scale datasets are needed in the future.
 
 We model the acquisition of spoken language from 
 language-internal correlations as well as from grounding in vision 
@@ -50,10 +34,7 @@ language learners. It would be interesting to make the setting
 more realistic by using pretraining data which reflect a young
 learner's experience more closely, and to realistically interleave learning via
 self-supervision from speech and via grounding in vision.
-Ideally we would also want to dispense with supervised pretraining of 
-the video encoder and rather use a model pretrained in a
+Ideally we would want to dispense with supervised pretraining of 
+the video encoder as well and rather use a model pretrained in a
 self-supervised way also for this modality.
 
-Using naturalistic datasets such as the \textit{Peppa Pig} cartoons,
-we believe that it will be possible relate findings more closely to
-theories in language acquisition in the real world.
