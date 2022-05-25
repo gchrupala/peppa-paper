@@ -4,7 +4,7 @@
 \Cref{fig:recall_at_1_to_n} shows recall@$N$ for values of $N$
 between 1 and 10 for the complete model on test narration data in both 
 {\sc fixed} and {\sc jitter} conditions. Both plots show that the value of 
-recall@$N$ increases linearly as a function of $log(N)$. For the rest 
+recall@$N$ increases, approximately as $\log(N)$. For the rest 
 of this paper, we only report recall@10.
 
 \Cref{tab:test_scores} presents the recall@10 and triplet accuracy
@@ -20,7 +20,7 @@ focus on the targeted evaluation via minimal pairs.
   \centering
   \includegraphics[width=\columnwidth]{results/recall_at_1_to_n_test.pdf}
   \caption{Recall@$N$ as a function of $N$, for the narration test
-    data. We show recall by the complete model for the {\sc fixed} and {\sc jitter}
+    data. We show recall for the complete model, for the {\sc fixed} and {\sc jitter}
     retrieval evaluation settings. }
   \label{fig:recall_at_1_to_n}
 \end{figure}
@@ -39,7 +39,7 @@ focus on the targeted evaluation via minimal pairs.
 \subsection{Ablations}
 \label{sec:ablations}
 For completeness, we report results on both dialog and narration
-data. However, the scores on narration are the main focus as they are
+data. However, the scores on narration are our main focus as they are
 not confounded by speaker-based clues, and thus indicate to what
 extent the model learns aspects of utterance meaning.
 
