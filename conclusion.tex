@@ -2,27 +2,28 @@
 \label{sec:conclusion}
 Our results suggest that despite the challenges inherent to the
 naturalistic aspects of the \emph{Peppa Pig} dataset, a simple bimodal
-architecture trained on it generalizes well on narrative utterances
+architecture trained on it captures aspects of visual meaning of individual 
+words as well as full utterances, and generalizes well to narrative utterances
 featuring a single unseen speaker and a descriptive rather than
 conversational style. We saw that generalization is substantially
-boosted by fine-tuning audio representations pre-trained on unlabeled
-single-modality speech data. Fine-tuning a pre-trained video encoder
+boosted by fine-tuning audio representations pretrained on unlabeled
+single-modality speech data. Fine-tuning a pretrained video encoder
 also makes a contribution, but is less crucial to generalization from
 dialog to narration.
 
 
 \subsection{Limitations and Future Work}
 \label{sec:limitations}
-Our setting models the acquisition of spoken language from both
+We model the acquisition of spoken language from both
 language-internal correlations as well as from grounding in vision in
-a simplistic way: we fine-tune an audio encoder pre-trained on read
+a simplistic way: we fine-tune an audio encoder pretrained on read
 speech.
 In future, it would be interesting to make the setting
-more realistic by using pre-training data which reflect a young
+more realistic by using pretraining data which reflect a young
 learner's experience more closely, and to realistically interleave learning via
 self-supervision from speech and via grounding in vision.
 Ideally we would also want to dispense with
-supervised pre-training of the video encoder and rather use a model pre-trained in a
+supervised pretraining of the video encoder and rather use a model pretrained in a
 self-supervised way also for this modality.
 
 In order to investigate what aspects of spoken language our model
