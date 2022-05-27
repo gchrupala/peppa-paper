@@ -2,7 +2,7 @@
 \usepackage{times,latexsym}
 \usepackage{url}
 \usepackage[T1]{fontenc}
-\usepackage[nohyperref]{tacl2021v1}
+\usepackage[nohyperref,acceptedWithA]{tacl2021v1}
 \usepackage{etoolbox}
 \usepackage[hidelinks=true]{hyperref}
 \usepackage{appendix}
@@ -22,9 +22,10 @@
 \usepackage{wrapfig}
 \usepackage{breqn}
 \usepackage{amssymb}
+\usepackage{balance}
 \DeclareMathOperator*{\mean}{mean}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\setlength\titlebox{7cm}
+\setlength\titlebox{7cm}
 %\errorcontextlines=5
 \begin{document}
 
@@ -71,19 +72,19 @@
 \input{method}
 \input{results}
 \input{conclusion}
-% \section*{Acknowledgements}
-% We would like to thank Nikos Papasarantopoulos and Shay B.\ Cohen for
-% creating the Peppa Pig annotations and for sharing them with us.
-% Part of the NWO/E-Science Center grant number 027.018.G03 was used to
-% purchase the video data on DVD. Thanks to Bertrand Higy for taking care of this
-% purchase, as well as for sharing his ideas with us in the initial stages of
-% this work. We also thank Abdellah Fourtassi for his useful feedback.
+\section*{Acknowledgements}
+We would like to thank Nikos Papasarantopoulos and Shay B.\ Cohen for
+creating the Peppa Pig annotations and for sharing them with us.
+Part of the NWO/E-Science Center grant number 027.018.G03 was used to
+purchase the video data on DVD. Thanks to Bertrand Higy for taking care of this
+purchase, as well as for sharing his ideas with us in the initial stages of
+this work. We also thank Abdellah Fourtassi for his useful feedback.
 
-% This work was supported by grants ANR-16-CONV-0002 (ILCB), AMX-19-IET-009 
-% (Archimedes Institute), and the Excellence Initiative of Aix-Marseille 
-% University (A*MIDEX).
+This work was supported by grants ANR-16-CONV-0002 (ILCB), AMX-19-IET-009 
+(Archimedes Institute), and the Excellence Initiative of Aix-Marseille 
+University (A*MIDEX).
 
 \bibliography{biblio,anthology}
-\bibliographystyle{acl_natbib}
+\bibliographystyle{acl_natbib}\balance
 %\input{appendix}
 \end{document}
