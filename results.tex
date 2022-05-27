@@ -127,12 +127,12 @@ minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
   \centering
   \includegraphics[width=\columnwidth]{results/duration_effect.pdf}
   \caption{The effect of clip duration on the difference in
-    performance between models with and without access to temporal
-    information, on triplet data. Here we calculate the 
-    undiscretized triplet scores (i.e.\ $\mathrm{cosine}(A, P) - \mathrm{cosine}(A,
-    N))$, average them over all triplets with the same duration, and
+    mean score between models with/without access to temporal
+    information, on triplet data. We calculate the 
+    undiscretized triplet scores ($\mathrm{cosine}(A, P) - \mathrm{cosine}(A,
+    N))$, average them over all same-duration triplets, and
     for each duration compute the difference in the average between
-    time-aware and static models. The size of the points corresponds
+    time-aware and static models. Point size corresponds
     to the number of triplets within each duration. The line of fit is
     a {\sc loess} smoother weighted by size.}
   \label{fig:duration_effect}
@@ -176,7 +176,7 @@ ablation (figure not included).
 
 \subsection{Minimal Pairs}
 \label{sec:minimal-pairs}
-\begin{table*}[htb]
+\begin{table*}[!htb]
 	\centering
 	\input{results/targeted_triplets/minimal_pairs.tex}
 	\caption{Minimal pair accuracies for nouns and verbs for different model 
@@ -189,7 +189,7 @@ ablation (figure not included).
 		over 4 training runs.}
 	\label{tab:minimal_pair_results}
 \end{table*}
-\begin{figure}[htb]
+\begin{figure}[!htb]
   \centering
   \includegraphics[width=.5\textwidth]{results/targeted_triplets/acc_per_word_NOUN.pdf}
   \caption{Per-word accuracies on the minimal pairs evaluation data for nouns.}
