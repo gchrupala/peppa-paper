@@ -1,21 +1,6 @@
 \section{Results}
 \label{sec:results}
 
-\Cref{fig:recall_at_1_to_n} shows recall@$N$ for values of $N$
-between 1 and 10 for the complete model on test narration data in both 
-{\sc fixed} and {\sc jitter} conditions. Both plots show that the value of 
-recall@$N$ increases monotnically. For the rest 
-of this paper, we only report recall@10.
-
-\Cref{tab:test_scores} presents the recall@10 and triplet accuracy
-scores on test narration data obtained with the complete
-model. In \Cref{sec:ablations} we investigate the impact
-of various components of our training setup on performance as measured
-by recall@10 and triplet accuracy.  In \Cref{sec:minimal-pairs} we
-focus on the targeted evaluation via minimal pairs.
-
-
-
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/recall_at_1_to_n_test.pdf}
@@ -35,6 +20,19 @@ focus on the targeted evaluation via minimal pairs.
 \end{table}
 
 
+\Cref{fig:recall_at_1_to_n} shows recall@$N$ for values of $N$
+between 1 and 10 for the complete model on test narration data in both 
+{\sc fixed} and {\sc jitter} conditions. Both plots show that the value of 
+recall@$N$ increases monotnically. For the rest 
+of this paper, we only report recall@10.
+
+\Cref{tab:test_scores} presents the recall@10 and triplet accuracy
+scores on test narration data obtained with the complete
+model. In \Cref{sec:ablations} we investigate the impact
+of various components of our training setup on performance as measured
+by recall@10 and triplet accuracy.  In \Cref{sec:minimal-pairs} we
+focus on the targeted evaluation via minimal pairs.
+
 
 \subsection{Ablations}
 \label{sec:ablations}
@@ -50,9 +48,6 @@ the results of the four runs to avoid clutter.
 
 \subsubsection{Pretraining and Fine-tuning}
 \label{sec:pretraining}
-
-Results on different pretraining configurations are shown in
-\Cref{fig:pretraining}.
 \begin{figure*}[htb]
 	\centering
 	\includegraphics[width=\textwidth]{results/ablations/pretraining.pdf}
@@ -65,6 +60,8 @@ Results on different pretraining configurations are shown in
 	\label{fig:pretraining}
       \end{figure*}
 
+Results on different pretraining configurations are shown in
+\Cref{fig:pretraining}.
 The best overall performance on both the dialog and the narration data is 
 achieved with a model where both the video and audio encoder are pre-trained 
 before being fine-tuned on our data. On narration data, for both metrics,
@@ -102,7 +99,7 @@ minor and that performance is comparable.
 However, we do observe some 
 performance improvements when using \textsc{jitter} in the
 minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
-\begin{figure}[htb]
+\begin{figure}[!htb]
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}
 	\caption{Effect of jitter on model performance, on the dialog
@@ -115,17 +112,6 @@ minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 
 
 \subsubsection{Temporal Information}
-Finally, we explore the role of the temporal nature of the visual
-modality.  \Cref{fig:static} compares the model with the regular video
-encoder with one using the \textsc{static} baseline encoder.  For this
-comparison we did not pretrain the video encoder in either condition,
-in order to remove the confound of the pretraining data.\footnote{Note
-  that there is one further confound we do not control for: the
-  regular encoder has many more parameters than the {\sc static} one (31.5M vs. 11.7M).}
-Across all
-metrics, we observe substantial performance drops for the
-\textsc{static} model, which has access to the same video frames, but
-does not have access to their temporal ordering.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
@@ -136,11 +122,6 @@ does not have access to their temporal ordering.
     the audio modality is pretrained.}
   \label{fig:static}
 \end{figure}
-Additionally we investigate the effect of clip duration on this same
-comparison, using the triplet evaluation
-data. \Cref{fig:duration_effect} shows that the effect is nonlinear,
-and for the shortest clips temporal information does not
-help and may even have a detrimental effect.
 
 \begin{figure}[htb]
   \centering
@@ -156,12 +137,6 @@ help and may even have a detrimental effect.
     a {\sc loess} smoother weighted by size.}
   \label{fig:duration_effect}
 \end{figure}
-
-\Cref{fig:scrambled_video} shows the effect of scrambling the video frames 
-along the temporal dimension at test time (note that here the video encoders 
-are pretrained). As expected, we observe substantial 
-performance drops when the model does not see the video frames in 
-the correct order. 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\columnwidth]{results/ablations/scrambled_video.pdf}
@@ -171,12 +146,62 @@ the correct order.
 		the bottom row triplet accuracy.}
 	\label{fig:scrambled_video}
       \end{figure}
+Finally, we explore the role of the temporal nature of the visual
+modality.  \Cref{fig:static} compares the model with the regular video
+encoder with one using the \textsc{static} baseline encoder.  For this
+comparison we did not pretrain the video encoder in either condition,
+in order to remove the confound of the pretraining data.\footnote{Note
+  that there is one further confound we do not control for: the
+  regular encoder has many more parameters than the {\sc static} one (31.5M vs. 11.7M).}
+Across all
+metrics, we observe substantial performance drops for the
+\textsc{static} model, which has access to the same video frames, but
+does not have access to their temporal ordering.
+
+Additionally we investigate the effect of clip duration on this same
+comparison, using the triplet evaluation
+data. \Cref{fig:duration_effect} shows that the effect is nonlinear,
+and for the shortest clips temporal information does not
+help and may even have a detrimental effect.
+
+\Cref{fig:scrambled_video} shows the effect of scrambling the video frames 
+along the temporal dimension at test time (note that here the video encoders 
+are pretrained). As expected, we observe substantial 
+performance drops when the model does not see the video frames in 
+the correct order. 
+
 For this ablation the differential impact of clip duration on
 the two conditions is very similar as in the {\sc static}
 ablation (figure not included).
 
 \subsection{Minimal Pairs}
 \label{sec:minimal-pairs}
+\begin{table*}[htb]
+	\centering
+	\input{results/targeted_triplets/minimal_pairs.tex}
+	\caption{Minimal pair accuracies for nouns and verbs for different model 
+		ablations. W2V Finet: \textsc{wav2vec2} module finetuned; A Pretr: 
+		Audio encoder pretrained; V Pretr: Video encoder pretrained; Tmp 
+		Enc: Video encoder with temporal information (not \textsc{static}); 
+		Tmp Frames: Video frames in correct temporal order (not scrambled). 
+		Mean and standard 
+		deviation calculated over bootstrapped scores (100 re-samples), pooled 
+		over 4 training runs.}
+	\label{tab:minimal_pair_results}
+\end{table*}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=.5\textwidth]{results/targeted_triplets/acc_per_word_NOUN.pdf}
+  \caption{Per-word accuracies on the minimal pairs evaluation data for nouns.}
+  \label{fig:accuracy_targeted_triplets_nouns}
+\end{figure}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.5\textwidth]{results/targeted_triplets/acc_per_word_VERB.pdf}
+	\caption{Per-word accuracies on the minimal pairs evaluation data for 
+	verbs.}
+	\label{fig:accuracy_targeted_triplets_verbs}
+\end{figure}
 
 
 \Cref{tab:minimal_pair_results} presents results for the minimal pair 
@@ -213,35 +238,6 @@ temporal information for such short clips does not improve performance, and
 could even have detrimental effects. In the alternative temporal ablation 
 with scrambled video frames (row 7), we observe no significant performance 
 drop compared to the base condition (row 0).
-\begin{table*}[htb]
-	\centering
-	\input{results/targeted_triplets/minimal_pairs.tex}
-	\caption{Minimal pair accuracies for nouns and verbs for different model 
-		ablations. W2V Finet: \textsc{wav2vec2} module finetuned; A Pretr: 
-		Audio encoder pretrained; V Pretr: Video encoder pretrained; Tmp 
-		Enc: Video encoder with temporal information (not \textsc{static}); 
-		Tmp Frames: Video frames in correct temporal order (not scrambled). 
-		Mean and standard 
-		deviation calculated over bootstrapped scores (100 re-samples), pooled 
-		over 4 training runs.}
-	\label{tab:minimal_pair_results}
-\end{table*}
-
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=.5\textwidth]{results/targeted_triplets/acc_per_word_NOUN.pdf}
-  \caption{Per-word accuracies on the minimal pairs evaluation data for nouns.}
-  \label{fig:accuracy_targeted_triplets_nouns}
-\end{figure}
-
-\begin{figure}[htb]
-	\centering
-	\includegraphics[width=.5\textwidth]{results/targeted_triplets/acc_per_word_VERB.pdf}
-	\caption{Per-word accuracies on the minimal pairs evaluation data for 
-	verbs.}
-	\label{fig:accuracy_targeted_triplets_verbs}
-\end{figure}
 
 Figures \ref{fig:accuracy_targeted_triplets_nouns} and 
 \ref{fig:accuracy_targeted_triplets_verbs} show per-word
