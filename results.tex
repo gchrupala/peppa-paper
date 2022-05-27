@@ -81,8 +81,8 @@ fine-tuning, we train a model with frozen parameters of the
   \caption{Effect of freezing the parameters of the \textsc{wav2vec2}
     module on model performance, on the dialog and narration
     validation data (True: \textsc{wav2vec2} frozen; False:
-    \textsc{wav2vec2} trained). The top row
-    shows recall@10; the bottom row triplet accuracy.}
+    \textsc{wav2vec2} trained). The left graph
+    shows recall@10; the right graph triplet accuracy.}
   \label{fig:freeze_wav2vec}
 \end{figure}
 We find without fine-tuning of the \textsc{wav2vec2} module, performance 
@@ -95,7 +95,7 @@ Next, we evaluate a model that has been trained with varying video and audio
 lengths (\textsc{jitter}). For fair comparison, here we report recall@10 for both 
 \textsc{fixed} and \textsc{jitter} validation configurations.
 As seen in \Cref{fig:jitter}, the effect of \textsc{jitter} is only
-minor and that performance is comparable.
+minor and the performance is comparable.
 However, we do observe some 
 performance improvements when using \textsc{jitter} in the
 minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
@@ -104,8 +104,8 @@ minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 	\includegraphics[width=\columnwidth]{results/ablations/jitter.pdf}
 	\caption{Effect of jitter on model performance, on the dialog
           and narration validation data (True: jitter; False:
-          fixed). The top row shows recall@10 on {\sc fixed}
-          evaluation data; the bottom row on {\sc jitter}-ed data.}
+          fixed). The left graph shows recall@10 on {\sc fixed}
+          evaluation data; the right graph on {\sc jitter}-ed data.}
 	\label{fig:jitter}
 \end{figure}
 
@@ -117,8 +117,8 @@ minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
   \includegraphics[width=\columnwidth]{results/ablations/static.pdf}
   \caption{Effect of a \textsc{static} image encoder on model
     performance, on the dialog and narration validation data (True:
-    static video encoder; False: regular video encoder). The top row
-    shows recall@10; the bottom row triplet accuracy. For both conditions only
+    static video encoder; False: regular video encoder). The left graph
+    shows recall@10; the right graph triplet accuracy. For both conditions only
     the audio modality is pretrained.}
   \label{fig:static}
 \end{figure}
@@ -142,8 +142,8 @@ minimal pairs evaluation (cf. \Cref{sec:minimal-pairs}).
 	\includegraphics[width=\columnwidth]{results/ablations/scrambled_video.pdf}
 	\caption{Effect of scrambling the video frames on model performance, on the 
 	dialog and narration validation data (True: video frames scrambled;
-        False: video frames in order). The top row shows recall@10;
-		the bottom row triplet accuracy.}
+        False: video frames in order). The left graph shows recall@10;
+		the right graph triplet accuracy.}
 	\label{fig:scrambled_video}
       \end{figure}
 Finally, we explore the role of the temporal nature of the visual
